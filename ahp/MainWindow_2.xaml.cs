@@ -602,8 +602,8 @@ namespace ahp
                     for (j = 0; j < Math.Sqrt(tmp.Length); j++)
                         mtx[i, j] = tmp[i, j];
             }
-            else // no change to criteria
-                ;
+            //else // no change to criteria
+             //   ;
 
 
             double gridWidth = 90;
@@ -956,5 +956,11 @@ namespace ahp
         {
             DrawCriteriaCompMtx();
         }
+    }
+
+    struct StructEvalResult
+    {
+        public double[] w;
+        public double CR;
     }
 }
