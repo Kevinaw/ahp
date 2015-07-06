@@ -1,0 +1,201 @@
+﻿<!-- xmlns:Custom="http://schemas.microsoft.com/winfx/2006/xaml/presentation/ribbon"  -->
+    
+    <RibbonWindow
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ahp"
+        
+        xmlns:chartingToolkit="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
+        x:Class="ahp.MainWindow"
+        mc:Ignorable="d"
+        Title="AHP EHan Engineering" Height="510" Width="525" MouseDown="Window_MouseDown">
+    
+        <!--Window.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="Office2007Blue.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Window.Resources-->
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Ribbon x:Name="ribbon">
+            <!--Custom:Ribbon.ApplicationMenu>
+                <Custom:RibbonApplicationMenu Visibility="Collapsed"/>
+            </Custom:Ribbon.ApplicationMenu-->
+
+            <!--Ribbon.QuickAccessToolBar>
+                <RibbonQuickAccessToolBar>
+                    <RibbonButton x:Name ="Save" SmallImageSource="Resources/save.png" />
+                    <RibbonSplitButton x:Name ="Undo" SmallImageSource="Resources/matrix1.png" >
+                        <RibbonSplitMenuItem Header="Undo 1" />
+                        <RibbonSplitMenuItem Header="Undo 2" />
+                        <RibbonSplitMenuItem Header="Undo 3" />
+                    </RibbonSplitButton>
+                    <RibbonSplitButton x:Name="Redo" SmallImageSource="Resources/matrix.png" >
+                        <RibbonSplitMenuItem Header="Redo 1" />
+                        <RibbonSplitMenuItem Header="Redo 2" />
+                    </RibbonSplitButton>
+                </RibbonQuickAccessToolBar>
+            </Ribbon.QuickAccessToolBar-->
+
+            <RibbonTab Name="prjTab" Header="Project">
+                <RibbonGroup Header="Project">
+                    <RibbonButton Label="New" LargeImageSource="pack://application:,,,/Resources/new.png" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0"/>
+                    <RibbonButton Label="Save" LargeImageSource="pack://application:,,,/Resources/save.png"></RibbonButton>
+                    <RibbonButton Label="Open" LargeImageSource="Resources/open.png"></RibbonButton>
+                </RibbonGroup>
+            </RibbonTab>
+            <RibbonTab Name="altTab" Header="Alternatives">
+                <RibbonGroup>
+                    <RibbonButton Label="Add" LargeImageSource="Resources/add.png"></RibbonButton>
+                    <RibbonButton Label="Delete" LargeImageSource="Resources/delete2.png"></RibbonButton>
+                </RibbonGroup>
+            </RibbonTab>
+            <RibbonTab Name="criTab" Header="Criteria">
+                <RibbonGroup>
+                    <RibbonButton Label="Add" LargeImageSource="Resources/add.png"></RibbonButton>
+                    <RibbonButton Label="Delete" LargeImageSource="Resources/delete2.png"></RibbonButton>
+                    <RibbonButton Name="comMatrixButton" Label="Compare Matrix" LargeImageSource="Resources/matrix1.png" Click="comMatrixButton_Click"></RibbonButton>
+                </RibbonGroup>
+                <RibbonGroup>
+                    <RibbonButton Name="evalButton" Label="evaluator" LargeImageSource="Resources/eval.png" Click="evalButton_Click"></RibbonButton>
+                    <StackPanel Orientation="Horizontal" >
+                        <Label HorizontalAlignment="Center" VerticalAlignment="Center">CR</Label>
+                        <RibbonTextBox Name="txbCR" HorizontalAlignment="Center" VerticalAlignment="Center"></RibbonTextBox>
+                        <Image Name="imgCR" HorizontalAlignment="Center" VerticalAlignment="Center" Width="20" Height="20"/>
+                    </StackPanel>
+                </RibbonGroup>
+            </RibbonTab>
+            <RibbonTab Name="preTab" Header="Preference">
+                <RibbonGroup>
+                    <RibbonButton Label=""></RibbonButton>
+                </RibbonGroup>
+            </RibbonTab>
+            <RibbonTab Name="resTab" Header="Result">
+                <RibbonGroup>
+                    <RibbonButton Label=""></RibbonButton>
+                </RibbonGroup>
+            </RibbonTab>
+        </Ribbon>
+        
+        <!-- main content, change according to tab selection-->
+        <Grid x:Name="MainGrid" Grid.Row="1" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+            <Grid.Resources>
+                <BooleanToVisibilityConverter x:Key="boolToVis" />
+            </Grid.Resources>
+            <!-- Project -->
+            <Grid Visibility="{Binding IsSelected, Converter={StaticResource boolToVis}, ElementName=prjTab}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>                
+                </Grid.ColumnDefinitions>
+                <Label Margin="3">Project Name:</Label>
+                <TextBox Grid.Row="0" Grid.Column="1" Margin="3"/>
+                <Label Grid.Row="1" Grid.Column="0" Margin="3">Goal:</Label>
+                <TextBox Grid.Row="1" Grid.Column="1" Margin="3"/>
+                <Label Grid.Row="2" Grid.Column="0" Margin="3">Description:</Label>
+                <TextBox Grid.Row="2" Grid.Column="1" Grid.RowSpan="2"  Margin="3" TextWrapping="Wrap" AcceptsReturn="True" Height="200" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+            </Grid>
+            <!-- Alternative -->
+            <Grid Visibility="{Binding IsSelected, Converter={StaticResource boolToVis}, ElementName=altTab}">
+                <GroupBox Header="Alternatives" Margin="2">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>                    
+                        <Button x:Name="addBtnAl" Content="" Margin="3" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="22" Cursor="Hand" Height="22" ToolTip="add new alternative" Click="addBtnAl_Click">
+                            <Button.Background>
+                                <ImageBrush ImageSource="Resources/add.png"/>
+                            </Button.Background>
+                        </Button>
+                        <ListBox Name="contentLbxAl"  Grid.Row="1" Margin="3">
+                            <!--ListBoxItem>Alternative1</>
+                            <ListBoxItem>Alternative2</ListBoxItem>
+                            <ListBoxItem>Alternative3</ListBoxItem-->
+                        </ListBox>
+                    </Grid>
+                </GroupBox>
+            </Grid>
+            <!-- Criteria -->
+            <Grid Name="criGrid" Visibility="{Binding IsSelected, Converter={StaticResource boolToVis}, ElementName=criTab}">
+                <GroupBox Name="criGpBx" Header="Criteria" Margin="2">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Button x:Name="addBtnCr" Content="" Margin="3" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="22" Cursor="Hand" Height="22" ToolTip="add new Criteria" Click="addBtnCr_Click">
+                            <Button.Background>
+                                <ImageBrush ImageSource="Resources/add.png"/>
+                            </Button.Background>
+                        </Button>
+                        <ListBox Name="contentLbxCr"  Grid.Row="1" Margin="3">
+                        </ListBox>
+                    </Grid>
+                </GroupBox>
+                <Border Name="mtxBdr" BorderThickness ="2" BorderBrush="Black" Visibility="Hidden">
+                    <Grid Name="mtxGrid" ShowGridLines="True"/>
+                </Border>
+            </Grid>
+            
+            <!-- Preference -->
+            <Grid Visibility="{Binding IsSelected, Converter={StaticResource boolToVis}, ElementName=preTab}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <ListBox Grid.ColumnSpan="3">
+                    <ListBoxItem>Criteria1</ListBoxItem>
+                    <ListBoxItem>Criteria2</ListBoxItem>
+                    <ListBoxItem>Criteria3</ListBoxItem>
+                </ListBox>
+                <GroupBox Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="5">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Margin="3">Alternative1:</Label>
+                        <TextBox Grid.Row="0" Grid.Column="1" Margin="3"/>
+                        <Label Grid.Row="1" Grid.Column="0" Margin="3">Alternative1:</Label>
+                        <TextBox Grid.Row="1" Grid.Column="1" Margin="3"/>
+                        <Label Grid.Row="2" Grid.Column="0" Margin="3">Alternative1:</Label>
+                        <TextBox Grid.Row="2" Grid.Column="1" Margin="3"/>
+                    </Grid>
+                </GroupBox>
+            </Grid>
+            <!-- Result -->
+            <Grid Visibility="{Binding IsSelected, Converter={StaticResource boolToVis}, ElementName=resTab}"> 
+                <chartingToolkit:Chart  Name="BarChart1" Title="%" Width="450">
+                    <chartingToolkit:BarSeries  DependentValuePath="Value" IndependentValuePath="Key" ItemsSource="{Binding}" IsSelectionEnabled="True"/>
+                </chartingToolkit:Chart>
+            </Grid>
+        </Grid>
+    </Grid>
+</RibbonWindow>
