@@ -22,7 +22,7 @@ namespace ahp
     /// Interaction logic for MainWindow_2.xaml
     /// </summary>
     /// 
-    public partial class MainWindow_2 : Page
+    public partial class MainWindow_2 : Window
     {
         //string tmpFile;
         private Boolean isEditingAl = false;
@@ -34,8 +34,10 @@ namespace ahp
         List<string> listCr = new List<string>();
 
         private double[,] mtx;
+        private int[,] mtxAC; 
         private static string[] strValues = { "1/9", "1/8", "1/7", "1/6", "1/5", "1/4", "1/3", "1/2", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
         private static double[] dblValues = { 0.1111111, 0.125, 0.1428571, 0.1666666, 0.2, 0.25, 0.3333333, 0.5, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+        private StructEvalResult stctResult;
 
         public MainWindow_2()
         {
@@ -526,15 +528,13 @@ namespace ahp
 
         private void tabMain_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            /*
             if (e.AddedItems.Count == 0)
                 return;
             TabItem selectedItem = e.AddedItems[0] as TabItem;
-            if (selectedItem != null && selectedItem.Header.ToString() == "Pairwise Comparison")
+            if (selectedItem != null && selectedItem.Header.ToString() == "Result")
             {
-                DrawCriteriaCompMtx();
+                DrawResultMtx();
             }
-            */
 
         }
 
@@ -543,7 +543,13 @@ namespace ahp
             TabItem selectedItem = e.AddedItems[0] as TabItem;
             if (selectedItem != null && selectedItem.Header.ToString() == "Criteria vs. Goal")
             {
-                //MessageBox.Show("Criteria vs. Goal");
+                DrawCriteriaCompMtx();
+
+            }
+            else if(selectedItem.Header.ToString() == "Alternative vs. criteria")
+            {
+                DrawACCompMtx();
+
             }
 
         }
@@ -610,8 +616,8 @@ namespace ahp
             double gridHeight = 60;
             (mtxGrid.Parent as Border).HorizontalAlignment = HorizontalAlignment.Center;
             (mtxGrid.Parent as Border).VerticalAlignment = VerticalAlignment.Center;
-            double x = tabPwC.ActualWidth;
-            double y = tabPwC.ActualHeight;
+            double x = tabMain.ActualWidth;
+            double y = tabMain.ActualHeight;
             if (x >= (listCr.Count + 1) * gridWidth)
             {
                 for (i = 0; i < listCr.Count + 1; i++)
@@ -748,6 +754,296 @@ namespace ahp
 
         }
 
+        // draw Alternative vs. criteria matrix
+        private void DrawACCompMtx()
+        {
+            int i, j;
+            bdrAC.Visibility = Visibility.Visible;
+            //this.mtxGrid.Visibility = Visibility.Visible;
+            grdAC.Children.Clear();
+            grdAC.RowDefinitions.Clear();
+            grdAC.ColumnDefinitions.Clear();
+
+            if (listCr.Count == 0 || listAlt.Count == 0)
+                return;
+
+            if (mtxAC != null)
+            {
+                // unregister all the element names
+                
+                for (i = 0; i < mtxAC.GetLength(1) ; i++)
+                {
+                    for (j = 0; j < mtxAC.GetLength(0); j++)
+                    {
+                        UnregisterName("txtScore" + j.ToString() + i.ToString());
+                    }
+                }                    
+                    
+            }
+
+            if (mtxAC == null || mtxAC.Length != listCr.Count * listAlt.Count)
+            {
+                mtxAC = new int[listCr.Count, listAlt.Count];
+                for (i = 0; i < listCr.Count; i++)
+                    for (j = 0; j < listAlt.Count; j++)
+                        mtxAC[i, j] = 0;
+            }
+
+
+            double gridWidth = 90;
+            double gridHeight = 60;
+            bdrAC.HorizontalAlignment = HorizontalAlignment.Center;
+            bdrAC.VerticalAlignment = VerticalAlignment.Center;
+            double x = tabPwC.ActualWidth;
+            double y = tabPwC.ActualHeight;
+            if (x >= (listAlt.Count + 1) * gridWidth)
+            {
+                for (i = 0; i < listCr.Count + 1; i++)
+                {
+                    RowDefinition row = new RowDefinition();
+                    row.Height = new GridLength(gridHeight);
+
+                    grdAC.RowDefinitions.Add(row);
+                }
+                bdrAC.Height = (listCr.Count + 1) * gridHeight;
+
+                for (i = 0; i < listAlt.Count + 1; i++)
+                {
+                    ColumnDefinition col = new ColumnDefinition();
+                    col.Width = new GridLength(gridWidth);
+
+                    grdAC.ColumnDefinitions.Add(col);
+                }
+                bdrAC.Width = (listAlt.Count + 1) * gridWidth;
+            }
+            else
+            {
+                gridWidth = (x - 10) / (listAlt.Count + 1);
+                gridHeight = gridWidth * 2 / 3;
+                for (i = 0; i < listCr.Count + 1; i++)
+                {
+                    RowDefinition row = new RowDefinition();
+                    row.Height = new GridLength(gridHeight);
+
+                    grdAC.RowDefinitions.Add(row);
+                }
+                bdrAC.Height = (x - 10) * 2 / 3;
+
+                for (i = 0; i < listCr.Count + 1; i++)
+                {
+                    ColumnDefinition col = new ColumnDefinition();
+                    col.Width = new GridLength(gridWidth);
+
+                    grdAC.ColumnDefinitions.Add(col);
+                }
+                bdrAC.Width = x - 10;
+            }
+
+
+            // redraw matrix
+            // fill criteria headers & related weights
+            for (i = 0; i < listCr.Count; i++)
+            {
+                // criteria
+                TextBlock txt;
+                txt = new TextBlock();
+                txt.Text = listCr.ElementAt(i);
+                grdAC.Children.Add(txt);
+                Grid.SetRow(txt, i + 1);
+                Grid.SetColumn(txt, 0);
+                txt.HorizontalAlignment = HorizontalAlignment.Center;
+                txt.VerticalAlignment = VerticalAlignment.Center;
+            }
+
+            // fill all the alternative names
+            for (i = 0; i < listAlt.Count; i++)
+            {
+                TextBlock txt = new TextBlock();
+                txt.Text = listAlt.ElementAt(i);
+                grdAC.Children.Add(txt);
+                Grid.SetRow(txt, 0);
+                Grid.SetColumn(txt, i + 1);
+                txt.HorizontalAlignment = HorizontalAlignment.Center;
+                txt.VerticalAlignment = VerticalAlignment.Center;
+
+                // fill scores
+                for(j = 0; j < listCr.Count; j++)
+                {
+                    // score
+                    TextBox tb = new TextBox();
+                    tb.Text = mtxAC[j, i].ToString();
+                    tb.Name = "txtScore" + j.ToString() + i.ToString();
+                    RegisterName(tb.Name, tb);
+                    tb.VerticalContentAlignment = VerticalAlignment.Center;
+                    tb.VerticalAlignment = VerticalAlignment.Center;
+                    tb.HorizontalAlignment = HorizontalAlignment.Center;
+                    tb.Width = 4*gridWidth/5;
+                    tb.Height = 2 * tb.Width / 3;
+                    tb.TextChanged += new TextChangedEventHandler(txtScore_TextChanged);
+                    tb.GotFocus += new RoutedEventHandler(txtScore_GotFocus);
+                    tb.MaxLength = 3;
+                    grdAC.Children.Add(tb);
+                    Grid.SetRow(tb, j + 1);
+                    Grid.SetColumn(tb, i + 1);
+                }
+            }
+        }
+
+        // draw Result matrix
+        private void DrawResultMtx()
+        {
+            int i, j;
+            bdrRst.Visibility = Visibility.Visible;
+            //this.mtxGrid.Visibility = Visibility.Visible;
+            grdRst.Children.Clear();
+            grdRst.RowDefinitions.Clear();
+            grdRst.ColumnDefinitions.Clear();
+
+            if (listCr.Count == 0 || listAlt.Count == 0)
+                return;
+
+            double gridWidth = 90;
+            double gridHeight = 60;
+            bdrRst.HorizontalAlignment = HorizontalAlignment.Center;
+            bdrRst.VerticalAlignment = VerticalAlignment.Center;
+            double x = tabMain.ActualWidth;
+            double y = tabMain.ActualHeight;
+            if (x >= 2 * (listAlt.Count + 1) * gridWidth)
+            {
+                for (i = 0; i < listCr.Count + 3; i++)
+                {
+                    RowDefinition row = new RowDefinition();
+                    row.Height = new GridLength(gridHeight);
+
+                    grdRst.RowDefinitions.Add(row);
+                }
+                bdrRst.Height = (listCr.Count + 3) * gridHeight;
+
+                for (i = 0; i < 2 * listAlt.Count + 2; i++)
+                {
+                    ColumnDefinition col = new ColumnDefinition();
+                    col.Width = new GridLength(gridWidth);
+
+                    grdRst.ColumnDefinitions.Add(col);
+                }
+                bdrRst.Width = 2 * (listAlt.Count + 1) * gridWidth;
+            }
+            else
+            {
+                gridWidth = (x - 10) / (listAlt.Count + 1) / 2;
+                gridHeight = gridWidth * 2 / 3;
+                for (i = 0; i < listCr.Count + 3; i++)
+                {
+                    RowDefinition row = new RowDefinition();
+                    row.Height = new GridLength(gridHeight);
+
+                    grdRst.RowDefinitions.Add(row);
+                }
+                bdrRst.Height = (x - 10) * 2 / 3;
+
+                for (i = 0; i < 2 * listCr.Count + 2; i++)
+                {
+                    ColumnDefinition col = new ColumnDefinition();
+                    col.Width = new GridLength(gridWidth);
+
+                    grdRst.ColumnDefinitions.Add(col);
+                }
+                bdrRst.Width = x - 10;
+            }
+
+
+            // redraw matrix
+            // fill criteria headers & related weights
+            for (i = 0; i < listCr.Count; i++)
+            {
+                // criteria
+                TextBlock txt;
+                txt = new TextBlock();
+                txt.Text = listCr.ElementAt(i);
+                grdRst.Children.Add(txt);
+                Grid.SetRow(txt, i + 2);
+                Grid.SetColumn(txt, 0);
+                txt.HorizontalAlignment = HorizontalAlignment.Center;
+                txt.VerticalAlignment = VerticalAlignment.Center;
+
+                // weight
+                txt = new TextBlock();
+                txt.Text = String.Format("{0:#.000}", stctResult.w[i]);
+                grdRst.Children.Add(txt);
+                Grid.SetRow(txt, i + 2);
+                Grid.SetColumn(txt, 1);
+                txt.HorizontalAlignment = HorizontalAlignment.Center;
+                txt.VerticalAlignment = VerticalAlignment.Center;
+            }
+
+            // fill all the alternative names
+            for (i = 0; i < listAlt.Count; i++)
+            {
+                TextBlock txt = new TextBlock();
+                txt.Text = listAlt.ElementAt(i);
+                grdRst.Children.Add(txt);
+                Grid.SetRow(txt, 0);
+                Grid.SetColumn(txt, 2 * (i + 1));
+                Grid.SetColumnSpan(txt, 2);
+                txt.HorizontalAlignment = HorizontalAlignment.Center;
+                txt.VerticalAlignment = VerticalAlignment.Center;
+
+                txt = new TextBlock();
+                txt.Text = "Score";
+                grdRst.Children.Add(txt);
+                Grid.SetRow(txt, 1);
+                Grid.SetColumn(txt, 2 * (i + 1));
+                txt.HorizontalAlignment = HorizontalAlignment.Center;
+                txt.VerticalAlignment = VerticalAlignment.Center;
+
+                txt = new TextBlock();
+                txt.Text = "Function";
+                grdRst.Children.Add(txt);
+                Grid.SetRow(txt, 1);
+                Grid.SetColumn(txt, 2 * (i + 1) + 1);
+                txt.HorizontalAlignment = HorizontalAlignment.Center;
+                txt.VerticalAlignment = VerticalAlignment.Center;
+
+                double sumFunc = 0;
+
+                // fill scores and functions
+                for (j = 0; j < listCr.Count; j++)
+                {
+                    // score
+                    TextBlock tb = new TextBlock();
+                    tb.Text = mtxAC[j, i].ToString();
+                    tb.Name = "txtScore" + j.ToString() + i.ToString();
+                    tb.VerticalAlignment = VerticalAlignment.Center;
+                    tb.HorizontalAlignment = HorizontalAlignment.Center;
+                    grdRst.Children.Add(tb);
+                    Grid.SetRow(tb, j + 2);
+                    Grid.SetColumn(tb, 2 * i + 2);
+
+                    // function
+                    TextBlock tblk = new TextBlock();
+                    tblk.Text = String.Format("{0:#.000}", (mtxAC[j, i] * stctResult.w[j]));
+                    tblk.Name = "txtFunc" + j.ToString() + i.ToString();
+                    tblk.VerticalAlignment = VerticalAlignment.Center;
+                    tblk.HorizontalAlignment = HorizontalAlignment.Center;
+                    grdRst.Children.Add(tblk);
+                    Grid.SetRow(tblk, j + 2);
+                    Grid.SetColumn(tblk, 2 * i + 3);
+
+                    sumFunc += mtxAC[j, i] * stctResult.w[j];
+                }
+
+                // fill function sum
+                TextBlock tblk1 = new TextBlock();
+                tblk1.Text = String.Format("{0:#.000}", (sumFunc.ToString())); 
+                tblk1.Name = "txtFuncSum" + i.ToString();
+                tblk1.VerticalAlignment = VerticalAlignment.Center;
+                tblk1.HorizontalAlignment = HorizontalAlignment.Center;
+                grdRst.Children.Add(tblk1);
+                Grid.SetRow(tblk1, listCr.Count + 2);
+                Grid.SetColumn(tblk1, 2 * i + 3);
+            }
+        }
+
         private void evalButton_Click(object sender, RoutedEventArgs e)
         {
             if (mtx == null)
@@ -755,17 +1051,17 @@ namespace ahp
                 MessageBox.Show("criterias compare matrix has not been set!");
                 return;
             }
-            StructEvalResult res = ahp_eval(mtx);
+            stctResult = ahp_eval(mtx);
 
             string weights = "\n";
             for (int i = 0; i < listCr.Count; i++)
-                weights += "w(" + listCr[i] + ") = " + String.Format("{0:0.000000}", res.w[i]) + "; ";
+                weights += "w(" + listCr[i] + ") = " + String.Format("{0:0.000000}", stctResult.w[i]) + "; ";
 
             string rslt = "CR = ";
-            rslt += String.Format("{0:0.000000}", res.CR);
+            rslt += String.Format("{0:0.000000}", stctResult.CR);
             rslt += "\n";
             txtEvalRslt.Inlines.Clear();
-            if (res.CR < 0.1)
+            if (stctResult.CR < 0.1)
             {
                 BitmapImage MyImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/glad.png"));
 
@@ -952,11 +1248,48 @@ namespace ahp
             drawAhpHierarchy();
         }
 
-        private void tabPwC_Loaded(object sender, RoutedEventArgs e)
+        private void txtScore_GotFocus(object sender, RoutedEventArgs e)
         {
-            DrawCriteriaCompMtx();
+            TextBox txb = sender as TextBox;
+            txb.SelectAll();
         }
+
+    private void txtScore_TextChanged(object sender, TextChangedEventArgs e)
+    {
+            // get new score, calculate the function and sum function
+            TextBox txb = sender as TextBox;
+            if (txb == null) return;
+
+            int rowN = Convert.ToInt32(txb.Name.Substring(8,1));
+            int colN = Convert.ToInt32(txb.Name.Substring(9, 1));
+
+            try
+            {
+                int value = Convert.ToInt32(txb.Text);
+                if (value > 100)
+                {
+                    MessageBox.Show("Score should between 0 ~ 100.");
+                    txb.Text = mtxAC[rowN, colN].ToString();
+                    return;
+                }                    
+                mtxAC[rowN, colN] = value;
+            }
+            catch (FormatException)
+            {
+                //MessageBox.Show("The value " + txb.Text + " is not in a recognizable format.");
+                txb.Text = mtxAC[rowN, colN].ToString();
+            }
     }
+
+    private void tabPwC_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (tabPwC.SelectedIndex == 0)
+                DrawCriteriaCompMtx();
+            else if (tabPwC.SelectedIndex == 1)
+                DrawACCompMtx();
+        }
+    
+}
 
     struct StructEvalResult
     {
