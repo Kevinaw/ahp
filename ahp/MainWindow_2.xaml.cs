@@ -15,6 +15,9 @@ using System.Windows.Shapes;
 
 using System.Windows.Threading;
 using System.Windows.Media.Effects;
+using System.Xml;
+using System.Xml.Linq;
+using System.IO;
 
 namespace ahp
 {
@@ -38,10 +41,12 @@ namespace ahp
         private static string[] strValues = { "1/9", "1/8", "1/7", "1/6", "1/5", "1/4", "1/3", "1/2", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
         private static double[] dblValues = { 0.1111111, 0.125, 0.1428571, 0.1666666, 0.2, 0.25, 0.3333333, 0.5, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
         private StructEvalResult stctResult;
+        private bool isOpeningPrj; //opening old project
 
         public MainWindow_2()
         {
             InitializeComponent();
+            isOpeningPrj = false;
 
         }
 
@@ -185,14 +190,16 @@ namespace ahp
                 drawAhpHierarchy();
                 // delete this item according the index
                 contentLbxAl.Items.RemoveAt(idx);
-                UnregisterName(btn.Name);
+                if(null != FindName(btn.Name))
+                    UnregisterName(btn.Name);
 
                 if (idx != contentLbxAl.Items.Count)
                 {
                     for (i = idx + 1; i < contentLbxAl.Items.Count + 1; i++)
                     {
                         btn1 = FindName("deleteBtnAl" + Convert.ToString(i)) as Button;
-                        UnregisterName(btn1.Name);
+                        if(null != FindName(btn1.Name))
+                            UnregisterName(btn1.Name);
                         btn1.Name = "deleteBtnAl" + (i - 1).ToString();
                         RegisterName(btn1.Name, btn1);
                     }
@@ -363,14 +370,16 @@ namespace ahp
                 drawAhpHierarchy();
                 // delete this item according the index
                 contentLbxCr.Items.RemoveAt(idx);
-                UnregisterName(btn.Name);
+                if(null != FindName(btn.Name))
+                    UnregisterName(btn.Name);
 
                 if (idx != contentLbxCr.Items.Count)
                 {
                     for (i = idx + 1; i < contentLbxCr.Items.Count + 1; i++)
                     {
                         btn1 = FindName("deleteBtnCr" + Convert.ToString(i)) as Button;
-                        UnregisterName(btn1.Name);
+                        if(null != FindName(btn1.Name))
+                            UnregisterName(btn1.Name);
                         btn1.Name = "deleteBtnCr" + (i - 1).ToString();
                         RegisterName(btn1.Name, btn1);
                     }
@@ -567,18 +576,20 @@ namespace ahp
             if (listCr.Count == 0)
                 return;
 
-            if (mtx != null)
+            if (mtx != null && isOpeningPrj == false)
             {
                 // unregister all the element names
                 for (i = 0; i < Math.Sqrt(mtx.Length) - 1; i++)
                     for (j = i + 1; j < Math.Sqrt(mtx.Length); j++)
                     {
-                        UnregisterName("txtNum" + i.ToString() + j.ToString());
-                        UnregisterName("txtBlk" + j.ToString() + i.ToString());
+                        if(FindName("txtNum" + i.ToString() + j.ToString()) != null)
+                            UnregisterName("txtNum" + i.ToString() + j.ToString());
+                        if (FindName("txtBlk" + j.ToString() + i.ToString()) != null)
+                            UnregisterName("txtBlk" + j.ToString() + i.ToString());
                     }
             }
 
-            if (mtx == null)
+            if (mtx == null && isOpeningPrj == false)
             {
                 mtx = new double[listCr.Count, listCr.Count];
                 for (i = 0; i < listCr.Count; i++)
@@ -767,7 +778,7 @@ namespace ahp
             if (listCr.Count == 0 || listAlt.Count == 0)
                 return;
 
-            if (mtxAC != null)
+            if (mtxAC != null && isOpeningPrj == false)
             {
                 // unregister all the element names
                 
@@ -775,7 +786,8 @@ namespace ahp
                 {
                     for (j = 0; j < mtxAC.GetLength(0); j++)
                     {
-                        UnregisterName("txtScore" + j.ToString() + i.ToString());
+                        if(FindName("txtScore" + j.ToString() + i.ToString()) != null)
+                            UnregisterName("txtScore" + j.ToString() + i.ToString());
                     }
                 }                    
                     
@@ -902,6 +914,9 @@ namespace ahp
             if (listCr.Count == 0 || listAlt.Count == 0)
                 return;
 
+            // if the criteria not evaluated, evaluate it.
+            stctResult = ahp_eval(mtx);
+
             double gridWidth = 90;
             double gridHeight = 60;
             bdrRst.HorizontalAlignment = HorizontalAlignment.Center;
@@ -976,6 +991,15 @@ namespace ahp
                 txt.VerticalAlignment = VerticalAlignment.Center;
             }
 
+            TextBlock txtW = new TextBlock();
+            txtW.Text = "weitht";
+            grdRst.Children.Add(txtW);
+            Grid.SetRow(txtW, 1);
+            Grid.SetColumn(txtW, 1);
+            txtW.HorizontalAlignment = HorizontalAlignment.Center;
+            txtW.VerticalAlignment = VerticalAlignment.Center;
+
+
             // fill all the alternative names
             for (i = 0; i < listAlt.Count; i++)
             {
@@ -1034,7 +1058,7 @@ namespace ahp
 
                 // fill function sum
                 TextBlock tblk1 = new TextBlock();
-                tblk1.Text = String.Format("{0:#.000}", (sumFunc.ToString())); 
+                tblk1.Text = String.Format("{0:#.000}", sumFunc); 
                 tblk1.Name = "txtFuncSum" + i.ToString();
                 tblk1.VerticalAlignment = VerticalAlignment.Center;
                 tblk1.HorizontalAlignment = HorizontalAlignment.Center;
@@ -1254,7 +1278,7 @@ namespace ahp
             txb.SelectAll();
         }
 
-    private void txtScore_TextChanged(object sender, TextChangedEventArgs e)
+        private void txtScore_TextChanged(object sender, TextChangedEventArgs e)
     {
             // get new score, calculate the function and sum function
             TextBox txb = sender as TextBox;
@@ -1281,15 +1305,606 @@ namespace ahp
             }
     }
 
-    private void tabPwC_Loaded(object sender, RoutedEventArgs e)
+        private void tabPwC_Loaded(object sender, RoutedEventArgs e)
         {
             if (tabPwC.SelectedIndex == 0)
                 DrawCriteriaCompMtx();
             else if (tabPwC.SelectedIndex == 1)
                 DrawACCompMtx();
         }
-    
-}
+
+        private void saveBtn_Click(object sender, RoutedEventArgs e)
+        {
+            // code needed here, verify all the result to save
+
+            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+            dlg.FileName = "Project1";
+            dlg.DefaultExt = ".ahp";
+            dlg.Filter = "AHP project (.ahp)|*.ahp";
+            if (dlg.ShowDialog() == true)
+            {
+                string filename = dlg.FileName;
+
+                //delete .tmp file if there is one
+                
+
+                //create .ahp file and save
+                CreatXml(filename);
+            }
+        }
+
+        private void newbtn_Click(object sender, RoutedEventArgs e)
+        {
+            int i, j;
+
+            // save current unsaved project
+            if (listCr.Count != 0 || listAlt.Count != 0)
+            {
+                MessageBoxResult rlt = MessageBox.Show("the current project is not saved, do you want to save it now?", "warning", MessageBoxButton.YesNoCancel);
+                if (MessageBoxResult.Yes == rlt)
+                {
+                    saveBtn_Click(sender, e);
+                }
+                else if (MessageBoxResult.Cancel == rlt)
+                {
+                    return;
+                }
+                else
+                {
+
+                }
+            }
+
+            // goal
+            txbGoal.Text = "";
+
+            // clear alternatives list view, then refill it
+            contentLbxAl.Items.Clear();
+            for (i = 0; i < listAlt.Count; i++)
+            {
+                Button btn = FindName("deleteBtnAl" + Convert.ToString(i)) as Button;
+                if (btn != null)
+                    UnregisterName(btn.Name);
+            }
+            listAlt.Clear();
+
+            // clear criteria list view, then refill it
+            contentLbxCr.Items.Clear();
+            for (i = 0; i < listCr.Count; i++)
+            {
+                Button btn = FindName("deleteBtnCr" + Convert.ToString(i)) as Button;
+                if (btn != null)
+                    UnregisterName(btn.Name);
+            }
+            listCr.Clear();
+
+            // criteria VS goal comparison mtx
+            if (mtx != null)
+            {
+                // unregister all the element names
+                for (i = 0; i < Math.Sqrt(mtx.Length) - 1; i++)
+                    for (j = i + 1; j < Math.Sqrt(mtx.Length); j++)
+                    {
+                        if (null != FindName("txtNum" + i.ToString() + j.ToString()))
+                            UnregisterName("txtNum" + i.ToString() + j.ToString());
+                        if (null != FindName("txtBlk" + j.ToString() + i.ToString()))
+                            UnregisterName("txtBlk" + j.ToString() + i.ToString());
+                    }
+            }
+            mtx = null;
+
+            // alternative vs criteria comparison mtx
+            if (mtxAC != null)
+            {
+                // unregister all the element names
+                for (i = 0; i < mtxAC.GetLength(1); i++)
+                {
+                    for (j = 0; j < mtxAC.GetLength(0); j++)
+                    {
+                        if (null != FindName("txtScore" + j.ToString() + i.ToString()))
+                            UnregisterName("txtScore" + j.ToString() + i.ToString());
+                    }
+                }
+            }
+            mtxAC = null;
+
+            // draw AHP Hierarchy Graphics
+            drawAhpHierarchy();
+
+        }
+
+        private void openBtn_Click(object sender, RoutedEventArgs e)
+        {
+            // save current unsaved project
+            if(listCr.Count != 0 || listAlt.Count != 0)
+            {
+                MessageBoxResult rlt = MessageBox.Show("the current project is not saved, do you want to save it now?", "warning", MessageBoxButton.YesNoCancel);
+                if (MessageBoxResult.Yes == rlt)
+                {
+                    saveBtn_Click(sender, e);
+                }
+                else if(MessageBoxResult.Cancel == rlt)
+                {
+                    return;
+                }
+                else
+                {
+
+                }
+            }
+
+            // code needed here, verify all the result to save
+
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            dlg.FileName = "Project1";
+            dlg.DefaultExt = ".ahp";
+            dlg.Filter = "AHP project (.ahp)|*.ahp";
+            if (dlg.ShowDialog() == true)
+            {
+                string filename = dlg.FileName;
+                //delete .tmp file if there is one
+
+
+                //load .ahp file and update the view.
+                LoadXml(filename);
+            }
+        }
+
+        private void buildAllBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private static string CreateTmpFile()
+        {
+            string fileName = string.Empty;
+
+            try
+            {
+                // Get the full name of the newly created Temporary file. 
+                // Note that the GetTempFileName() method actually creates
+                // a 0-byte file and returns the name of the created file.
+                fileName = System.IO.Path.GetTempFileName();
+
+                // Craete a FileInfo object to set the file's attributes
+                FileInfo fileInfo = new FileInfo(fileName);
+
+                // Set the Attribute property of this file to Temporary. 
+                // Although this is not completely necessary, the .NET Framework is able 
+                // to optimize the use of Temporary files by keeping them cached in memory.
+                fileInfo.Attributes = FileAttributes.Temporary;
+                //CreatXmlTree(fileName);
+
+                Console.WriteLine("TEMP file created at: " + fileName);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Unable to create TEMP file or set its attributes: " + ex.Message);
+            }
+
+            return fileName;
+        }
+
+        private static void UpdateTmpFile(string tmpFile)
+        {
+            try
+            {
+                // Write to the temp file.
+                StreamWriter streamWriter = File.AppendText(tmpFile);
+                streamWriter.WriteLine("Hello from www.daveoncsharp.com!");
+                streamWriter.Flush();
+                streamWriter.Close();
+
+                Console.WriteLine("TEMP file updated.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error writing to TEMP file: " + ex.Message);
+            }
+        }
+
+        private static void ReadTmpFile(string tmpFile)
+        {
+            try
+            {
+                // Read from the temp file.
+                StreamReader myReader = File.OpenText(tmpFile);
+                Console.WriteLine("TEMP file contents: " + myReader.ReadToEnd());
+                myReader.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error reading TEMP file: " + ex.Message);
+            }
+        }
+
+        private static void DeleteTmpFile(string tmpFile)
+        {
+            try
+            {
+                // Delete the temp file (if it exists)
+                if (File.Exists(tmpFile))
+                {
+                    File.Delete(tmpFile);
+                    Console.WriteLine("TEMP file deleted.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error deleteing TEMP file: " + ex.Message);
+            }
+        }
+
+        public void CreatXml(string xmlPath)
+        {
+            XmlDocument doc = new XmlDocument();
+
+            XmlElement root = doc.CreateElement("Project");
+            doc.AppendChild(root);
+
+            // goal
+            XmlElement element = doc.CreateElement("Goal");
+            element.InnerText = this.txbGoal.Text;
+            root.AppendChild(element);
+
+            // alternatives
+            XmlElement alternatives = doc.CreateElement("Alternatives");
+            root.AppendChild(alternatives);
+
+            for(int i = 0; i < listAlt.Count; i++)
+            {
+                element = doc.CreateElement("Alternative");
+                element.InnerText = listAlt.ElementAt(i);
+
+                XmlAttribute attr = doc.CreateAttribute("cost1");
+                attr.Value = "1";
+                element.Attributes.Append(attr);
+
+                attr = doc.CreateAttribute("cost2");
+                attr.Value = "1";
+                element.Attributes.Append(attr);
+
+                // next step
+                attr = doc.CreateAttribute("finalscore");
+                attr.Value = "10";
+                element.Attributes.Append(attr);
+
+                alternatives.AppendChild(element);
+            }
+
+            // criterias
+            XmlElement criterias = doc.CreateElement("Criterias");
+            root.AppendChild(criterias);
+
+            for (int i = 0; i < listCr.Count; i++)
+            {
+                element = doc.CreateElement("Criteria");
+                element.InnerText = listCr.ElementAt(i);
+
+                XmlAttribute attr = doc.CreateAttribute("weight");
+                attr.Value = stctResult.w[i].ToString();
+                element.Attributes.Append(attr);
+
+                criterias.AppendChild(element);
+            }
+
+
+            // criteria vs goal pairwise comparison
+            XmlElement cvgs = doc.CreateElement("CriteriaVsGoalMatrix");
+            root.AppendChild(cvgs);
+
+            for(int i = 0; i < listCr.Count; i++)
+                for(int j = 0; j < listCr.Count; j++)
+                {
+                    element = doc.CreateElement("CVGItem");
+                    element.InnerText = mtx[i, j].ToString();
+
+                    XmlAttribute attr = doc.CreateAttribute("index");
+                    attr.Value = i.ToString() + j.ToString();
+                    element.Attributes.Append(attr);
+
+                    cvgs.AppendChild(element);
+                }
+
+            // alternative vs criteria pairwise comparison
+            XmlElement avcs = doc.CreateElement("AlternativeVsGoalMatrix");
+            root.AppendChild(avcs);
+
+            for (int i = 0; i < listCr.Count; i++)
+                for (int j = 0; j < listAlt.Count; j++)
+                {
+                    element = doc.CreateElement("AVCItem");
+                    element.InnerText = mtxAC[i, j].ToString();
+
+                    XmlAttribute attr = doc.CreateAttribute("index");
+                    attr.Value = i.ToString() + j.ToString();
+                    element.Attributes.Append(attr);
+
+                    avcs.AppendChild(element);
+                }
+
+            doc.Save(xmlPath);
+        }
+
+        public void LoadXml(string xmlPath)
+        {
+            int i, j;
+
+            isOpeningPrj = true;
+
+            // load xml file
+            XmlDocument doc = new XmlDocument();
+            doc.Load(xmlPath);
+
+            // goal
+            XmlNode goal = doc.SelectSingleNode("descendant::Goal");
+            txbGoal.Text = goal.InnerText;
+
+            // clear alternatives list view, then refill it
+            contentLbxAl.Items.Clear();
+            for(i = 0; i < listAlt.Count; i++)
+            {
+                Button btn = FindName("deleteBtnAl" + Convert.ToString(i)) as Button;
+                if(FindName(btn.Name) != null)
+                    UnregisterName(btn.Name);
+            }
+            listAlt.Clear();
+
+            XmlNode alternatives = doc.SelectSingleNode("descendant::Alternatives");
+            if(alternatives.HasChildNodes)
+            {
+                for(i = 0; i < alternatives.ChildNodes.Count; i++)
+                {
+                    listAlt.Add(alternatives.ChildNodes[i].InnerText);
+
+                    // add grid with delete button
+                    ListBoxItem newItem = new ListBoxItem();
+
+                    Grid newGrid = new Grid();
+                    ColumnDefinition col1 = new ColumnDefinition();
+                    ColumnDefinition col2 = new ColumnDefinition();
+                    col1.Width = new GridLength(contentLbxCr.ActualWidth * 5 / 8);
+                    col1.Width = new GridLength(contentLbxCr.ActualWidth * 3 / 8);
+                    newGrid.ColumnDefinitions.Add(col1);
+                    newGrid.ColumnDefinitions.Add(col2);
+
+                    TextBlock newText = new TextBlock();
+                    newText.Text = alternatives.ChildNodes[i].InnerText;
+                    //newText.AddHandler(MouseDoubleClickEvent, new RoutedEventHandler(ListItem_DoubleClick));
+                    newText.MouseDown += new MouseButtonEventHandler(ListItemAl_DoubleClick);
+
+                    Button newBtn = new Button();
+                    newBtn.Name = "deleteBtnAl" + contentLbxAl.Items.Count.ToString();
+                    newBtn.Width = 22;
+                    newBtn.Height = 22;
+                    newBtn.Cursor = Cursors.Hand;
+                    newBtn.ToolTip = "delete alternative";
+                    newBtn.Click += new RoutedEventHandler(deleteBtnAl_OnClick);
+
+                    ImageBrush newB = new ImageBrush();
+                    newB.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/delete1.png"));
+                    newBtn.Background = newB;
+
+                    newGrid.Children.Add(newText);
+                    newGrid.Children.Add(newBtn);
+                    Grid.SetColumn(newBtn, 1);
+
+                    newItem.Content = newGrid;
+                    contentLbxAl.Items.Add(newItem);
+                    RegisterName(newBtn.Name, newBtn);
+                }
+            }
+
+
+            // clear criteria list view, then refill it
+            contentLbxCr.Items.Clear();
+            for (i = 0; i < listCr.Count; i++)
+            {
+                Button btn = FindName("deleteBtnCr" + Convert.ToString(i)) as Button;
+                if(FindName(btn.Name) != null)
+                    UnregisterName(btn.Name);
+            }
+            listCr.Clear();
+
+            XmlNode criterias = doc.SelectSingleNode("descendant::Criterias");
+            if (criterias.HasChildNodes)
+            {
+                for (i = 0; i < criterias.ChildNodes.Count; i++)
+                {
+                    listCr.Add(criterias.ChildNodes[i].InnerText);
+
+                    // add grid with delete button
+                    ListBoxItem newItem = new ListBoxItem();
+
+                    Grid newGrid = new Grid();
+                    ColumnDefinition col1 = new ColumnDefinition();
+                    ColumnDefinition col2 = new ColumnDefinition();
+                    col1.Width = new GridLength(contentLbxCr.ActualWidth * 5 / 8);
+                    col1.Width = new GridLength(contentLbxCr.ActualWidth * 3 / 8);
+                    newGrid.ColumnDefinitions.Add(col1);
+                    newGrid.ColumnDefinitions.Add(col2);
+
+                    TextBlock newText = new TextBlock();
+                    newText.Text = criterias.ChildNodes[i].InnerText;
+                    //newText.AddHandler(MouseDoubleClickEvent, new RoutedEventHandler(ListItem_DoubleClick));
+                    newText.MouseDown += new MouseButtonEventHandler(ListItemCr_DoubleClick);
+
+                    Button newBtn = new Button();
+                    newBtn.Name = "deleteBtnCr" + contentLbxCr.Items.Count.ToString();
+                    newBtn.Width = 22;
+                    newBtn.Height = 22;
+                    newBtn.Cursor = Cursors.Hand;
+                    newBtn.ToolTip = "delete criteria";
+                    newBtn.Click += new RoutedEventHandler(deleteBtnAl_OnClick);
+
+                    ImageBrush newB = new ImageBrush();
+                    newB.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/delete1.png"));
+                    newBtn.Background = newB;
+
+                    newGrid.Children.Add(newText);
+                    newGrid.Children.Add(newBtn);
+                    Grid.SetColumn(newBtn, 1);
+
+                    newItem.Content = newGrid;
+                    contentLbxCr.Items.Add(newItem);
+                    RegisterName(newBtn.Name, newBtn);
+                }
+            }
+
+            // criteria VS goal comparison mtx
+            if (mtx != null)
+            {
+                // unregister all the element names
+                for (i = 0; i < Math.Sqrt(mtx.Length) - 1; i++)
+                    for (j = i + 1; j < Math.Sqrt(mtx.Length); j++)
+                    {
+                        if(null != FindName("txtNum" + i.ToString() + j.ToString()))
+                            UnregisterName("txtNum" + i.ToString() + j.ToString());
+                        if(null != FindName("txtBlk" + j.ToString() + i.ToString()))
+                            UnregisterName("txtBlk" + j.ToString() + i.ToString());
+                    }
+            }
+
+            XmlNode cvgs = doc.SelectSingleNode("descendant::CriteriaVsGoalMatrix");
+            mtx = new double[criterias.ChildNodes.Count, criterias.ChildNodes.Count];
+            for(i = 0; i < criterias.ChildNodes.Count; i++)
+                for(j = 0; j < criterias.ChildNodes.Count; j++)
+                {
+                    mtx[i, j] = Convert.ToDouble(cvgs.ChildNodes[i*criterias.ChildNodes.Count + j].InnerText);
+                }
+
+            // alternative vs criteria comparison mtx
+            if (mtxAC != null)
+            {
+                // unregister all the element names
+                for (i = 0; i < mtxAC.GetLength(1); i++)
+                {
+                    for (j = 0; j < mtxAC.GetLength(0); j++)
+                    {
+                        if(null != FindName("txtScore" + j.ToString() + i.ToString()))
+                            UnregisterName("txtScore" + j.ToString() + i.ToString());
+                    }
+                }
+
+            }
+
+            XmlNode avgs = doc.SelectSingleNode("descendant::AlternativeVsGoalMatrix");
+            mtxAC = new int[criterias.ChildNodes.Count, alternatives.ChildNodes.Count];
+            for (i = 0; i < criterias.ChildNodes.Count; i++)
+                for (j = 0; j < alternatives.ChildNodes.Count; j++)
+                {
+                    mtxAC[i, j] = Convert.ToInt32(avgs.ChildNodes[i * alternatives.ChildNodes.Count + j].InnerText);
+                }
+
+            // draw AHP Hierarchy Graphics
+            drawAhpHierarchy();
+
+            isOpeningPrj = false ;
+        }
+    }
+
+    class XmlOperation
+    {
+        public void Create(string xmlPath)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(xmlPath);
+            var root = xmlDoc.DocumentElement;//取到根结点
+
+            XmlNode newNode = xmlDoc.CreateNode("element", "Name", "");
+            newNode.InnerText = "Zery";
+
+            //添加为根元素的第一层子结点
+            root.AppendChild(newNode);
+            xmlDoc.Save(xmlPath);
+        }
+        //属性
+        public void CreateAttribute(string xmlPath)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(xmlPath);
+            XmlElement node = (XmlElement)xmlDoc.SelectSingleNode("Collection/Book");
+            node.SetAttribute("Name", "C#");
+            xmlDoc.Save(xmlPath);
+        }
+
+        public void Delete(string xmlPath)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(xmlPath);
+            var root = xmlDoc.DocumentElement;//取到根结点
+
+            var element = xmlDoc.SelectSingleNode("Collection/Name");
+            root.RemoveChild(element);
+            xmlDoc.Save(xmlPath);
+        }
+
+        public void DeleteAttribute(string xmlPath)
+        {
+
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(xmlPath);
+            XmlElement node = (XmlElement)xmlDoc.SelectSingleNode("Collection/Book");
+            //移除指定属性
+            node.RemoveAttribute("Name");
+            //移除当前节点所有属性，不包括默认属性
+            node.RemoveAllAttributes();
+
+            xmlDoc.Save(xmlPath);
+
+        }
+
+        public void Modify(string xmlPath)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(xmlPath);
+            var root = xmlDoc.DocumentElement;//取到根结点
+            XmlNodeList nodeList = xmlDoc.SelectNodes("/Collection/Book");
+            //xml不能直接更改结点名称，只能复制然后替换，再删除原来的结点
+            foreach (XmlNode node in nodeList)
+            {
+                var xmlNode = (XmlElement)node;
+                xmlNode.SetAttribute("ISBN", "Zery");
+            }
+            xmlDoc.Save(xmlPath);
+
+        }
+
+        public void ModifyAttribute(string xmlPath)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(xmlPath);
+            XmlElement element = (XmlElement)xmlDoc.SelectSingleNode("Collection/Book");
+            element.SetAttribute("Name", "Zhang");
+            xmlDoc.Save(xmlPath);
+
+        }
+
+        public void Select(string xmlPath)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(xmlPath);
+            //取根结点
+            var root = xmlDoc.DocumentElement;//取到根结点
+                                              //取指定的单个结点
+            XmlNode singleNode = xmlDoc.SelectSingleNode("Collection/Book");
+
+            //取指定的结点的集合
+            XmlNodeList nodes = xmlDoc.SelectNodes("Collection/Book");
+
+            //取到所有的xml结点
+            XmlNodeList nodelist = xmlDoc.GetElementsByTagName("*");
+        }
+
+        public void SelectAttribute(string xmlPath)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(xmlPath);
+            XmlElement element = (XmlElement)xmlDoc.SelectSingleNode("Collection/Book");
+            string name = element.GetAttribute("Name");
+
+        }
+    }
 
     struct StructEvalResult
     {

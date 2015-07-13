@@ -15,17 +15,17 @@
         </Grid.RowDefinitions>
         
             <ToolBar Band="1" BandIndex="1">
-                <Button>
+                <Button Name="newbtn" Click="newbtn_Click">
                     <Image Width="40" Height="40" Source="Resources\new.png" />
                 </Button>
-                <Button>
-                    <Image Width="40" Height="40" Source="Resources\save.png" />
+                <Button Name="saveBtn" Click="saveBtn_Click">
+                    <Image Width="40" Height="40" Source="Resources\save.png"/>
                 </Button>
-                <Button>
+                <Button Name="openBtn" Click="openBtn_Click">
                     <Image Width="40" Height="40" Source="Resources\open.png" />
                 </Button>
                 <Separator/>
-                <Button>
+                <Button Name="buildAllBtn" Click="buildAllBtn_Click">
                     <Image Width="40" Height="40" Source="Resources\eval.png" />
                 </Button>
             </ToolBar>

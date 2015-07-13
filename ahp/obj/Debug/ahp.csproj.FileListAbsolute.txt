@@ -13,4 +13,3 @@ C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\ahp.Properties.Resour
 C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\ahp.csproj.GenerateResource.Cache
 C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\ahp.exe
 C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\ahp.pdb
-C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\ahp.csprojResolveAssemblyReference.cache
