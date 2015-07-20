@@ -130,7 +130,8 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="60"/>
+                                <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Row="0" Name="txbDescription" TextWrapping="Wrap">
                                 Intensity of Importance Scale: <LineBreak/>
@@ -142,8 +143,13 @@
                                 2, 4 - Intermediate Values<LineBreak/>
                                 6, 8 - Between Adjacent Judgements<LineBreak/>
                             </TextBlock>
-                            <Button Grid.Row="1" x:Name="evalButton" Padding="5" Click="evalButton_Click" VerticalAlignment="Center" HorizontalAlignment="Left" Content="Check Consistency"/>
+                            
+                            <Button Grid.Row="1" x:Name="evalButton" Padding="5" Click="evalButton_Click" Content="Check Consistency" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             <TextBlock Grid.Row="2" x:Name="txtEvalRslt"/>
+                            <StackPanel Grid.Row="3" Orientation="Horizontal">
+                                <Button x:Name="BtnIdentify" Padding="5" Click="BtnIdentify_Click" Content="Identify" IsEnabled="False"/>
+                                <Button x:Name="BtnPropose" Padding="5" Margin="10,0,0,0" Click="BtnPropose_Click" Content="Propose" IsEnabled="False"/>
+                            </StackPanel>
                         </Grid>
                     </Grid>
                 </Border>

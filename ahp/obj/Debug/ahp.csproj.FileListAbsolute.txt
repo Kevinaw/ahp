@@ -61,3 +61,7 @@ C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\Themes\Office2010Blue
 C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\MainWindow.g.cs
 C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\App.baml
 C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\MainWindow.baml
+C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\WindowSelectInconsistentElements.g.cs
+C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\WindowSelectInconsistentElements.baml
+C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\WindowPropose.g.cs
+C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\WindowPropose.baml

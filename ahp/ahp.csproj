@@ -87,6 +87,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="WindowPropose.xaml.cs">
+      <DependentUpon>WindowPropose.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WindowSelectInconsistentElements.xaml.cs">
+      <DependentUpon>WindowSelectInconsistentElements.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -118,6 +124,14 @@
     <Page Include="Themes\Office2010BlueTheme\Theme.Colors.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WindowPropose.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowSelectInconsistentElements.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

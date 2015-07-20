@@ -10,6 +10,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using System.IO;
 using MyNumericUpDownControll;
+using System.Windows.Media;
 
 namespace ahp
 {
@@ -27,9 +28,15 @@ namespace ahp
         // consistency ratio
         public double CR;
 
+        // identify inconsistent row and column
+        public int inconsistentRow;
+        public int inconsistentCol;
+
         // constructor
         public Criterias()
         {
+            inconsistentRow = -1;
+            inconsistentCol = -1;
 
         }
 
@@ -84,15 +91,15 @@ namespace ahp
         }
 
         // generate pairwise comparison matrix view
-        public void GenerateMtxView(Grid mtxGrid, TabControl tabMain)
+        public void GenerateMtxView(Grid mtxGrid, double totalWidth, double totalHeight)
         {
             int i, j;
             // initial cell width and height
             double cellWidth = 120;
             double cellHeight = 60;
             // total width and height
-            double totalWidth = tabMain.ActualWidth - 200;
-            double totalHeight = tabMain.ActualHeight - 120;
+            //double totalWidth = tabMain.ActualWidth - 200;
+            //double totalHeight = tabMain.ActualHeight - 120;
 
             // clear grid and redraw on it.
             mtxGrid.Children.Clear();
@@ -372,6 +379,64 @@ namespace ahp
             mtx = null;
             mtxCtrls = null;
             CR = 0;
+        }
+
+        // identify the inconsistency cells
+        public double[] Identify()
+        {
+            double[] result = new double[listCr.Count];
+            double[,] C = new double[listCr.Count, listCr.Count];
+            double[,] sqrA = new double[listCr.Count, listCr.Count];
+            int i, j, k;
+            double max = 0;
+            int row = 0, col = 0;
+            double[] b = new double[listCr.Count];
+
+            for (i = 0; i < listCr.Count; i++)
+                for(j = 0; j < listCr.Count; j++)
+                {
+                    sqrA[i, j] = 0;
+                    for (k = 0; k < listCr.Count; k++)
+                        sqrA[i, j] += mtx[i, k] * mtx[k, j];
+                    C[i, j] = sqrA[i, j] - 4 * mtx[i, j];
+
+                }
+
+            for (i = 0; i < listCr.Count; i++)
+                for (j = 0; j < listCr.Count; j++)
+                {
+                    if(max < Math.Abs(C[i, j]))
+                    {
+                        max = Math.Abs(C[i, j]);
+                        row = i;
+                        col = j;
+                    }
+                }
+
+            for(i = 0; i < listCr.Count; i++)
+            {
+                b[i] = mtx[row, i] * mtx[i, col];
+
+                result[i] = b[i] - mtx[row, col];
+            }
+
+            inconsistentRow = row;
+            inconsistentCol = col;
+            return result;
+        }
+
+        public void Highlight(int idx)
+        {
+            if ((mtxCtrls[inconsistentRow, idx] as TextBlock) == null)
+                (mtxCtrls[inconsistentRow, idx] as NumericUpDown).Background = Brushes.Pink;
+            else
+                (mtxCtrls[inconsistentRow, idx] as TextBlock).Background = Brushes.Pink;
+
+            if ((mtxCtrls[idx, inconsistentCol] as TextBlock) == null)
+                (mtxCtrls[idx, inconsistentCol] as NumericUpDown).Background = Brushes.Pink;
+            else
+                (mtxCtrls[idx, inconsistentCol] as TextBlock).Background = Brushes.Pink;
+
         }
 
     }

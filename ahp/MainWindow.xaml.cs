@@ -33,12 +33,18 @@ namespace ahp
         private bool isOpeningPrj; //opening old project
         private string filePath;
 
+        int inconsistencyRow;
+        int inconsistencyCol;
+        List<int> inconsistecyIndexes; 
+
         public MainWindow()
         {
             InitializeComponent();
             isOpeningPrj = false;
             filePath = null;
-
+            inconsistencyRow = -1;
+            inconsistencyCol = -1;
+            inconsistecyIndexes = new List<int>();
 #if DEBUG
             Console.WriteLine("debug mode");
 #endif
@@ -73,7 +79,15 @@ namespace ahp
                 case 1:
                     break;
                 case 2:
-                    Criterias.GenerateMtxView(mtxGrid, tabMain);
+                    BtnIdentify.IsEnabled = false;
+                    BtnPropose.IsEnabled = false;
+                    txtEvalRslt.Text = "";
+                    inconsistencyRow = -1;
+                    inconsistencyCol = -1;
+                    inconsistecyIndexes.Clear();
+                    double totalWidth = tabMain.ActualWidth - 200;
+                    double totalHeight = tabMain.ActualHeight - 120;
+                    Criterias.GenerateMtxView(mtxGrid, totalWidth, totalHeight);
                     break;
                 case 3:
                     Alternatives.GenerateMtxView(grdAC, tabMain, Criterias);
@@ -264,6 +278,9 @@ namespace ahp
                 txtEvalRslt.Inlines.Add(container);
                 txtEvalRslt.Inlines.Add(weights);
                 txtEvalRslt.Foreground = Brushes.Green;
+
+                BtnIdentify.IsEnabled = false;
+                BtnPropose.IsEnabled = false;
             }
             else
             {
@@ -280,7 +297,36 @@ namespace ahp
                 txtEvalRslt.Inlines.Add(container);
                 txtEvalRslt.Inlines.Add(weights);
                 txtEvalRslt.Foreground = Brushes.Red;
+
+                BtnIdentify.IsEnabled = true;
+                BtnPropose.IsEnabled = true;
             }
+        }
+
+        private void BtnIdentify_Click(object sender, RoutedEventArgs e)
+        {
+            double[] res = Criterias.Identify();
+            inconsistencyRow = Criterias.inconsistentRow;
+            inconsistencyCol = Criterias.inconsistentCol;
+
+            WindowSelectInconsistentElements popup = new WindowSelectInconsistentElements(res);
+            popup.ShowDialog();
+
+            // highlight the inconsistent cells
+            for (int i = 0; i < popup.selectedIndexes.Count; i++)
+            {
+                inconsistecyIndexes.Add(popup.selectedIndexes[i]);
+                Criterias.Highlight(popup.selectedIndexes[i]);
+            }
+                
+        }
+
+        private void BtnPropose_Click(object sender, RoutedEventArgs e)
+        {
+            WindowPropose wndP = new WindowPropose(Criterias, inconsistencyRow, inconsistencyCol, inconsistecyIndexes);
+            wndP.ShowDialog();
+                  
+  
         }
 
         //draw AHP Hierarchy
