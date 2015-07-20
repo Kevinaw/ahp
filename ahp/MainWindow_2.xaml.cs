@@ -48,10 +48,15 @@ namespace ahp
             InitializeComponent();
             isOpeningPrj = false;
 
+#if DEBUG
+            Console.WriteLine("debug mode");
+#endif
+
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            testGrid.Focus();
             //drawAhpHierarchy();
             addItemBoxAl_LostFocus();
             addItemBoxCr_LostFocus();
@@ -544,7 +549,17 @@ namespace ahp
             {
                 DrawResultMtx();
             }
+            else if (selectedItem != null &&  selectedItem.Header.ToString() == "Test")
+            {
+                //this.userControl.ListContentChangedEvent += ;
+                //userControl1.ListContentChangedEvent += changed;
+            }
 
+        }
+
+        private void changed(object sender, EventArgs e)
+        {
+            MessageBox.Show("ListContentChangedEvent fired!");
         }
 
         private void tabPwC_SelectionChanged(object sender, SelectionChangedEventArgs e)

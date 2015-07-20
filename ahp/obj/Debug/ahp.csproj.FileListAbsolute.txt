@@ -13,3 +13,51 @@ C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\ahp.Properties.Resour
 C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\ahp.csproj.GenerateResource.Cache
 C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\ahp.exe
 C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\ahp.pdb
+C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\ahp.csprojResolveAssemblyReference.cache
+C:\Users\Huiquan\ehanDropbox\Desktop\output\ahp.exe.config
+C:\Users\Huiquan\ehanDropbox\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\ahp.exe
+C:\Users\Huiquan\ehanDropbox\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\ahp.pdb
+C:\Users\Huiquan\ehanDropbox\Desktop\output\ahp.exe
+C:\Users\Huiquan\ehanDropbox\Desktop\output\ahp.pdb
+C:\Users\Huiquan\ehanDropbox\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\ahp.csprojResolveAssemblyReference.cache
+C:\Users\Huiquan\ehanDropbox\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\MainWindow_2.g.cs
+C:\Users\Huiquan\ehanDropbox\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\Page1.g.cs
+C:\Users\Huiquan\ehanDropbox\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\App.g.cs
+C:\Users\Huiquan\ehanDropbox\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\ahp_MarkupCompile.cache
+C:\Users\Huiquan\ehanDropbox\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\ahp_MarkupCompile.lref
+C:\Users\Huiquan\ehanDropbox\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\MainWindow_2.baml
+C:\Users\Huiquan\ehanDropbox\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\Page1.baml
+C:\Users\Huiquan\ehanDropbox\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\ahp.g.resources
+C:\Users\Huiquan\ehanDropbox\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\ahp.Properties.Resources.resources
+C:\Users\Huiquan\ehanDropbox\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\ahp.csproj.GenerateResource.Cache
+C:\Users\Sabrina\Desktop\output\ahp.exe.config
+C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\ahp.exe
+C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\ahp.pdb
+C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\Page1.g.cs
+C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\App.g.cs
+C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\ahp_MarkupCompile.cache
+C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\ahp_MarkupCompile.lref
+C:\Users\Sabrina\Desktop\output\ahp.exe
+C:\Users\Sabrina\Desktop\output\ahp.pdb
+C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\MainWindow_2.g.cs
+C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\MainWindow_2.baml
+C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\Page1.baml
+C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\ahp.g.resources
+C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\ahp.Properties.Resources.resources
+C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\ahp.csproj.GenerateResource.Cache
+C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\MainWindow.g.cs
+C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\MainWindow.baml
+C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\Themes\Office2010BlueTheme\Office2010Blue.MSControls.Core.Implicit.baml
+C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\Themes\Office2010BlueTheme\Styles.Shared.baml
+C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\Themes\Office2010BlueTheme\Styles.WPF.baml
+C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\Themes\Office2010BlueTheme\Theme.Colors.baml
+C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\Themes\Office2010BlueTheme\Office2010Blue.MSControls.Toolkit.Implicit.baml
+C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\App.baml
+C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\Themes\Office2010BlueTheme\Office2010Blue.MSControls.Core.Implicit.baml
+C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\Themes\Office2010BlueTheme\Office2010Blue.MSControls.Toolkit.Implicit.baml
+C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\Themes\Office2010BlueTheme\Styles.Shared.baml
+C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\Themes\Office2010BlueTheme\Styles.WPF.baml
+C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\Themes\Office2010BlueTheme\Theme.Colors.baml
+C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\MainWindow.g.cs
+C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\App.baml
+C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\MainWindow.baml

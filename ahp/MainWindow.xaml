@@ -1,0 +1,176 @@
+﻿<Window
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ahp"
+      xmlns:MyListControl="clr-namespace:MyListControl;assembly=MyListControl" xmlns:MyNumericUpDownControll="clr-namespace:MyNumericUpDownControll;assembly=MyNumericUpDownControll" x:Class="ahp.MainWindow"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+      Title="MainWindow" MouseDown="Window_MouseDown" Loaded="Window_Loaded">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="0"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Menu>
+            <MenuItem Header="_File">
+                <MenuItem Header="_New..." Click="newbtn_Click"/>
+                <Separator />
+                <MenuItem Header="_Open..." Click="openBtn_Click"/>
+                <Separator />
+                <MenuItem Header="_Save" Click="openBtn_Click"/>
+                <MenuItem Header="_Save As..." />
+                <Separator />
+                <MenuItem Header="_Exit" />
+            </MenuItem>
+        </Menu>
+        <!--ToolBar Band="1" BandIndex="1">
+            <Button x:Name="newbtn" Click="newbtn_Click">
+                <Image Width="40" Height="40" Source="Resources\new.png" />
+            </Button>
+            <Button x:Name="saveBtn" Click="saveBtn_Click">
+                <Image Width="40" Height="40" Source="Resources\save.png"/>
+            </Button>
+            <Button x:Name="openBtn" Click="openBtn_Click">
+                <Image Width="40" Height="40" Source="Resources\open.png" />
+            </Button>
+            <Separator/>
+            <Button x:Name="buildAllBtn" Click="buildAllBtn_Click">
+                <Image Width="40" Height="40" Source="Resources\eval.png" />
+            </Button>
+            </ToolBar>
+            -->
+
+        <!-- Decision Hierarchy Graphic View -->
+        <GroupBox Grid.Row="1" Header="Graphic View" Grid.Column="1" x:Name="grpGraph">
+            <Canvas x:Name="cvsHrcGraph" SizeChanged="cvsHrcGraph_SizeChanged"/>
+        </GroupBox>
+
+        <TabControl x:Name="tabMain" Grid.Row="2" TabStripPlacement="Top" SelectionChanged="tabMain_SelectionChanged">
+
+            <!-- Goal and Criterias-->
+            <TabItem x:Name="tabCriterias" Header="Goal &amp; Criterias">
+                <Border BorderBrush="#FF8CA6C9" BorderThickness="1" Margin="20" CornerRadius="10" Background="#FFE9F0F7">
+                    <Grid Name="grdCr" Focusable="True"  >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" Margin="20,20,20,10">
+                            <Label Content="Goal:" />
+                            <TextBox x:Name="txbGoal" TextChanged="txbGoal_TextChanged" Margin="80,0,0,0" Width="220" HorizontalAlignment="Left"/>
+                        </Grid>
+                        <Grid Grid.Row="1" Margin="20,0,20,20">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Label Content="Criterias:"/>
+                            <UserControl x:Name="userControlCr" Margin="80,0,0,0" Width="220">
+                                <MyListControl:UserControl1  x:Name="usrCtrlCr" Width="auto" Height="Auto"/>
+                            </UserControl>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </TabItem>
+
+            <!-- Alternatives -->
+            <TabItem x:Name="tabAlternatives" Header="Alternatives">
+                <Border BorderBrush="#FF8CA6C9" BorderThickness="1" Margin="20" CornerRadius="10" Background="#FFE9F0F7">
+                    <Grid Margin="20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0" x:Name="grdAl" Focusable="True" Width="200">
+                            <UserControl x:Name="userControlAlternatives">
+                                <MyListControl:UserControl1  x:Name="usrCtrlAlt"/>
+                            </UserControl>
+                        </Grid>
+                        <GroupBox Grid.Column="1"  Margin="20,23,0,0" Padding="20" Background="#FFE9F0F7" Header="Properties">
+                            <Grid Grid.Column="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Label Content="Name:"/>
+                                <TextBox Name="txbNameAl" Grid.Column="1" TextChanged="txbNameAl_TextChanged" Margin="0,0,0,10" Width="200" HorizontalAlignment="Left"/>
+                                <Label Grid.Row="1" Content="Cost:"/>
+                                <TextBox Name="txbCostAl" Grid.Row="1" Grid.Column="1" Margin="0,0,0,10" TextChanged="txbCostAl_TextChanged" Width="200" HorizontalAlignment="Left"/>
+                                <Label Grid.Row="2" Content="Cost(Risk):"/>
+                                <TextBox Name="txbCostRAl" Grid.Row="2" Grid.Column="1" AcceptsReturn="True" TextChanged="txbCostRAl_TextChanged" Width="200" HorizontalAlignment="Left"/>
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                </Border>
+            </TabItem>
+
+            <!-- Criterias Pairwise Comparison -->
+            <TabItem Header="Criterias Pairwise Comparison">
+                <Border BorderBrush="#FF8CA6C9" BorderThickness="1" Margin="20" CornerRadius="10" Background="#FFE9F0F7">
+                    <Grid Margin="20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition MinWidth="200" Width="Auto"/>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Border x:Name="mtxBdr" BorderThickness ="1" CornerRadius="5" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="#FF8CA6C9">
+                            <Grid x:Name="mtxGrid" ShowGridLines="True"/>
+                        </Border>
+                        <Grid Grid.Column="1" Margin="20,0,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Name="txbDescription" TextWrapping="Wrap">
+                                Intensity of Importance Scale: <LineBreak/>
+                                1 - Equal Importance<LineBreak/>
+                                3 - Weak Importance<LineBreak/>
+                                5- Strong Importance<LineBreak/>
+                                7 - Demonstrated Importance<LineBreak/>
+                                9 - Absolute Importance<LineBreak/>                              
+                                2, 4 - Intermediate Values<LineBreak/>
+                                6, 8 - Between Adjacent Judgements<LineBreak/>
+                            </TextBlock>
+                            <Button Grid.Row="1" x:Name="evalButton" Padding="5" Click="evalButton_Click" VerticalAlignment="Center" HorizontalAlignment="Left" Content="Check Consistency"/>
+                            <TextBlock Grid.Row="2" x:Name="txtEvalRslt"/>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </TabItem>
+            
+            <!-- Alternatives Scores-->
+            <TabItem Header="Alternative Scores">
+                <Border BorderBrush="#FF8CA6C9" BorderThickness="1" Margin="20" CornerRadius="10" Background="#FFE9F0F7">
+                    <Grid Margin="20">
+                        <Border x:Name="bdrAC" BorderThickness ="1" BorderBrush="#FF8CA6C9" CornerRadius="5" HorizontalAlignment="Left" VerticalAlignment="Top" >
+                            <Grid x:Name="grdAC" ShowGridLines="True"/>
+                        </Border>
+                    </Grid>
+                </Border>
+            </TabItem>
+
+            <!-- Results -->
+            <TabItem x:Name="tabRst" Header="Result">
+                <Border BorderBrush="#FF8CA6C9" BorderThickness="1" Margin="20" CornerRadius="10" Background="#FFE9F0F7">
+                    <Grid Margin="20" HorizontalAlignment="Left" VerticalAlignment="Top" >
+                        <Border x:Name="bdrRst" BorderThickness ="1" BorderBrush="#FF8CA6C9">
+                            <Grid x:Name="grdRst" ShowGridLines="True"/>
+                        </Border>
+                    </Grid>
+                </Border>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Window>

@@ -5,6 +5,10 @@ VisualStudioVersion = 14.0.22823.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ahp", "ahp\ahp.csproj", "{2E633F13-81C3-4182-9F8B-43362602FCB0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyListControl", "MyListControl\MyListControl.csproj", "{8848FDCB-C6E3-4DA6-B23B-4FBC543892AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyNumericUpDownControll", "MyNumericUpDownControll\MyNumericUpDownControll.csproj", "{D8D46DF6-D478-41F6-8C67-FD1ED26D193D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{2E633F13-81C3-4182-9F8B-43362602FCB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E633F13-81C3-4182-9F8B-43362602FCB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E633F13-81C3-4182-9F8B-43362602FCB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8848FDCB-C6E3-4DA6-B23B-4FBC543892AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8848FDCB-C6E3-4DA6-B23B-4FBC543892AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8848FDCB-C6E3-4DA6-B23B-4FBC543892AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8848FDCB-C6E3-4DA6-B23B-4FBC543892AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8D46DF6-D478-41F6-8C67-FD1ED26D193D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8D46DF6-D478-41F6-8C67-FD1ED26D193D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8D46DF6-D478-41F6-8C67-FD1ED26D193D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8D46DF6-D478-41F6-8C67-FD1ED26D193D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
