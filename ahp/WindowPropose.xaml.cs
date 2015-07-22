@@ -27,7 +27,7 @@ namespace ahp
         List<int> indexes;
 
         object[,] ctrlArry;
-        int[,] freedomArry;
+        public int[,] freedomArry;
 
         public WindowPropose()
         {

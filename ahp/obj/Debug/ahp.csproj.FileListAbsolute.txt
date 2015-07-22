@@ -13,7 +13,6 @@ C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\ahp.Properties.Resour
 C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\ahp.csproj.GenerateResource.Cache
 C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\ahp.exe
 C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\ahp.pdb
-C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\ahp.csprojResolveAssemblyReference.cache
 C:\Users\Huiquan\ehanDropbox\Desktop\output\ahp.exe.config
 C:\Users\Huiquan\ehanDropbox\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\ahp.exe
 C:\Users\Huiquan\ehanDropbox\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\ahp.pdb
@@ -65,3 +64,5 @@ C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\WindowSelectInconsist
 C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\WindowSelectInconsistentElements.baml
 C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\WindowPropose.g.cs
 C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\WindowPropose.baml
+C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\WindowCombinations.g.cs
+C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\WindowCombinations.baml

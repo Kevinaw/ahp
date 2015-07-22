@@ -324,9 +324,122 @@ namespace ahp
         private void BtnPropose_Click(object sender, RoutedEventArgs e)
         {
             WindowPropose wndP = new WindowPropose(Criterias, inconsistencyRow, inconsistencyCol, inconsistecyIndexes);
-            wndP.ShowDialog();
-                  
-  
+            if(true == wndP.ShowDialog())
+            {
+                int[,] freedomArry = wndP.freedomArry;
+                var resultList = new List<Criterias>();
+                var locationList = new List<StrctFreedomLocation>();
+                int i, j;
+
+                // store all the location for free changing
+                for(i = 0; i < Criterias.listCr.Count; i++)
+                    for(j = 0; j < Criterias.listCr.Count; j++)
+                    {
+                        if(freedomArry[i, j] != 0)
+                        {
+                            locationList.Add(new StrctFreedomLocation { row = i, col = j, freedom = freedomArry[i, j] });
+                        }
+                    }
+                // There are some duplicate evaluations, we should remove them before continue;
+                PopulateMtx(locationList, Criterias, ref resultList);
+
+                // Remove duplicate
+                var resultList1 = new List<Criterias>();
+                for (i = 0; i < resultList.Count; i++)
+                {
+                    Criterias c = resultList.ElementAt(i);
+                    if (resultList1.Count != 0)
+                    {
+                        for(j = 0; j < resultList1.Count; j++)
+                        {
+                            if (c.Equals(resultList1.ElementAt(j)))
+                                break;
+                            else
+                                continue;
+                        }
+                        // not found
+                        if(j == resultList1.Count)
+                            resultList1.Add(c);
+
+                    }
+                    else
+                    {
+                        resultList1.Add(c);
+                    }
+                }
+
+
+#if DEBUG
+                Console.WriteLine("resultList.count = " + resultList.Count.ToString());
+                Console.WriteLine("resultList1.count = " + resultList1.Count.ToString());
+#endif
+                // order the result to only extract the smallest 10 results.
+                resultList1.Sort((x, y) => x.CR.CompareTo(y.CR));
+
+                if (resultList1.Count == 0)
+                {
+                    MessageBox.Show("0 combinations found!");
+                    return;
+                }
+                    
+                // Show window of CR results
+                WindowCombinations wndC = new WindowCombinations(resultList1, inconsistencyRow, inconsistencyCol, inconsistecyIndexes);
+
+                if(true == wndC.ShowDialog())
+                {
+                    if(wndC.idx != -1)
+                    {
+                        MessageBox.Show("combination selected:" + wndC.idx.ToString());
+                    }
+                }
+
+            }
+        }
+
+        private void PopulateMtx(List<StrctFreedomLocation> locationList, Criterias Criterias, ref List<Criterias> resultList)
+        {
+            if(locationList.Count > 0)
+            {
+                var location = locationList.ElementAt(0);
+                //locationList.RemoveAt(0);
+                double[] range;
+                // direction only
+                if (location.freedom == 1)
+                {
+                    // 1, 2, 3, 4, 5, 6, 7, 8, 9
+                    if(Criterias.mtx[location.row, location.col] >= 1)
+                        range = new double[] { 2, 3, 4, 5, 6, 7, 8, 9 };
+                    else
+                        range = new double[] { 1/9, 1/8, 1/7, 1/6, 1/5, 1/4, 1/3, 1/2 };
+                }
+                else
+                    range = new double[] { 1.0 / 9.0, 1.0 / 8.0, 1.0 / 7.0, 1.0 / 6.0, 1.0 / 5.0, 1.0 / 4.0, 1.0 / 3.0, 1.0 / 2.0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+                var ll = new List<StrctFreedomLocation>();
+                ll = locationList.ToList();
+                ll.RemoveAt(0);
+
+                foreach (double val in range)
+                {
+                    var c = new Criterias(Criterias);
+                    c.mtx[location.row, location.col] = val;
+                    c.mtx[location.col, location.row] = 1 / val;
+                    c.AhpEval();
+                    if (c.CR < 0.1)
+                        resultList.Add(c);
+
+                    PopulateMtx(ll, c, ref resultList);
+#if DEBUG
+                    Console.WriteLine("CR = " + c.CR.ToString());
+                    for (int i = 0; i < c.listCr.Count; i++)
+                    {                        
+                        for (int j = 0; j < c.listCr.Count; j++)
+                            Console.Write(c.mtx[i, j].ToString() + "    ");
+                        Console.Write("\n");
+                    }                        
+#endif
+                }
+            }
         }
 
         //draw AHP Hierarchy
@@ -1055,5 +1168,12 @@ namespace ahp
             }
 
         }
+    }
+
+    struct StrctFreedomLocation
+    {
+        public int row;
+        public int col;
+        public int freedom;
     }
 }

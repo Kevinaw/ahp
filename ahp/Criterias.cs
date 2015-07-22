@@ -14,7 +14,7 @@ using System.Windows.Media;
 
 namespace ahp
 {
-    public class Criterias : IEquatable<Criterias>
+    public class Criterias
     {
         public List<StrctCriteria> listCr = new List<StrctCriteria>();
         // pairwise comparison matrix
@@ -23,7 +23,7 @@ namespace ahp
         public Object[,] mtxCtrls;
 
         private static string[] strValues = { "1/9", "1/8", "1/7", "1/6", "1/5", "1/4", "1/3", "1/2", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
-        private static double[] dblValues = { 0.1111111, 0.125, 0.1428571, 0.1666666, 0.2, 0.25, 0.3333333, 0.5, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+        private static double[] dblValues = { 1 / 9, 1 / 8, 1 / 7, 1 / 6, 1 / 5, 1 / 4, 1 / 3, 1 / 2, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
         // consistency ratio
         public double CR;
@@ -38,6 +38,17 @@ namespace ahp
             inconsistentRow = -1;
             inconsistentCol = -1;
 
+        }
+
+        // constructor
+        public Criterias(Criterias c)
+        {
+            inconsistentRow = -1;
+            inconsistentCol = -1;
+
+            this.listCr = c.listCr.ToList();
+            this.mtx = new double[this.listCr.Count, this.listCr.Count];
+            Array.Copy(c.mtx, this.mtx, c.mtx.Length);
         }
 
         // two criterias with the same name
@@ -258,108 +269,124 @@ namespace ahp
             }
         }
 
-        /// <summary>
-        /// Serialize an object
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        /// http://www.dotnetfunda.com/articles/show/98/how-to-serialize-and-deserialize-an-object-into-xml
-        public string SerializeAnObject()
-        {
-            System.Xml.XmlDocument doc = new XmlDocument();
-            System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(this.GetType());
-            System.IO.MemoryStream stream = new System.IO.MemoryStream();
-            try
-            {
-                serializer.Serialize(stream, this);
-                stream.Position = 0;
-                doc.Load(stream);
-                return doc.InnerXml;
-            }
-            catch
-            {
-                throw;
-            }
-            finally
-            {
-                stream.Close();
-                stream.Dispose();
-            }
-        }
-
-        /// <summary>
-        /// DeSerialize an object
-        /// </summary>
-        /// <param name="xmlOfAnObject"></param>
-        /// <returns></returns>
-        /// http://www.dotnetfunda.com/articles/show/98/how-to-serialize-and-deserialize-an-object-into-xml
-        private object DeSerializeAnObject(string xmlOfAnObject)
-        {
-            Criterias myObject = new Criterias();
-            System.IO.StringReader read = new StringReader(xmlOfAnObject);
-            System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(myObject.GetType());
-            System.Xml.XmlReader reader = new XmlTextReader(read);
-            try
-            {
-                myObject = (Criterias)serializer.Deserialize(reader);
-                return myObject;
-            }
-            catch
-            {
-                throw;
-            }
-            finally
-            {
-                reader.Close();
-                read.Close();
-                read.Dispose();
-            }
-        }
-
         public bool Equals(Criterias other)
         {
             if (other == null)
                 return false;
 
-            if (this.listCr.Equals(other.listCr) && this.mtx.Equals(other.mtx))
-                return true;
-            else
-                return false;
+            for(int i = 0; i < other.mtx.GetLength(0); i++)
+                for(int j = 0; j < other.mtx.GetLength(1); j++)
+                {
+                    if (String.Format("{0:#.00}", mtx[i, j]) == String.Format("{0:#.00}", other.mtx[i, j]))
+                        return false;
+                }
+            return true;
+
         }
 
-        public override bool Equals(Object obj)
-        {
-            if (obj == null)
-                return false;
+        /*
+                /// <summary>
+                /// Serialize an object
+                /// </summary>
+                /// <param name="obj"></param>
+                /// <returns></returns>
+                /// http://www.dotnetfunda.com/articles/show/98/how-to-serialize-and-deserialize-an-object-into-xml
+                public string SerializeAnObject()
+                {
+                    System.Xml.XmlDocument doc = new XmlDocument();
+                    System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(this.GetType());
+                    System.IO.MemoryStream stream = new System.IO.MemoryStream();
+                    try
+                    {
+                        serializer.Serialize(stream, this);
+                        stream.Position = 0;
+                        doc.Load(stream);
+                        return doc.InnerXml;
+                    }
+                    catch
+                    {
+                        throw;
+                    }
+                    finally
+                    {
+                        stream.Close();
+                        stream.Dispose();
+                    }
+                }
 
-            Criterias cObj = obj as Criterias;
-            if (cObj == null)
-                return false;
-            else
-                return Equals(cObj);
-        }
+                /// <summary>
+                /// DeSerialize an object
+                /// </summary>
+                /// <param name="xmlOfAnObject"></param>
+                /// <returns></returns>
+                /// http://www.dotnetfunda.com/articles/show/98/how-to-serialize-and-deserialize-an-object-into-xml
+                private object DeSerializeAnObject(string xmlOfAnObject)
+                {
+                    Criterias myObject = new Criterias();
+                    System.IO.StringReader read = new StringReader(xmlOfAnObject);
+                    System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(myObject.GetType());
+                    System.Xml.XmlReader reader = new XmlTextReader(read);
+                    try
+                    {
+                        myObject = (Criterias)serializer.Deserialize(reader);
+                        return myObject;
+                    }
+                    catch
+                    {
+                        throw;
+                    }
+                    finally
+                    {
+                        reader.Close();
+                        read.Close();
+                        read.Dispose();
+                    }
+                }
 
-        public override int GetHashCode()
-        {
-            return this.listCr.GetHashCode();
-        }
+                public bool Equals(Criterias other)
+                {
+                    if (other == null)
+                        return false;
 
-        public static bool operator ==(Criterias c1, Criterias c2)
-        {
-            if (c1 == null || c2 == null)
-                return Object.Equals(c1, c2);
+                    if (this.listCr.Equals(other.listCr) && this.mtx.Equals(other.mtx))
+                        return true;
+                    else
+                        return false;
+                }
 
-            return c1.Equals(c2);
-        }
+                public override bool Equals(Object obj)
+                {
+                    if (obj == null)
+                        return false;
 
-        public static bool operator !=(Criterias c1, Criterias c2)
-        {
-            if (c1 == null || c2 == null)
-                return !Object.Equals(c1, c2);
+                    Criterias cObj = obj as Criterias;
+                    if (cObj == null)
+                        return false;
+                    else
+                        return Equals(cObj);
+                }
 
-            return !(c1.Equals(c2));
-        }
+                public override int GetHashCode()
+                {
+                    return this.listCr.GetHashCode();
+                }
 
+                public static bool operator ==(Criterias c1, Criterias c2)
+                {
+                    if (c1 == null || c2 == null)
+                        return Object.Equals(c1, c2);
+
+                    return c1.Equals(c2);
+                }
+
+                public static bool operator !=(Criterias c1, Criterias c2)
+                {
+                    if (c1 == null || c2 == null)
+                        return !Object.Equals(c1, c2);
+
+                    return !(c1.Equals(c2));
+                }
+        */
         private void OnNumericUpDownValueChangedEvent(object sender, EventArgs e)
         {
             NumericUpDown nud = sender as NumericUpDown;
