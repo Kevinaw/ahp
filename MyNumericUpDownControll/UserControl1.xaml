@@ -13,7 +13,7 @@
 
             <Border Grid.Column="0" BorderThickness="1" BorderBrush="Gray" VerticalAlignment="Center" HorizontalAlignment="Stretch">
                 <!--Bind the TextBlock to the Value property-->
-                <TextBlock Name="TxbValue"  TextAlignment="Right" Padding="8"/>
+                <TextBlock Name="TxbValue"  TextAlignment="Right" Padding="8" Background="White"/>
 
             </Border>
             <StackPanel Grid.Column="1" Orientation="Vertical">

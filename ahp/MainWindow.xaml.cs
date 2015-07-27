@@ -19,6 +19,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.IO;
 using MyListControl;
+using MyNumericUpDownControll;
 
 namespace ahp
 {
@@ -35,7 +36,7 @@ namespace ahp
 
         int inconsistencyRow;
         int inconsistencyCol;
-        List<int> inconsistecyIndexes; 
+        List<int> inconsistecyIndexes;
 
         public MainWindow()
         {
@@ -53,7 +54,7 @@ namespace ahp
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            switch(tabMain.SelectedIndex)
+            switch (tabMain.SelectedIndex)
             {
                 case 0:
                     grdCr.Focus();
@@ -65,18 +66,21 @@ namespace ahp
                     //testGrid.Focus();
                     break;
                 default:
-                    break;  
+                    break;
             }
-            //drawAhpHierarchy();
+            drawAhpHierarchy();
         }
-        
+
         private void tabMain_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            switch(tabMain.SelectedIndex)
+            switch (tabMain.SelectedIndex)
             {
                 case 0:
                     break;
                 case 1:
+                    //txbNameAl.Text = "";
+                    //txbCostAl.Text = "";
+                    //txbCostRAl.Text = "";
                     break;
                 case 2:
                     BtnIdentify.IsEnabled = false;
@@ -94,6 +98,7 @@ namespace ahp
                     break;
                 case 4:
                     DrawResultMtx();
+                    drawAhpRst();
                     break;
                 default:
                     break;
@@ -119,18 +124,29 @@ namespace ahp
                 bdrRst.Visibility = Visibility.Visible;
             }
 
+            if (Alternatives.mtxAC == null && Alternatives.listAl.Count != 0)
+            {
+                Alternatives.mtxAC = new int[Criterias.listCr.Count, Alternatives.listAl.Count];
+            }
+
+            if (Criterias.mtx == null && Criterias.listCr.Count != 0)
+            {
+                Criterias.mtx = new double[Criterias.listCr.Count, Criterias.listCr.Count];
+            }
+
+
             double gridWidth = 100;
             double gridHeight = 50;
-            double x = tabMain.ActualWidth -80;
-            double y = tabMain.ActualHeight -100;
+            double x = tabMain.ActualWidth - 80;
+            double y = tabMain.ActualHeight - 100;
             if (x < 2 * (Alternatives.listAl.Count + 1) * gridWidth)
             {
                 gridWidth = x / (Alternatives.listAl.Count + 1) / 2;
                 gridHeight = gridWidth / 2;
             }
-            if(y < (Criterias.listCr.Count + 3) * gridHeight)
+            if (y < (Criterias.listCr.Count + 3) * gridHeight)
             {
-                gridHeight = y/ (Criterias.listCr.Count + 2);
+                gridHeight = y / (Criterias.listCr.Count + 2);
                 gridWidth = 2 * gridHeight;
             }
 
@@ -141,7 +157,7 @@ namespace ahp
 
                 grdRst.RowDefinitions.Add(row);
             }
-            bdrRst.Height = (Criterias.listCr.Count + 2)*gridHeight;
+            bdrRst.Height = (Criterias.listCr.Count + 2) * gridHeight;
 
             for (i = 0; i < 2 * Alternatives.listAl.Count + 2; i++)
             {
@@ -235,7 +251,7 @@ namespace ahp
 
                 // fill function sum
                 TextBlock tblk1 = new TextBlock();
-                tblk1.Text = String.Format("{0:#.00}", sumFunc); 
+                tblk1.Text = String.Format("{0:#.00}", sumFunc);
                 tblk1.Name = "txtFuncSum" + i.ToString();
                 tblk1.VerticalAlignment = VerticalAlignment.Center;
                 tblk1.HorizontalAlignment = HorizontalAlignment.Center;
@@ -318,13 +334,13 @@ namespace ahp
                 inconsistecyIndexes.Add(popup.selectedIndexes[i]);
                 Criterias.Highlight(popup.selectedIndexes[i]);
             }
-                
+
         }
 
         private void BtnPropose_Click(object sender, RoutedEventArgs e)
         {
             WindowPropose wndP = new WindowPropose(Criterias, inconsistencyRow, inconsistencyCol, inconsistecyIndexes);
-            if(true == wndP.ShowDialog())
+            if (true == wndP.ShowDialog())
             {
                 int[,] freedomArry = wndP.freedomArry;
                 var resultList = new List<Criterias>();
@@ -332,10 +348,10 @@ namespace ahp
                 int i, j;
 
                 // store all the location for free changing
-                for(i = 0; i < Criterias.listCr.Count; i++)
-                    for(j = 0; j < Criterias.listCr.Count; j++)
+                for (i = 0; i < Criterias.listCr.Count; i++)
+                    for (j = 0; j < Criterias.listCr.Count; j++)
                     {
-                        if(freedomArry[i, j] != 0)
+                        if (freedomArry[i, j] != 0)
                         {
                             locationList.Add(new StrctFreedomLocation { row = i, col = j, freedom = freedomArry[i, j] });
                         }
@@ -344,52 +360,72 @@ namespace ahp
                 PopulateMtx(locationList, Criterias, ref resultList);
 
                 // Remove duplicate
-                var resultList1 = new List<Criterias>();
-                for (i = 0; i < resultList.Count; i++)
-                {
-                    Criterias c = resultList.ElementAt(i);
-                    if (resultList1.Count != 0)
-                    {
-                        for(j = 0; j < resultList1.Count; j++)
-                        {
-                            if (c.Equals(resultList1.ElementAt(j)))
-                                break;
-                            else
-                                continue;
-                        }
-                        // not found
-                        if(j == resultList1.Count)
-                            resultList1.Add(c);
+                //var resultList1 = new List<Criterias>();
+                //for (i = 0; i < resultList.Count; i++)
+                //{
+                //    Criterias c = resultList.ElementAt(i);
+                //    if (resultList1.Count != 0)
+                //    {
+                //        for(j = 0; j < resultList1.Count; j++)
+                //        {
+                //            if (c.Equals(resultList1.ElementAt(j)))
+                //                break;
+                //            else
+                //                continue;
+                //        }
+                //        // not found
+                //        if(j == resultList1.Count)
+                //            resultList1.Add(c);
 
-                    }
-                    else
-                    {
-                        resultList1.Add(c);
-                    }
-                }
+                //    }
+                //    else
+                //    {
+                //        resultList1.Add(c);
+                //    }
+                //}
 
 
-#if DEBUG
-                Console.WriteLine("resultList.count = " + resultList.Count.ToString());
-                Console.WriteLine("resultList1.count = " + resultList1.Count.ToString());
-#endif
+                //#if DEBUG
+                //                Console.WriteLine("resultList.count = " + resultList.Count.ToString());
+                //                Console.WriteLine("resultList1.count = " + resultList1.Count.ToString());
+                //#endif
                 // order the result to only extract the smallest 10 results.
-                resultList1.Sort((x, y) => x.CR.CompareTo(y.CR));
+                resultList.Sort((x, y) => x.CR.CompareTo(y.CR));
 
-                if (resultList1.Count == 0)
+                if (resultList.Count == 0)
                 {
                     MessageBox.Show("0 combinations found!");
                     return;
                 }
-                    
-                // Show window of CR results
-                WindowCombinations wndC = new WindowCombinations(resultList1, inconsistencyRow, inconsistencyCol, inconsistecyIndexes);
 
-                if(true == wndC.ShowDialog())
+                // Show window of CR results
+                WindowCombinations wndC = new WindowCombinations(resultList, inconsistencyRow, inconsistencyCol, inconsistecyIndexes);
+
+                if (true == wndC.ShowDialog())
                 {
-                    if(wndC.idx != -1)
+                    if (wndC.idx != -1)
                     {
-                        MessageBox.Show("combination selected:" + wndC.idx.ToString());
+                        //MessageBox.Show("combination selected:" + wndC.idx.ToString());
+                        for (i = 0; i < Criterias.listCr.Count; i++)
+                            for (j = i + 1; j < Criterias.listCr.Count; j++)
+                            {
+                                Criterias.mtx[i, j] = resultList[wndC.idx].mtx[i, j];
+                                Criterias.mtx[j, i] = resultList[wndC.idx].mtx[j, i];
+                                if (null != (Criterias.mtxCtrls[i, j] as NumericUpDown))
+                                {
+                                    NumericUpDown myN = Criterias.mtxCtrls[i, j] as NumericUpDown;
+                                    myN.dblValue = resultList[wndC.idx].mtx[i, j];
+
+                                    TextBlock myT = Criterias.mtxCtrls[j, i] as TextBlock;
+                                    myT.Text = myN.strValueR;
+                                }
+                                else
+                                    continue;
+                            }
+
+                        //Criterias.AhpEval();
+                        evalButton_Click(null, null);
+
                     }
                 }
 
@@ -398,7 +434,7 @@ namespace ahp
 
         private void PopulateMtx(List<StrctFreedomLocation> locationList, Criterias Criterias, ref List<Criterias> resultList)
         {
-            if(locationList.Count > 0)
+            if (locationList.Count > 0)
             {
                 var location = locationList.ElementAt(0);
                 //locationList.RemoveAt(0);
@@ -407,10 +443,10 @@ namespace ahp
                 if (location.freedom == 1)
                 {
                     // 1, 2, 3, 4, 5, 6, 7, 8, 9
-                    if(Criterias.mtx[location.row, location.col] >= 1)
+                    if (Criterias.mtx[location.row, location.col] >= 1)
                         range = new double[] { 2, 3, 4, 5, 6, 7, 8, 9 };
                     else
-                        range = new double[] { 1/9, 1/8, 1/7, 1/6, 1/5, 1/4, 1/3, 1/2 };
+                        range = new double[] { 1 / 9, 1 / 8, 1 / 7, 1 / 6, 1 / 5, 1 / 4, 1 / 3, 1 / 2 };
                 }
                 else
                     range = new double[] { 1.0 / 9.0, 1.0 / 8.0, 1.0 / 7.0, 1.0 / 6.0, 1.0 / 5.0, 1.0 / 4.0, 1.0 / 3.0, 1.0 / 2.0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
@@ -424,20 +460,27 @@ namespace ahp
                     var c = new Criterias(Criterias);
                     c.mtx[location.row, location.col] = val;
                     c.mtx[location.col, location.row] = 1 / val;
-                    c.AhpEval();
-                    if (c.CR < 0.1)
-                        resultList.Add(c);
+                    if (ll.Count == 0)
+                    {
+                        c.AhpEval();
+                        if (c.CR < 0.1)
+                            resultList.Add(c);
+
+#if DEBUG
+                        Console.WriteLine("CR = " + c.CR.ToString());
+                        for (int i = 0; i < c.listCr.Count; i++)
+                        {
+                            for (int j = 0; j < c.listCr.Count; j++)
+                                Console.Write(c.mtx[i, j].ToString() + "    ");
+                            Console.Write("\n");
+                        }
+#endif
+
+                    }
+
 
                     PopulateMtx(ll, c, ref resultList);
-#if DEBUG
-                    Console.WriteLine("CR = " + c.CR.ToString());
-                    for (int i = 0; i < c.listCr.Count; i++)
-                    {                        
-                        for (int j = 0; j < c.listCr.Count; j++)
-                            Console.Write(c.mtx[i, j].ToString() + "    ");
-                        Console.Write("\n");
-                    }                        
-#endif
+
                 }
             }
         }
@@ -445,52 +488,46 @@ namespace ahp
         //draw AHP Hierarchy
         private void drawAhpHierarchy()
         {
-            double cvsWidth = this.cvsHrcGraph.ActualWidth;
-            double cvsHeight = this.cvsHrcGraph.ActualHeight;
-
-            //clear the canvas and redraw.
-            this.cvsHrcGraph.Children.Clear();
-
-            // 1/5 fill words
-            TextBlock txt = new TextBlock();
-            txt.Text = "Goal:";
-            Canvas.SetLeft(txt, 5);
-            Canvas.SetTop(txt, cvsHeight / 6);
-            this.cvsHrcGraph.Children.Add(txt);
-
-
-
-            txt = new TextBlock();
-            txt.Text = "Criteria:";
-            Canvas.SetLeft(txt, 5);
-            Canvas.SetTop(txt, cvsHeight / 2);
-            this.cvsHrcGraph.Children.Add(txt);
-
-            txt = new TextBlock();
-            txt.Text = "Alternatives:";
-            Canvas.SetLeft(txt, 5);
-            Canvas.SetTop(txt, cvsHeight * 5 / 6);
-            this.cvsHrcGraph.Children.Add(txt);
-
-            DropShadowEffect dse = new DropShadowEffect();
-            dse.BlurRadius = 4;
-            dse.ShadowDepth = 10;
-            dse.Color = Colors.Silver;
-
             // 4/5 fill graphics
             // goal rectangle
-            Rectangle rec;
-            double recHeight = cvsHeight / 6;
             if (this.txbGoal.Text != "")
             {
-                rec = new Rectangle();
-                rec.Width = cvsWidth * 4 / 5 / 4;
-                rec.Height = recHeight;
-                rec.Fill = Brushes.YellowGreen;
-                rec.Effect = dse;
-                Canvas.SetLeft(rec, cvsWidth / 5 + (cvsWidth * 4 / 5 - rec.Width) / 2);
-                Canvas.SetTop(rec, (cvsHeight / 3 - rec.Height) / 2);
-                this.cvsHrcGraph.Children.Add(rec);
+                double cvsWidth = this.SrvHierary.ActualWidth;
+                double cvsHeight = this.SrvHierary.ActualHeight;
+                double cellWidth = 80;
+                double cellHeight = 40;
+
+                // Left side width.
+                double leftHederWidth = 60;
+
+                //clear the canvas and redraw.
+                this.cvsHrcGraph1.Children.Clear();
+
+                // 1/5 fill words
+                TextBlock txt = new TextBlock();
+                txt.Text = "Goal:";
+                Canvas.SetLeft(txt, 20);
+                Canvas.SetTop(txt, cvsHeight / 4);
+                this.cvsHrcGraph1.Children.Add(txt);
+
+                txt = new TextBlock();
+                txt.Text = "Criteria:";
+                Canvas.SetLeft(txt, 20);
+                Canvas.SetTop(txt, cvsHeight / 2);
+                this.cvsHrcGraph1.Children.Add(txt);
+
+
+                DropShadowEffect dse = new DropShadowEffect();
+                dse.BlurRadius = 4;
+                dse.ShadowDepth = 10;
+                dse.Color = Colors.Silver;
+
+                Border bdr = new Border();
+                bdr.Width = cellWidth;
+                bdr.Height = cellHeight;
+                bdr.CornerRadius = new CornerRadius(2);
+                bdr.BorderThickness = new Thickness(1);
+                bdr.BorderBrush = new SolidColorBrush(Color.FromArgb(0xFF, 0x8C, 0xA6, 0xC9));
 
                 txt = new TextBlock();
                 txt.Text = this.txbGoal.Text;
@@ -498,54 +535,70 @@ namespace ahp
                 txt.HorizontalAlignment = HorizontalAlignment.Center;
                 txt.TextWrapping = TextWrapping.Wrap;
 
-                Grid grd = new Grid();
-                grd.Width = rec.Width - 2;
-                grd.Height = rec.Height - 2;
-                grd.Children.Add(txt);                
+                bdr.Child = txt;
+                Canvas.SetTop(bdr, cvsHeight/4);
+                if(Criterias.listCr.Count > 0)
+                    Canvas.SetLeft(bdr, ((cellWidth * Criterias.listCr.Count * 5/4 + cellWidth/4) - cellWidth)/2 + leftHederWidth);
+                else
+                    Canvas.SetLeft(bdr, (cvsWidth * 4 / 5 - cellWidth) / 2 + leftHederWidth);
+                this.cvsHrcGraph1.Children.Add(bdr);
 
-                Canvas.SetTop(grd, Canvas.GetTop(rec) + 1);
-                Canvas.SetLeft(grd, Canvas.GetLeft(rec) + 1);
-                this.cvsHrcGraph.Children.Add(grd);
-            }
-            
-            if (Criterias.listCr.Count != 0)
-            {
-                double crWidth = cvsWidth * 4 / 5 / Criterias.listCr.Count * 4 / 5;
-                double crHeight = recHeight;
-                for (int i = 0; i < Criterias.listCr.Count; i++)
+                Line myLine = new Line();
+                myLine.Stroke = System.Windows.Media.Brushes.Black;
+                myLine.X1 = cellWidth/ 2 + Canvas.GetLeft(bdr);
+                myLine.Y1 = Canvas.GetTop(bdr) + cellHeight;
+                myLine.X2 = cellWidth / 2 + Canvas.GetLeft(bdr);
+                myLine.Y2 = cvsHeight / 2 - (cvsHeight/4 - cellHeight)/2;
+                myLine.StrokeThickness = 1;
+                this.cvsHrcGraph1.Children.Add(myLine);
+
+
+                if (Criterias.listCr.Count != 0)
                 {
-                    rec = new Rectangle();
-                    rec.HorizontalAlignment = HorizontalAlignment.Center;
-                    rec.VerticalAlignment = VerticalAlignment.Center;
+                    this.cvsHrcGraph1.Width = cellWidth * Criterias.listCr.Count * 5 / 4 + cellWidth / 2 + leftHederWidth;
+                    this.cvsHrcGraph1.MinWidth = cvsWidth;
+                    for (int i = 0; i < Criterias.listCr.Count; i++)
+                    {
+                        bdr = new Border();
+                        bdr.Width = cellWidth;
+                        bdr.Height = cellHeight;
+                        bdr.CornerRadius = new CornerRadius(2);
+                        bdr.BorderThickness = new Thickness(1);
+                        bdr.BorderBrush = new SolidColorBrush(Color.FromArgb(0xFF, 0x8C, 0xA6, 0xC9));
 
-                    rec.Width = crWidth;
-                    rec.Height = crHeight;
-                    if (crHeight > cvsHeight / 3 / 2)
-                        rec.Height = cvsHeight / 3 / 2;
-                    rec.Fill = Brushes.Gold;
-                    rec.Effect = dse;
-                    Canvas.SetLeft(rec, cvsWidth / 5 + cvsWidth * 4 / 5 / Criterias.listCr.Count * i + (cvsWidth * 4 / 5 / Criterias.listCr.Count - crWidth) / 2);
-                    Canvas.SetTop(rec, (cvsHeight / 3 - rec.Height) / 2 + cvsHeight / 3);
-                    this.cvsHrcGraph.Children.Add(rec);
+                        txt = new TextBlock();
+                        txt.Text = Criterias.listCr[i].name + "\n" + Criterias.listCr[i].weight.ToString();
+                        txt.VerticalAlignment = VerticalAlignment.Center;
+                        txt.HorizontalAlignment = HorizontalAlignment.Center;
+                        txt.TextWrapping = TextWrapping.Wrap;
 
-                    txt = new TextBlock();
-                    txt.Text = Criterias.listCr[i].name + "\n" + Criterias.listCr[i].weight.ToString();
-                    txt.VerticalAlignment = VerticalAlignment.Center;
-                    txt.HorizontalAlignment = HorizontalAlignment.Center;
-                    txt.TextWrapping = TextWrapping.Wrap;
+                        bdr.Child = txt;
+                        Canvas.SetTop(bdr, cvsHeight / 2);
+                        Canvas.SetLeft(bdr, i * cellWidth + (i + 1) * cellWidth / 4 + leftHederWidth);
+                        this.cvsHrcGraph1.Children.Add(bdr);
 
-                    Grid grd = new Grid();
-                    grd.Width = rec.Width - 2;
-                    grd.Height = rec.Height - 2;
-                    grd.Children.Add(txt);
+                        myLine = new Line();
+                        myLine.Stroke = System.Windows.Media.Brushes.Black;
+                        myLine.X1 = cellWidth / 2 + Canvas.GetLeft(bdr);
+                        myLine.Y1 = cvsHeight / 2 - (cvsHeight / 4 - cellHeight) / 2;
+                        myLine.X2 = cellWidth / 2 + Canvas.GetLeft(bdr);
+                        myLine.Y2 = Canvas.GetTop(bdr);
+                        myLine.StrokeThickness = 1;
+                        this.cvsHrcGraph1.Children.Add(myLine);
+                    }
 
-                    Canvas.SetTop(grd, Canvas.GetTop(rec) + 1);
-                    Canvas.SetLeft(grd, Canvas.GetLeft(rec) + 1);
-                    this.cvsHrcGraph.Children.Add(grd);
+                    Line myLine1 = new Line();
+                    myLine1.Stroke = System.Windows.Media.Brushes.Black;
+                    myLine1.X1 = leftHederWidth + cellWidth * 3 / 4;
+                    myLine1.Y1 = cvsHeight / 2 - (cvsHeight / 4 - cellHeight) / 2;
+                    myLine1.X2 = leftHederWidth + cellWidth * 5 / 4 * Criterias.listCr.Count - cellWidth / 2;
+                    myLine1.Y2 = cvsHeight / 2 - (cvsHeight / 4 - cellHeight) / 2;
+                    myLine1.StrokeThickness = 1;
+                    this.cvsHrcGraph1.Children.Add(myLine1);
                 }
             }
 
-
+/*
 
             if (Alternatives.listAl.Count != 0)
             {
@@ -562,7 +615,7 @@ namespace ahp
                     rec.Effect = dse;
                     Canvas.SetLeft(rec, cvsWidth / 5 + cvsWidth * 4 / 5 / Alternatives.listAl.Count * i + (cvsWidth * 4 / 5 / Alternatives.listAl.Count - alWidth) / 2);
                     Canvas.SetTop(rec, (cvsHeight / 3 - rec.Height) / 2 + cvsHeight * 2 / 3);
-                    this.cvsHrcGraph.Children.Add(rec);
+                    this.cvsHrcGraph1.Children.Add(rec);
 
                     txt = new TextBlock();
                     txt.Text = Alternatives.listAl[i].name + "\n" + Alternatives.listAl[i].finalScore;
@@ -577,7 +630,147 @@ namespace ahp
 
                     Canvas.SetTop(grd, Canvas.GetTop(rec) + 1);
                     Canvas.SetLeft(grd, Canvas.GetLeft(rec) + 1);
-                    this.cvsHrcGraph.Children.Add(grd);
+                    this.cvsHrcGraph1.Children.Add(grd);
+                }
+                
+            }*/
+        }
+
+        private void drawAhpRst()
+        {
+
+            if (this.txbGoal.Text != "")
+            {
+                double cvsWidth = this.CvsRstGraph.ActualWidth;
+                double cvsHeight = this.CvsRstGraph.ActualHeight;
+
+                //clear the canvas and redraw.
+                this.CvsRstGraph.Children.Clear();
+
+                // 1/5 fill words
+                TextBlock txt = new TextBlock();
+                txt.Text = "Goal:";
+                Canvas.SetLeft(txt, 5);
+                Canvas.SetTop(txt, cvsHeight / 6);
+                this.CvsRstGraph.Children.Add(txt);
+
+
+
+                txt = new TextBlock();
+                txt.Text = "Criteria:";
+                Canvas.SetLeft(txt, 5);
+                Canvas.SetTop(txt, cvsHeight / 2);
+                this.CvsRstGraph.Children.Add(txt);
+
+                txt = new TextBlock();
+                txt.Text = "Alternatives:";
+                Canvas.SetLeft(txt, 5);
+                Canvas.SetTop(txt, cvsHeight * 5 / 6);
+                this.CvsRstGraph.Children.Add(txt);
+
+                DropShadowEffect dse = new DropShadowEffect();
+                dse.BlurRadius = 4;
+                dse.ShadowDepth = 10;
+                dse.Color = Colors.Silver;
+
+                // 4/5 fill graphics
+                // goal rectangle
+                Rectangle rec;
+                double recHeight = cvsHeight / 6;
+
+                rec = new Rectangle();
+                rec.Width = cvsWidth * 4 / 5 / 4;
+                rec.Height = recHeight;
+                rec.Fill = Brushes.YellowGreen;
+                rec.Effect = dse;
+                Canvas.SetLeft(rec, cvsWidth / 5 + (cvsWidth * 4 / 5 - rec.Width) / 2);
+                Canvas.SetTop(rec, (cvsHeight / 3 - rec.Height) / 2);
+                this.CvsRstGraph.Children.Add(rec);
+
+                txt = new TextBlock();
+                txt.Text = this.txbGoal.Text;
+                txt.VerticalAlignment = VerticalAlignment.Center;
+                txt.HorizontalAlignment = HorizontalAlignment.Center;
+                txt.TextWrapping = TextWrapping.Wrap;
+
+                Grid grd = new Grid();
+                grd.Width = rec.Width - 2;
+                grd.Height = rec.Height - 2;
+                grd.Children.Add(txt);
+
+                Canvas.SetTop(grd, Canvas.GetTop(rec) + 1);
+                Canvas.SetLeft(grd, Canvas.GetLeft(rec) + 1);
+                this.CvsRstGraph.Children.Add(grd);
+
+                if (Criterias.listCr.Count != 0)
+                {
+                    double crWidth = cvsWidth * 4 / 5 / Criterias.listCr.Count * 4 / 5;
+                    double crHeight = recHeight;
+                    for (int i = 0; i < Criterias.listCr.Count; i++)
+                    {
+                        rec = new Rectangle();
+                        rec.HorizontalAlignment = HorizontalAlignment.Center;
+                        rec.VerticalAlignment = VerticalAlignment.Center;
+
+                        rec.Width = crWidth;
+                        rec.Height = crHeight;
+                        if (crHeight > cvsHeight / 3 / 2)
+                            rec.Height = cvsHeight / 3 / 2;
+                        rec.Fill = Brushes.Gold;
+                        rec.Effect = dse;
+                        Canvas.SetLeft(rec, cvsWidth / 5 + cvsWidth * 4 / 5 / Criterias.listCr.Count * i + (cvsWidth * 4 / 5 / Criterias.listCr.Count - crWidth) / 2);
+                        Canvas.SetTop(rec, (cvsHeight / 3 - rec.Height) / 2 + cvsHeight / 3);
+                        this.CvsRstGraph.Children.Add(rec);
+
+                        txt = new TextBlock();
+                        txt.Text = Criterias.listCr[i].name + "\n" + Criterias.listCr[i].weight.ToString();
+                        txt.VerticalAlignment = VerticalAlignment.Center;
+                        txt.HorizontalAlignment = HorizontalAlignment.Center;
+                        txt.TextWrapping = TextWrapping.Wrap;
+
+                        grd = new Grid();
+                        grd.Width = rec.Width - 2;
+                        grd.Height = rec.Height - 2;
+                        grd.Children.Add(txt);
+
+                        Canvas.SetTop(grd, Canvas.GetTop(rec) + 1);
+                        Canvas.SetLeft(grd, Canvas.GetLeft(rec) + 1);
+                        this.CvsRstGraph.Children.Add(grd);
+                    }
+                }
+
+                if (Alternatives.listAl.Count != 0)
+                {
+                    double alWidth = cvsWidth * 4 / 5 / Alternatives.listAl.Count * 4 / 5;
+                    double alHeight = recHeight;
+                    for (int i = 0; i < Alternatives.listAl.Count; i++)
+                    {
+                        rec = new Rectangle();
+                        rec.HorizontalAlignment = HorizontalAlignment.Center;
+                        rec.VerticalAlignment = VerticalAlignment.Center;
+                        rec.Width = alWidth;
+                        rec.Height = alHeight;
+                        rec.Fill = Brushes.Pink;
+                        rec.Effect = dse;
+                        Canvas.SetLeft(rec, cvsWidth / 5 + cvsWidth * 4 / 5 / Alternatives.listAl.Count * i + (cvsWidth * 4 / 5 / Alternatives.listAl.Count - alWidth) / 2);
+                        Canvas.SetTop(rec, (cvsHeight / 3 - rec.Height) / 2 + cvsHeight * 2 / 3);
+                        this.CvsRstGraph.Children.Add(rec);
+
+                        txt = new TextBlock();
+                        txt.Text = Alternatives.listAl[i].name + "\n" + Alternatives.listAl[i].finalScore;
+                        txt.VerticalAlignment = VerticalAlignment.Center;
+                        txt.HorizontalAlignment = HorizontalAlignment.Center;
+                        txt.TextWrapping = TextWrapping.Wrap;
+
+                        grd = new Grid();
+                        grd.Width = rec.Width - 2;
+                        grd.Height = rec.Height - 2;
+                        grd.Children.Add(txt);
+
+                        Canvas.SetTop(grd, Canvas.GetTop(rec) + 1);
+                        Canvas.SetLeft(grd, Canvas.GetLeft(rec) + 1);
+                        this.CvsRstGraph.Children.Add(grd);
+                    }
                 }
             }
         }
@@ -588,9 +781,15 @@ namespace ahp
 
         }
 
-        private void txbGoal_TextChanged(object sender, TextChangedEventArgs e)
+        private void cvsHrcGraph1_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             //drawAhpHierarchy();
+
+        }
+
+        private void txbGoal_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            drawAhpHierarchy();
         }
 
         private void saveBtn_Click(object sender, RoutedEventArgs e)
@@ -601,8 +800,13 @@ namespace ahp
             dlg.FileName = "Project1";
             dlg.DefaultExt = ".ahp";
             dlg.Filter = "AHP project (.ahp)|*.ahp";
-            if (filePath == null && dlg.ShowDialog() == true)
-                filePath = dlg.FileName;
+            if (filePath == null)
+            {
+                if (dlg.ShowDialog() == true)
+                    filePath = dlg.FileName;
+                else
+                    return;
+            }
             //create .ahp file and save
             CreatXml(filePath);
             MessageBox.Show("saved!");
@@ -611,7 +815,7 @@ namespace ahp
         private void newbtn_Click(object sender, RoutedEventArgs e)
         {
             // save current unsaved project
-            if ((filePath == null && (Criterias.listCr.Count != 0 || Alternatives.listAl.Count != 0)) || 
+            if ((filePath == null && (Criterias.listCr.Count != 0 || Alternatives.listAl.Count != 0)) ||
                 (filePath != null && true == IsPrjChanged(filePath)))
             {
                 MessageBoxResult rlt = MessageBox.Show("the current project is not saved, do you want to save it now?", "warning", MessageBoxButton.YesNoCancel);
@@ -646,13 +850,13 @@ namespace ahp
             usrCtrlCr.Clear();
 
             // criteria VS goal comparison mtx
-            
+
 
             // alternative vs criteria comparison mtx
-            
+
 
             // draw AHP Hierarchy Graphics
-            //drawAhpHierarchy();
+            drawAhpHierarchy();
 
         }
 
@@ -668,7 +872,7 @@ namespace ahp
                 {
                     saveBtn_Click(sender, e);
                 }
-                else if(MessageBoxResult.Cancel == rlt)
+                else if (MessageBoxResult.Cancel == rlt)
                 {
                     return;
                 }
@@ -699,86 +903,6 @@ namespace ahp
         private void buildAllBtn_Click(object sender, RoutedEventArgs e)
         {
 
-        }
-
-        private static string CreateTmpFile()
-        {
-            string fileName = string.Empty;
-
-            try
-            {
-                // Get the full name of the newly created Temporary file. 
-                // Note that the GetTempFileName() method actually creates
-                // a 0-byte file and returns the name of the created file.
-                fileName = System.IO.Path.GetTempFileName();
-
-                // Craete a FileInfo object to set the file's attributes
-                FileInfo fileInfo = new FileInfo(fileName);
-
-                // Set the Attribute property of this file to Temporary. 
-                // Although this is not completely necessary, the .NET Framework is able 
-                // to optimize the use of Temporary files by keeping them cached in memory.
-                fileInfo.Attributes = FileAttributes.Temporary;
-                //CreatXmlTree(fileName);
-
-                Console.WriteLine("TEMP file created at: " + fileName);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Unable to create TEMP file or set its attributes: " + ex.Message);
-            }
-
-            return fileName;
-        }
-
-        private static void UpdateTmpFile(string tmpFile)
-        {
-            try
-            {
-                // Write to the temp file.
-                StreamWriter streamWriter = File.AppendText(tmpFile);
-                streamWriter.WriteLine("Hello from www.daveoncsharp.com!");
-                streamWriter.Flush();
-                streamWriter.Close();
-
-                Console.WriteLine("TEMP file updated.");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error writing to TEMP file: " + ex.Message);
-            }
-        }
-
-        private static void ReadTmpFile(string tmpFile)
-        {
-            try
-            {
-                // Read from the temp file.
-                StreamReader myReader = File.OpenText(tmpFile);
-                Console.WriteLine("TEMP file contents: " + myReader.ReadToEnd());
-                myReader.Close();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error reading TEMP file: " + ex.Message);
-            }
-        }
-
-        private static void DeleteTmpFile(string tmpFile)
-        {
-            try
-            {
-                // Delete the temp file (if it exists)
-                if (File.Exists(tmpFile))
-                {
-                    File.Delete(tmpFile);
-                    Console.WriteLine("TEMP file deleted.");
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error deleteing TEMP file: " + ex.Message);
-            }
         }
 
         public void CreatXml(string xmlPath)
@@ -839,8 +963,8 @@ namespace ahp
             XmlElement cvgs = doc.CreateElement("CriteriaVsGoalMatrix");
             root.AppendChild(cvgs);
 
-            for(int i = 0; i < Criterias.listCr.Count; i++)
-                for(int j = 0; j < Criterias.listCr.Count; j++)
+            for (int i = 0; i < Criterias.listCr.Count; i++)
+                for (int j = 0; j < Criterias.listCr.Count; j++)
                 {
                     element = doc.CreateElement("CVGItem");
                     element.InnerText = Criterias.mtx[i, j].ToString();
@@ -860,7 +984,7 @@ namespace ahp
                 for (int j = 0; j < Alternatives.listAl.Count; j++)
                 {
                     element = doc.CreateElement("AVCItem");
-                    element.InnerText =Alternatives.mtxAC[i, j].ToString();
+                    element.InnerText = Alternatives.mtxAC[i, j].ToString();
 
                     XmlAttribute attr = doc.CreateAttribute("index");
                     attr.Value = i.ToString() + j.ToString();
@@ -892,9 +1016,9 @@ namespace ahp
             usrCtrlAlt.Clear();
 
             XmlNode alternatives = doc.SelectSingleNode("descendant::Alternatives");
-            if(alternatives.HasChildNodes)
+            if (alternatives.HasChildNodes)
             {
-                for(i = 0; i < alternatives.ChildNodes.Count; i++)
+                for (i = 0; i < alternatives.ChildNodes.Count; i++)
                 {
                     StrctAlternative a = new StrctAlternative();
                     a.name = alternatives.ChildNodes[i].InnerText;
@@ -920,7 +1044,7 @@ namespace ahp
                 {
                     StrctCriteria c = new StrctCriteria();
                     c.name = criterias.ChildNodes[i].InnerText;
-                    c.weight =Convert.ToDouble(criterias.ChildNodes[i].Attributes["weight"].Value);
+                    c.weight = Convert.ToDouble(criterias.ChildNodes[i].Attributes["weight"].Value);
                     Criterias.Add(c);
 
                     usrCtrlCr.AddItem(c.name);
@@ -930,10 +1054,10 @@ namespace ahp
             // criteria VS goal comparison mtx
             XmlNode cvgs = doc.SelectSingleNode("descendant::CriteriaVsGoalMatrix");
             Criterias.mtx = new double[criterias.ChildNodes.Count, criterias.ChildNodes.Count];
-            for(i = 0; i < criterias.ChildNodes.Count; i++)
-                for(j = 0; j < criterias.ChildNodes.Count; j++)
+            for (i = 0; i < criterias.ChildNodes.Count; i++)
+                for (j = 0; j < criterias.ChildNodes.Count; j++)
                 {
-                    Criterias.mtx[i, j] = Convert.ToDouble(cvgs.ChildNodes[i*criterias.ChildNodes.Count + j].InnerText);
+                    Criterias.mtx[i, j] = Convert.ToDouble(cvgs.ChildNodes[i * criterias.ChildNodes.Count + j].InnerText);
                 }
 
             // alternative vs criteria comparison mtx
@@ -946,9 +1070,9 @@ namespace ahp
                 }
 
             // draw AHP Hierarchy Graphics
-            //drawAhpHierarchy();
+            drawAhpHierarchy();
 
-            isOpeningPrj = false ;
+            isOpeningPrj = false;
         }
 
         private bool IsPrjChanged(string xmlPath)
@@ -987,32 +1111,32 @@ namespace ahp
                 for (i = 0; i < criterias.ChildNodes.Count; i++)
                 {
                     StrctCriteria c = Criterias.listCr.ElementAt(i);
-                    if(c.name != criterias.ChildNodes[i].InnerText)
+                    if (c.name != criterias.ChildNodes[i].InnerText)
                         return true;
-                    if(String.Format("{0:#.00}", c.weight) != String.Format("{0:#.00}", Convert.ToDouble(criterias.ChildNodes[i].Attributes["weight"].Value)))
+                    if (String.Format("{0:#.00}", c.weight) != String.Format("{0:#.00}", Convert.ToDouble(criterias.ChildNodes[i].Attributes["weight"].Value)))
                         return true;
                 }
             }
 
             // criteria VS goal comparison mtx
             XmlNode cvgs = doc.SelectSingleNode("descendant::CriteriaVsGoalMatrix");
-            if (Criterias.mtx.Length != criterias.ChildNodes.Count * criterias.ChildNodes.Count)
+            if (Criterias.mtx != null && Criterias.mtx.Length != criterias.ChildNodes.Count * criterias.ChildNodes.Count)
                 return true;
             for (i = 0; i < criterias.ChildNodes.Count; i++)
                 for (j = 0; j < criterias.ChildNodes.Count; j++)
                 {
-                    if(Criterias.mtx[i, j] != Convert.ToDouble(cvgs.ChildNodes[i * criterias.ChildNodes.Count + j].InnerText))
+                    if (Criterias.mtx[i, j] != Convert.ToDouble(cvgs.ChildNodes[i * criterias.ChildNodes.Count + j].InnerText))
                         return true;
                 }
 
             // alternative vs criteria comparison mtx
             XmlNode avgs = doc.SelectSingleNode("descendant::AlternativeVsGoalMatrix");
-            if (Alternatives.mtxAC.Length != criterias.ChildNodes.Count * alternatives.ChildNodes.Count)
+            if (Alternatives.mtxAC != null && Alternatives.mtxAC.Length != criterias.ChildNodes.Count * alternatives.ChildNodes.Count)
                 return true;
             for (i = 0; i < criterias.ChildNodes.Count; i++)
                 for (j = 0; j < alternatives.ChildNodes.Count; j++)
                 {
-                    if(Alternatives.mtxAC[i, j] != Convert.ToInt32(avgs.ChildNodes[i * alternatives.ChildNodes.Count + j].InnerText))
+                    if (Alternatives.mtxAC[i, j] != Convert.ToInt32(avgs.ChildNodes[i * alternatives.ChildNodes.Count + j].InnerText))
                         return true;
                 }
 
@@ -1040,13 +1164,13 @@ namespace ahp
             c.weight = 1.0;
             Criterias.Add(c);
 
-            //drawAhpHierarchy();
+            drawAhpHierarchy();
         }
 
         private void onListItemDeletedEventCr(object sender, ListItemChangedEventArgs e)
         {
             Criterias.Delete(e.Idx);
-            //drawAhpHierarchy();
+            drawAhpHierarchy();
         }
 
         private void onListItemUpdatedEventCr(object sender, ListItemChangedEventArgs e)
@@ -1056,7 +1180,7 @@ namespace ahp
             c.weight = Criterias.listCr[e.Idx].weight;
 
             Criterias.update(e.Idx, c);
-            //drawAhpHierarchy();
+            drawAhpHierarchy();
         }
 
         private void onListItemAddedEventAl(object sender, ListItemChangedEventArgs e)
@@ -1077,26 +1201,30 @@ namespace ahp
 
         private void onListItemUpdatedEventAl(object sender, ListItemChangedEventArgs e)
         {
-            StrctAlternative a = new StrctAlternative();
-            a.name = e.NewName;
-            a.cost1 = Alternatives.listAl[e.Idx].cost1;
-            a.cost2 = Alternatives.listAl[e.Idx].cost2;
+            if (e.Idx < Alternatives.listAl.Count)
+            {
+                StrctAlternative a = new StrctAlternative();
+                a.name = e.NewName;
+                a.cost1 = Alternatives.listAl[e.Idx].cost1;
+                a.cost2 = Alternatives.listAl[e.Idx].cost2;
 
-            Alternatives.update(e.Idx, a);
+                Alternatives.update(e.Idx, a);
+            }
+
             //drawAhpHierarchy();
         }
 
         private void onSelectionChangedEvent(object sender, EventArgs e)
         {
-            if(isOpeningPrj ==  false)
+            if (isOpeningPrj == false)
             {
                 int idx = usrCtrlAlt.selectedIdx;
-                if(idx >= 0)
+                if (idx >= 0)
                 {
 
-            txbNameAl.Text = Alternatives.listAl[idx].name;
-            txbCostAl.Text = Alternatives.listAl[idx].cost1.ToString();
-            txbCostRAl.Text = Alternatives.listAl[idx].cost2.ToString();
+                    txbNameAl.Text = Alternatives.listAl[idx].name;
+                    txbCostAl.Text = Alternatives.listAl[idx].cost1.ToString();
+                    txbCostRAl.Text = Alternatives.listAl[idx].cost2.ToString();
                 }
 
 
@@ -1105,9 +1233,9 @@ namespace ahp
         }
 
         private void txbNameAl_TextChanged(object sender, TextChangedEventArgs e)
-        {            
+        {
             int idx = usrCtrlAlt.selectedIdx;
-            if(-1 != idx)
+            if (-1 != idx)
             {
                 StrctAlternative a = new StrctAlternative();
                 a = Alternatives.listAl[idx];
@@ -1142,13 +1270,13 @@ namespace ahp
 
                 Alternatives.update(idx, a);
             }
-                
+
         }
 
         private void txbCostRAl_TextChanged(object sender, TextChangedEventArgs e)
         {
             int idx = usrCtrlAlt.selectedIdx;
-            if(-1 != idx)
+            if (-1 != idx)
             {
                 StrctAlternative a = new StrctAlternative();
                 a = Alternatives.listAl[idx];
@@ -1166,6 +1294,27 @@ namespace ahp
 
                 Alternatives.update(idx, a);
             }
+
+        }
+
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+
+        }
+
+        private void Saveas_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+            dlg.FileName = "Project1";
+            dlg.DefaultExt = ".ahp";
+            dlg.Filter = "AHP project (.ahp)|*.ahp";
+            if (dlg.ShowDialog() == true)
+                filePath = dlg.FileName;
+
+            //create .ahp file and save
+            CreatXml(filePath);
+            MessageBox.Show("saved!");
 
         }
     }

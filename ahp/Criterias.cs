@@ -263,6 +263,7 @@ namespace ahp
             CI = (average - n) / (n - 1);
             CR = CI / RI[n];
 
+            CR = Math.Round(CR, 3);
             for(int i = 0; i < listCr.Count; i++)
             {
                 listCr[i] = new StrctCriteria(listCr[i].name, w[i]);

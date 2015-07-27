@@ -1,0 +1,12 @@
+C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\MyNumericUpDownControll\bin\Release\MyNumericUpDownControll.dll
+C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\MyNumericUpDownControll\bin\Release\MyNumericUpDownControll.pdb
+C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\MyNumericUpDownControll\obj\Release\MyNumericUpDownControll.csprojResolveAssemblyReference.cache
+C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\MyNumericUpDownControll\obj\Release\UserControl1.g.cs
+C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\MyNumericUpDownControll\obj\Release\MyNumericUpDownControll_MarkupCompile.cache
+C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\MyNumericUpDownControll\obj\Release\MyNumericUpDownControll_MarkupCompile.lref
+C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\MyNumericUpDownControll\obj\Release\UserControl1.baml
+C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\MyNumericUpDownControll\obj\Release\MyNumericUpDownControll.g.resources
+C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\MyNumericUpDownControll\obj\Release\MyNumericUpDownControll.Properties.Resources.resources
+C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\MyNumericUpDownControll\obj\Release\MyNumericUpDownControll.csproj.GenerateResource.Cache
+C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\MyNumericUpDownControll\obj\Release\MyNumericUpDownControll.dll
+C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\MyNumericUpDownControll\obj\Release\MyNumericUpDownControll.pdb

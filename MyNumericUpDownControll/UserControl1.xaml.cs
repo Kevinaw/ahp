@@ -50,7 +50,16 @@ namespace MyNumericUpDownControll
         {
             get { return dblvalue; }
             set {
-                Idx = Array.FindIndex(dblValues, z => z == value);
+                int i = 0;
+                double diff = 0.001;
+                for(i = 0; i < dblValues.Length; i++)
+                {
+                    if (Math.Abs(value - dblValues[i]) < diff)
+                        break;
+                    else
+                        continue;
+                }
+                Idx = i;
             }
         }
 

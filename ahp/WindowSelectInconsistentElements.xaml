@@ -5,19 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ahp"
         mc:Ignorable="d"
-        Title="Identify Potential Inconsistent Elements by the Bias Identifying Vector" Height="300" Width="300" WindowStartupLocation="CenterScreen">
-    <Border CornerRadius="10" Margin="20" BorderThickness="1" BorderBrush="#FF8CA6C9">
-    <Grid Margin="20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        
-        <GroupBox Header="Select inconsistent potentials" Margin="0,0,0,10">
+        Title="Identify Potential Inconsistent Elements by the Bias Identifying Vector" Height="300" Width="300" WindowStartupLocation="CenterScreen" >
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+        <GroupBox Header="Select inconsistent potentials" Margin="0,0,0,10" Background="#FFE9F0F7">
                 <Grid Name="GrdOptions"></Grid>
             </GroupBox>
-        <Button Content="OK" Name="BtnOK" Click="BtnOK_Click" Grid.Row="1" HorizontalAlignment="Right" Padding="10,5"/>
+            <Button Content="OK" Name="BtnOK" Click="BtnOK_Click" Grid.Row="1" HorizontalAlignment="Right" Padding="10,5"/>
 
         </Grid>
-    </Border>
 </Window>

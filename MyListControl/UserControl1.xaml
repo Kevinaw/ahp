@@ -16,7 +16,7 @@
                 <ImageBrush ImageSource="./Resources/add.png"/>
             </Button.Background>
         </Button>
-        <ListBox Name="contentLbx" Grid.Row="1" Margin="3" SelectionChanged="contentLbx_SelectionChanged" Padding="10">
+        <ListBox Name="contentLbx" Grid.Row="1" Margin="3" SelectionChanged="contentLbx_SelectionChanged" Padding="10" Background="White">
         </ListBox>
     </Grid>
 </UserControl>

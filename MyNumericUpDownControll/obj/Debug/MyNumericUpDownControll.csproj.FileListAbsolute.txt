@@ -32,4 +32,3 @@ C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\MyNumericUpDownControll\obj\Debug
 C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\MyNumericUpDownControll\obj\Debug\MyNumericUpDownControll.csproj.GenerateResource.Cache
 C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\MyNumericUpDownControll\obj\Debug\MyNumericUpDownControll.dll
 C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\MyNumericUpDownControll\obj\Debug\MyNumericUpDownControll.pdb
-C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\MyNumericUpDownControll\obj\Debug\MyNumericUpDownControll.csprojResolveAssemblyReference.cache

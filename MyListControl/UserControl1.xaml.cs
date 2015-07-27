@@ -66,7 +66,7 @@ namespace MyListControl
                 if (txb == null)
                     return;
 
-                if (txb.Text.Trim() == null)
+                if (txb.Text.Trim() == string.Empty)
                     return;
 
                 //listAlt.Remove(txt.Text);
@@ -163,6 +163,7 @@ namespace MyListControl
                 txb = grd.Children[1] as TextBlock;
             txb.Text = name;
 
+            listContent[idx] = name;
         }
 
         private void deleteBtn_OnClick(object sender, RoutedEventArgs e)
@@ -351,8 +352,8 @@ namespace MyListControl
                 Grid newGrid = new Grid();
                 ColumnDefinition col1 = new ColumnDefinition();
                 ColumnDefinition col2 = new ColumnDefinition();
-                col1.Width = new GridLength(contentLbx.ActualWidth * 5 / 8);
-                col1.Width = new GridLength(contentLbx.ActualWidth * 3 / 8);
+                col1.Width = new GridLength(200 * 5 / 8);
+                col1.Width = new GridLength(200 * 3 / 8);
                 newGrid.ColumnDefinitions.Add(col1);
                 newGrid.ColumnDefinitions.Add(col2);
 

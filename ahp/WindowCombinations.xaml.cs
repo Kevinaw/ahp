@@ -65,6 +65,7 @@ namespace ahp
                 GrdContent.Children.Add(rb);
                 Grid.SetRow(rb, 2 * k);
                 rb.Click += Rb_Click;
+                rb.Margin = new Thickness(10, 10, 0, 0);
 
                 Grid grd = new Grid();
                 grd.ShowGridLines = true;
@@ -121,6 +122,7 @@ namespace ahp
 
                             txt = new TextBlock();
                             txt.Text = string.Format("{0:#.00}", c.mtx[i - 1, j - 1]);
+                            txt.Text = dbl2str(c.mtx[i - 1, j - 1]);
                             grd.Children.Add(txt);
                             Grid.SetRow(txt, i);
                             Grid.SetColumn(txt, j);
@@ -138,7 +140,7 @@ namespace ahp
                             }
 
                             txt = new TextBlock();
-                            txt.Text = string.Format("{0:#.00}", c.mtx[j - 1, i - 1]);
+                            txt.Text = dbl2str(c.mtx[j - 1, i - 1]);
                             grd.Children.Add(txt);
                             Grid.SetRow(txt, j);
                             Grid.SetColumn(txt, i);
@@ -154,6 +156,8 @@ namespace ahp
                 bdr.BorderBrush = new SolidColorBrush(Color.FromArgb(0xFF, 0x8C, 0xA6, 0xC9));
                 bdr.CornerRadius = new CornerRadius(5);
                 bdr.Child = grd;
+                bdr.Width = (c.listCr.Count + 1) * cellWidth;
+                this.Width = bdr.Width + 100;
 
                 GrdContent.Children.Add(bdr);
                 Grid.SetRow(bdr, 2 * k + 1);
@@ -179,6 +183,24 @@ namespace ahp
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private string dbl2str(double dbl)
+        {
+            string[] strValues = { "1/9", "1/8", "1/7", "1/6", "1/5", "1/4", "1/3", "1/2", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+            double[] dblValues = { 0.1111111, 0.125, 0.1428571, 0.1666666, 0.2, 0.25, 0.3333333, 0.5, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            double difference = 0.001;
+            int i = 0;
+            for(i = 0; i < dblValues.Length; i++)
+            {
+                // Equal.
+                if (Math.Abs(dblValues[i] - dbl) < difference)
+                    break;
+                else
+                    continue;
+            }
+
+            return strValues[i];
         }
 
     }

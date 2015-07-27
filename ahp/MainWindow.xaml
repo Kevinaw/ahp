@@ -5,118 +5,137 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ahp"
       xmlns:MyListControl="clr-namespace:MyListControl;assembly=MyListControl" xmlns:MyNumericUpDownControll="clr-namespace:MyNumericUpDownControll;assembly=MyNumericUpDownControll" x:Class="ahp.MainWindow"
-      mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="300"
-      Title="MainWindow" MouseDown="Window_MouseDown" Loaded="Window_Loaded">
+      mc:Ignorable="d"
+      Title="MainWindow" MouseDown="Window_MouseDown" Loaded="Window_Loaded" Width="1024" Height="768
+    ">
 
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="0"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <Menu>
-            <MenuItem Header="_File">
+            <MenuItem Header="_Project">
                 <MenuItem Header="_New..." Click="newbtn_Click"/>
                 <Separator />
                 <MenuItem Header="_Open..." Click="openBtn_Click"/>
                 <Separator />
-                <MenuItem Header="_Save" Click="openBtn_Click"/>
-                <MenuItem Header="_Save As..." />
+                <MenuItem Header="_Save" Click="saveBtn_Click"/>
+                <MenuItem Header="_Save As..."  Click="Saveas_Click"/>
                 <Separator />
-                <MenuItem Header="_Exit" />
+                <MenuItem Header="_Exit" Click="Exit_Click" />
             </MenuItem>
         </Menu>
-        <!--ToolBar Band="1" BandIndex="1">
-            <Button x:Name="newbtn" Click="newbtn_Click">
-                <Image Width="40" Height="40" Source="Resources\new.png" />
-            </Button>
-            <Button x:Name="saveBtn" Click="saveBtn_Click">
-                <Image Width="40" Height="40" Source="Resources\save.png"/>
-            </Button>
-            <Button x:Name="openBtn" Click="openBtn_Click">
-                <Image Width="40" Height="40" Source="Resources\open.png" />
+        <ToolBar Grid.Row="1" Band="1" BandIndex="1">
+            <Button x:Name="newbtn" Click="newbtn_Click" ToolTip="New">
+                <Image Width="32" Height="32" Source="Resources\new.png"  />
             </Button>
             <Separator/>
-            <Button x:Name="buildAllBtn" Click="buildAllBtn_Click">
-                <Image Width="40" Height="40" Source="Resources\eval.png" />
+            <Button x:Name="openBtn" Click="openBtn_Click" ToolTip="Open" >
+                <Image Width="32" Height="32" Source="Resources\open.png" />
             </Button>
-            </ToolBar>
-            -->
+            <Separator/>
+            <Button x:Name="saveBtn" Click="saveBtn_Click" ToolTip="Save">
+                <Image Width="32" Height="32" Source="Resources\save1.png"/>
+            </Button>
+            <Button x:Name="saveasBtn" Click="Saveas_Click" ToolTip="Save as">
+                <Image Width="32" Height="32" Source="Resources\saveas1.png" />
+            </Button>
+            <Separator/>
+            <Button x:Name="exitBtn" Click="Exit_Click" ToolTip="Exit">
+                <Image Width="32" Height="32" Source="Resources\exit.png" />
+            </Button>
+            <Separator/>
+        </ToolBar>
 
         <!-- Decision Hierarchy Graphic View -->
-        <GroupBox Grid.Row="1" Header="Graphic View" Grid.Column="1" x:Name="grpGraph">
+        <GroupBox Grid.Row="2" Header="Graphic View" Grid.Column="1" x:Name="grpGraph">
             <Canvas x:Name="cvsHrcGraph" SizeChanged="cvsHrcGraph_SizeChanged"/>
         </GroupBox>
 
-        <TabControl x:Name="tabMain" Grid.Row="2" TabStripPlacement="Top" SelectionChanged="tabMain_SelectionChanged">
+        <TabControl x:Name="tabMain" Grid.Row="3" TabStripPlacement="Top" SelectionChanged="tabMain_SelectionChanged" Margin="0" Background="#FFE9F0F7">
 
             <!-- Goal and Criterias-->
             <TabItem x:Name="tabCriterias" Header="Goal &amp; Criterias">
-                <Border BorderBrush="#FF8CA6C9" BorderThickness="1" Margin="20" CornerRadius="10" Background="#FFE9F0F7">
-                    <Grid Name="grdCr" Focusable="True"  >
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <Grid Grid.Row="0" Margin="20,20,20,10">
-                            <Label Content="Goal:" />
-                            <TextBox x:Name="txbGoal" TextChanged="txbGoal_TextChanged" Margin="80,0,0,0" Width="220" HorizontalAlignment="Left"/>
+                <Grid Margin="20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Border BorderBrush="#FF8CA6C9" BorderThickness="1" Margin="0,0,20,0" CornerRadius="10">
+                        <Grid Name="grdCr" Focusable="True"  >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0" Margin="20,20,20,10">
+                                <Label Content="Goal:" />
+                                <TextBox x:Name="txbGoal" TextChanged="txbGoal_TextChanged" Margin="80,0,0,0" Width="220" HorizontalAlignment="Left"/>
+                            </Grid>
+                            <Grid Grid.Row="1" Margin="20,0,20,20">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="Criterias:"/>
+                                <UserControl x:Name="userControlCr" Margin="80,0,0,0" Width="220" >
+                                    <MyListControl:UserControl1  x:Name="usrCtrlCr" Width="auto" Height="Auto"/>
+                                </UserControl>
+                            </Grid>
                         </Grid>
-                        <Grid Grid.Row="1" Margin="20,0,20,20">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <Label Content="Criterias:"/>
-                            <UserControl x:Name="userControlCr" Margin="80,0,0,0" Width="220">
-                                <MyListControl:UserControl1  x:Name="usrCtrlCr" Width="auto" Height="Auto"/>
-                            </UserControl>
-                        </Grid>
-                    </Grid>
-                </Border>
+                    </Border>
+                    <Border BorderBrush="#FF8CA6C9" BorderThickness="1" Margin="0" CornerRadius="10" Grid.Column="1" Background="White">
+                        <ScrollViewer Name="SrvHierary" HorizontalScrollBarVisibility="Visible">
+                            <Canvas x:Name="cvsHrcGraph1" SizeChanged="cvsHrcGraph1_SizeChanged"/>
+                        </ScrollViewer>
+                    </Border>
+                </Grid>
+
             </TabItem>
 
             <!-- Alternatives -->
             <TabItem x:Name="tabAlternatives" Header="Alternatives">
-                <Border BorderBrush="#FF8CA6C9" BorderThickness="1" Margin="20" CornerRadius="10" Background="#FFE9F0F7">
-                    <Grid Margin="20">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid Grid.Column="0" x:Name="grdAl" Focusable="True" Width="200">
+                <Grid Margin="20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Border BorderBrush="#FF8CA6C9" BorderThickness="1" CornerRadius="10">
+                        <Grid Grid.Column="0" x:Name="grdAl" Focusable="True" Width="200" Margin="20">
                             <UserControl x:Name="userControlAlternatives">
                                 <MyListControl:UserControl1  x:Name="usrCtrlAlt"/>
                             </UserControl>
                         </Grid>
-                        <GroupBox Grid.Column="1"  Margin="20,23,0,0" Padding="20" Background="#FFE9F0F7" Header="Properties">
-                            <Grid Grid.Column="1">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Label Content="Name:"/>
-                                <TextBox Name="txbNameAl" Grid.Column="1" TextChanged="txbNameAl_TextChanged" Margin="0,0,0,10" Width="200" HorizontalAlignment="Left"/>
-                                <Label Grid.Row="1" Content="Cost:"/>
-                                <TextBox Name="txbCostAl" Grid.Row="1" Grid.Column="1" Margin="0,0,0,10" TextChanged="txbCostAl_TextChanged" Width="200" HorizontalAlignment="Left"/>
-                                <Label Grid.Row="2" Content="Cost(Risk):"/>
-                                <TextBox Name="txbCostRAl" Grid.Row="2" Grid.Column="1" AcceptsReturn="True" TextChanged="txbCostRAl_TextChanged" Width="200" HorizontalAlignment="Left"/>
-                            </Grid>
-                        </GroupBox>
-                    </Grid>
-                </Border>
+                    </Border>
+                    <GroupBox Grid.Column="1"  Margin="20,-8,0,0" Padding="20,40,20,20" Background="#FFE9F0F7" Header="Properties">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Label Content="Name:"/>
+                            <TextBox Name="txbNameAl" Grid.Column="1" TextChanged="txbNameAl_TextChanged" Margin="0,0,0,10" Width="200" HorizontalAlignment="Left"/>
+                            <Label Grid.Row="1" Content="Cost:"/>
+                            <TextBox Name="txbCostAl" Grid.Row="1" Grid.Column="1" Margin="0,0,0,10" TextChanged="txbCostAl_TextChanged" Width="200" HorizontalAlignment="Left"/>
+                            <Label Grid.Row="2" Content="Cost(Risk):"/>
+                            <TextBox Name="txbCostRAl" Grid.Row="2" Grid.Column="1" AcceptsReturn="True" TextChanged="txbCostRAl_TextChanged" Width="200" HorizontalAlignment="Left"/>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+
             </TabItem>
 
             <!-- Criterias Pairwise Comparison -->
             <TabItem Header="Criterias Pairwise Comparison">
-                <Border BorderBrush="#FF8CA6C9" BorderThickness="1" Margin="20" CornerRadius="10" Background="#FFE9F0F7">
+                <Border BorderBrush="#FF8CA6C9" BorderThickness="1" Margin="20" CornerRadius="10">
                     <Grid Margin="20">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition MinWidth="200" Width="Auto"/>
@@ -143,7 +162,7 @@
                                 2, 4 - Intermediate Values<LineBreak/>
                                 6, 8 - Between Adjacent Judgements<LineBreak/>
                             </TextBlock>
-                            
+
                             <Button Grid.Row="1" x:Name="evalButton" Padding="5" Click="evalButton_Click" Content="Check Consistency" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             <TextBlock Grid.Row="2" x:Name="txtEvalRslt"/>
                             <StackPanel Grid.Row="3" Orientation="Horizontal">
@@ -154,7 +173,7 @@
                     </Grid>
                 </Border>
             </TabItem>
-            
+
             <!-- Alternatives Scores-->
             <TabItem Header="Alternative Scores">
                 <Border BorderBrush="#FF8CA6C9" BorderThickness="1" Margin="20" CornerRadius="10" Background="#FFE9F0F7">
@@ -168,12 +187,21 @@
 
             <!-- Results -->
             <TabItem x:Name="tabRst" Header="Result">
-                <Border BorderBrush="#FF8CA6C9" BorderThickness="1" Margin="20" CornerRadius="10" Background="#FFE9F0F7">
-                    <Grid Margin="20" HorizontalAlignment="Left" VerticalAlignment="Top" >
-                        <Border x:Name="bdrRst" BorderThickness ="1" BorderBrush="#FF8CA6C9">
-                            <Grid x:Name="grdRst" ShowGridLines="True"/>
-                        </Border>
-                    </Grid>
+                <Border x:Name="border" BorderBrush="#FF8CA6C9" BorderThickness="1" Margin="20" CornerRadius="10" Background="#FFE9F0F7">
+                    <ScrollViewer x:Name="scrollViewer" Margin="0" HorizontalScrollBarVisibility="Auto" Padding="10">
+                        <Grid Name="GrdRstAll" HorizontalAlignment="Left" VerticalAlignment="Top">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border x:Name="bdrRst" BorderThickness ="1" BorderBrush="#FF8CA6C9">
+                                <Grid x:Name="grdRst" ShowGridLines="True"/>
+                            </Border>
+                            <Border Grid.Row="1" x:Name="bdrRstGraph" Margin="0,20,0,0">
+                                <Canvas Name="CvsRstGraph"></Canvas>
+                            </Border>
+                        </Grid>
+                    </ScrollViewer>
                 </Border>
             </TabItem>
         </TabControl>
