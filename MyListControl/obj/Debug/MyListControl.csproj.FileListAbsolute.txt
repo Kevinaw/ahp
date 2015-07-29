@@ -31,3 +31,4 @@ C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\MyListControl\obj\Debug\MyListCon
 C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\MyListControl\obj\Debug\MyListControl.csproj.GenerateResource.Cache
 C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\MyListControl\obj\Debug\MyListControl.dll
 C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\MyListControl\obj\Debug\MyListControl.pdb
+C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\MyListControl\obj\Debug\MyListControl.csprojResolveAssemblyReference.cache

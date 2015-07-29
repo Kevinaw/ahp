@@ -31,3 +31,8 @@ C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\ahp\obj\Release\ahp.Properties.Re
 C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\ahp\obj\Release\ahp.csproj.GenerateResource.Cache
 C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\ahp\obj\Release\ahp.exe
 C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\ahp\obj\Release\ahp.pdb
+C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\ahp\obj\Release\ahp.csprojResolveAssemblyReference.cache
+C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\ahp\bin\Release\ahp.exe.manifest
+C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\ahp\bin\Release\ahp.application
+C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\ahp\obj\Release\ahp.exe.manifest
+C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\ahp\obj\Release\ahp.application

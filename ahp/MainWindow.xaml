@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:ahp"
       xmlns:MyListControl="clr-namespace:MyListControl;assembly=MyListControl" xmlns:MyNumericUpDownControll="clr-namespace:MyNumericUpDownControll;assembly=MyNumericUpDownControll" x:Class="ahp.MainWindow"
       mc:Ignorable="d"
-      Title="MainWindow" MouseDown="Window_MouseDown" Loaded="Window_Loaded" Width="1024" Height="768
+      Title="AHP EHan Engineering" MouseDown="Window_MouseDown" Loaded="Window_Loaded" Width="1024" Height="768
     ">
 
     <Grid>
@@ -187,7 +187,27 @@
 
             <!-- Results -->
             <TabItem x:Name="tabRst" Header="Result">
-                <Border x:Name="border" BorderBrush="#FF8CA6C9" BorderThickness="1" Margin="20" CornerRadius="10" Background="#FFE9F0F7">
+                <Grid Margin="20" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="0" BorderBrush="#FF8CA6C9" BorderThickness="1"  CornerRadius="10" >
+                        <ScrollViewer Name="SrvRstMtx" HorizontalScrollBarVisibility="Auto">
+                            <Border x:Name="bdrRst" BorderThickness ="1" BorderBrush="#FF8CA6C9" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10">
+                                <Grid x:Name="grdRst" ShowGridLines="True"/>
+                            </Border>
+                        </ScrollViewer>
+                    </Border>
+                    <Border Grid.Row = "1" BorderBrush="#FF8CA6C9" BorderThickness="1" CornerRadius="10" Background="White" Margin="0,20,0,0">
+                        <ScrollViewer Name="SrvRstGraph" HorizontalScrollBarVisibility="Auto">
+                            <Canvas x:Name="CvsRstGraph"/>
+                        </ScrollViewer>
+                    </Border>
+                </Grid>
+
+                <!--Border x:Name="border" BorderBrush="#FF8CA6C9" BorderThickness="1" Margin="20" CornerRadius="10" Background="#FFE9F0F7">
+                    
                     <ScrollViewer x:Name="scrollViewer" Margin="0" HorizontalScrollBarVisibility="Auto" Padding="10">
                         <Grid Name="GrdRstAll" HorizontalAlignment="Left" VerticalAlignment="Top">
                             <Grid.RowDefinitions>
@@ -202,7 +222,7 @@
                             </Border>
                         </Grid>
                     </ScrollViewer>
-                </Border>
+                </Border-->
             </TabItem>
         </TabControl>
 

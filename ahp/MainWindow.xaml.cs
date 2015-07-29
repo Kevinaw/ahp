@@ -137,8 +137,9 @@ namespace ahp
 
             double gridWidth = 100;
             double gridHeight = 50;
+            /*
             double x = tabMain.ActualWidth - 80;
-            double y = tabMain.ActualHeight - 100;
+            double y = (tabMain.ActualHeight - 100)/2;
             if (x < 2 * (Alternatives.listAl.Count + 1) * gridWidth)
             {
                 gridWidth = x / (Alternatives.listAl.Count + 1) / 2;
@@ -149,16 +150,14 @@ namespace ahp
                 gridHeight = y / (Criterias.listCr.Count + 2);
                 gridWidth = 2 * gridHeight;
             }
-
-            for (i = 0; i < Criterias.listCr.Count + 2; i++)
+            */
+            for (i = 0; i < Criterias.listCr.Count + 5; i++)
             {
                 RowDefinition row = new RowDefinition();
                 row.Height = new GridLength(gridHeight);
 
                 grdRst.RowDefinitions.Add(row);
             }
-            bdrRst.Height = (Criterias.listCr.Count + 2) * gridHeight;
-
             for (i = 0; i < 2 * Alternatives.listAl.Count + 2; i++)
             {
                 ColumnDefinition col = new ColumnDefinition();
@@ -166,8 +165,8 @@ namespace ahp
 
                 grdRst.ColumnDefinitions.Add(col);
             }
+            bdrRst.Height = (Criterias.listCr.Count + 5) * gridHeight;
             bdrRst.Width = (2 * Alternatives.listAl.Count + 2) * gridWidth;
-
 
             // redraw matrix
             // fill criteria headers & related weights
@@ -249,14 +248,83 @@ namespace ahp
                     sumFunc += Alternatives.mtxAC[j, i] * Criterias.listCr.ElementAt(j).weight;
                 }
 
-                // fill function sum
+                // Total function.
                 TextBlock tblk1 = new TextBlock();
+                tblk1.Text = "Total Function:";
+                grdRst.Children.Add(tblk1);
+                Grid.SetRow(tblk1, Criterias.listCr.Count + 1);
+                Grid.SetColumn(tblk1, 2 * i + 2);
+                tblk1.HorizontalAlignment = HorizontalAlignment.Right;
+                tblk1.VerticalAlignment = VerticalAlignment.Center;
+                tblk1.Margin = new Thickness(5);
+
+                tblk1 = new TextBlock();
                 tblk1.Text = String.Format("{0:#.00}", sumFunc);
                 tblk1.Name = "txtFuncSum" + i.ToString();
                 tblk1.VerticalAlignment = VerticalAlignment.Center;
                 tblk1.HorizontalAlignment = HorizontalAlignment.Center;
                 grdRst.Children.Add(tblk1);
                 Grid.SetRow(tblk1, Criterias.listCr.Count + 1);
+                Grid.SetColumn(tblk1, 2 * i + 3);
+
+                // Cost.
+                tblk1 = new TextBlock();
+                tblk1.Text = "Cost:";
+                grdRst.Children.Add(tblk1);
+                Grid.SetRow(tblk1, Criterias.listCr.Count + 2);
+                Grid.SetColumn(tblk1, 2 * i + 2);
+                tblk1.HorizontalAlignment = HorizontalAlignment.Right;
+                tblk1.VerticalAlignment = VerticalAlignment.Center;
+                tblk1.Margin = new Thickness(5);
+
+                tblk1 = new TextBlock();
+                tblk1.Text = String.Format("{0:#.00}", Alternatives.listAl[i].cost1);
+                tblk1.VerticalAlignment = VerticalAlignment.Center;
+                tblk1.HorizontalAlignment = HorizontalAlignment.Center;
+                grdRst.Children.Add(tblk1);
+                Grid.SetRow(tblk1, Criterias.listCr.Count + 2);
+                Grid.SetColumn(tblk1, 2 * i + 3);
+
+                // Cost of Risk.
+                tblk1 = new TextBlock();
+                tblk1.Text = "Cost(Risk):";
+                grdRst.Children.Add(tblk1);
+                Grid.SetRow(tblk1, Criterias.listCr.Count + 3);
+                Grid.SetColumn(tblk1, 2 * i + 2);
+                tblk1.HorizontalAlignment = HorizontalAlignment.Right;
+                tblk1.VerticalAlignment = VerticalAlignment.Center;
+                tblk1.Margin = new Thickness(5);
+
+                tblk1 = new TextBlock();
+                tblk1.Text = String.Format("{0:#.00}", Alternatives.listAl[i].cost2);
+                tblk1.VerticalAlignment = VerticalAlignment.Center;
+                tblk1.HorizontalAlignment = HorizontalAlignment.Center;
+                grdRst.Children.Add(tblk1);
+                Grid.SetRow(tblk1, Criterias.listCr.Count + 3);
+                Grid.SetColumn(tblk1, 2 * i + 3);
+
+                // Total function.
+                tblk1 = new TextBlock();
+                tblk1.Text = "Value:";
+                grdRst.Children.Add(tblk1);
+                Grid.SetRow(tblk1, Criterias.listCr.Count + 4);
+                Grid.SetColumn(tblk1, 2 * i + 2);
+                tblk1.HorizontalAlignment = HorizontalAlignment.Right;
+                tblk1.VerticalAlignment = VerticalAlignment.Center;
+                tblk1.Margin = new Thickness(5);
+
+                tblk1 = new TextBlock();
+                StrctAlternative a = new StrctAlternative { name = Alternatives.listAl[i].name,
+                                                            cost1 = Alternatives.listAl[i].cost1,
+                                                            cost2 = Alternatives.listAl[i].cost2,
+                                                            finalScore = sumFunc / (Alternatives.listAl[i].cost1 + Alternatives.listAl[i].cost2)
+                                                           };
+                Alternatives.update(i, a);
+                tblk1.Text = String.Format("{0:#.00}", Alternatives.listAl[i].finalScore);
+                tblk1.VerticalAlignment = VerticalAlignment.Center;
+                tblk1.HorizontalAlignment = HorizontalAlignment.Center;
+                grdRst.Children.Add(tblk1);
+                Grid.SetRow(tblk1, Criterias.listCr.Count + 4);
                 Grid.SetColumn(tblk1, 2 * i + 3);
             }
         }
@@ -567,7 +635,7 @@ namespace ahp
                         bdr.BorderBrush = new SolidColorBrush(Color.FromArgb(0xFF, 0x8C, 0xA6, 0xC9));
 
                         txt = new TextBlock();
-                        txt.Text = Criterias.listCr[i].name + "\n" + Criterias.listCr[i].weight.ToString();
+                        txt.Text = Criterias.listCr[i].name + "\n" + String.Format("{0:#.00}", Criterias.listCr[i].weight);// Criterias.listCr[i].weight.ToString();
                         txt.VerticalAlignment = VerticalAlignment.Center;
                         txt.HorizontalAlignment = HorizontalAlignment.Center;
                         txt.TextWrapping = TextWrapping.Wrap;
@@ -638,11 +706,17 @@ namespace ahp
 
         private void drawAhpRst()
         {
-
+            // 4/5 fill graphics
+            // goal rectangle
             if (this.txbGoal.Text != "")
             {
-                double cvsWidth = this.CvsRstGraph.ActualWidth;
-                double cvsHeight = this.CvsRstGraph.ActualHeight;
+                double cvsWidth = this.tabMain.ActualWidth - 60; //this.CvsRstGraph.ActualWidth;
+                double cvsHeight = (this.tabMain.ActualHeight - 100) / 3;// this.CvsRstGraph.ActualHeight;
+                double cellWidth = 80;
+                double cellHeight = 40;
+
+                // Left side width.
+                double leftHederWidth = 60;
 
                 //clear the canvas and redraw.
                 this.CvsRstGraph.Children.Clear();
@@ -650,42 +724,34 @@ namespace ahp
                 // 1/5 fill words
                 TextBlock txt = new TextBlock();
                 txt.Text = "Goal:";
-                Canvas.SetLeft(txt, 5);
+                Canvas.SetLeft(txt, 20);
                 Canvas.SetTop(txt, cvsHeight / 6);
                 this.CvsRstGraph.Children.Add(txt);
 
-
-
                 txt = new TextBlock();
                 txt.Text = "Criteria:";
-                Canvas.SetLeft(txt, 5);
+                Canvas.SetLeft(txt, 20);
                 Canvas.SetTop(txt, cvsHeight / 2);
                 this.CvsRstGraph.Children.Add(txt);
 
                 txt = new TextBlock();
                 txt.Text = "Alternatives:";
-                Canvas.SetLeft(txt, 5);
+                Canvas.SetLeft(txt, 20);
                 Canvas.SetTop(txt, cvsHeight * 5 / 6);
                 this.CvsRstGraph.Children.Add(txt);
+
 
                 DropShadowEffect dse = new DropShadowEffect();
                 dse.BlurRadius = 4;
                 dse.ShadowDepth = 10;
                 dse.Color = Colors.Silver;
 
-                // 4/5 fill graphics
-                // goal rectangle
-                Rectangle rec;
-                double recHeight = cvsHeight / 6;
-
-                rec = new Rectangle();
-                rec.Width = cvsWidth * 4 / 5 / 4;
-                rec.Height = recHeight;
-                rec.Fill = Brushes.YellowGreen;
-                rec.Effect = dse;
-                Canvas.SetLeft(rec, cvsWidth / 5 + (cvsWidth * 4 / 5 - rec.Width) / 2);
-                Canvas.SetTop(rec, (cvsHeight / 3 - rec.Height) / 2);
-                this.CvsRstGraph.Children.Add(rec);
+                Border bdr = new Border();
+                bdr.Width = cellWidth;
+                bdr.Height = cellHeight;
+                bdr.CornerRadius = new CornerRadius(2);
+                bdr.BorderThickness = new Thickness(1);
+                bdr.BorderBrush = new SolidColorBrush(Color.FromArgb(0xFF, 0x8C, 0xA6, 0xC9));
 
                 txt = new TextBlock();
                 txt.Text = this.txbGoal.Text;
@@ -693,85 +759,131 @@ namespace ahp
                 txt.HorizontalAlignment = HorizontalAlignment.Center;
                 txt.TextWrapping = TextWrapping.Wrap;
 
-                Grid grd = new Grid();
-                grd.Width = rec.Width - 2;
-                grd.Height = rec.Height - 2;
-                grd.Children.Add(txt);
+                double length;
+                double space1;
+                double space2;
 
-                Canvas.SetTop(grd, Canvas.GetTop(rec) + 1);
-                Canvas.SetLeft(grd, Canvas.GetLeft(rec) + 1);
-                this.CvsRstGraph.Children.Add(grd);
+                if(Criterias.listCr.Count > Alternatives.listAl.Count)
+                {
+                    length = Criterias.listCr.Count * cellWidth * 5 / 4 + cellWidth / 4;
+                    space1 = cellWidth / 4;
+                    space2 = (length - Alternatives.listAl.Count * cellWidth) / (Alternatives.listAl.Count + 1);
+                }
+                else
+                {
+                    length = Alternatives.listAl.Count * cellWidth * 5 / 4 + cellWidth / 4;
+                    space1 = (length - Criterias.listCr.Count * cellWidth) / (Criterias.listCr.Count + 1);
+                    space2 = cellWidth / 4;                   
+                }
+                this.CvsRstGraph.Width = length + leftHederWidth;
+                this.CvsRstGraph.MinWidth = cvsWidth;
+
+                bdr.Child = txt;
+                Canvas.SetTop(bdr, (cvsHeight / 3 - cellHeight)/2);
+                Canvas.SetLeft(bdr, length / 2 - cellWidth / 2 + leftHederWidth);
+                this.CvsRstGraph.Children.Add(bdr);
+
+                Line myLine = new Line();
+                myLine.Stroke = System.Windows.Media.Brushes.Black;
+                myLine.X1 = cellWidth / 2 + Canvas.GetLeft(bdr);
+                myLine.Y1 = Canvas.GetTop(bdr) + cellHeight;
+                myLine.X2 = cellWidth / 2 + Canvas.GetLeft(bdr);
+                myLine.Y2 = cvsHeight / 3;
+                myLine.StrokeThickness = 1;
+                this.CvsRstGraph.Children.Add(myLine);
 
                 if (Criterias.listCr.Count != 0)
                 {
-                    double crWidth = cvsWidth * 4 / 5 / Criterias.listCr.Count * 4 / 5;
-                    double crHeight = recHeight;
                     for (int i = 0; i < Criterias.listCr.Count; i++)
                     {
-                        rec = new Rectangle();
-                        rec.HorizontalAlignment = HorizontalAlignment.Center;
-                        rec.VerticalAlignment = VerticalAlignment.Center;
-
-                        rec.Width = crWidth;
-                        rec.Height = crHeight;
-                        if (crHeight > cvsHeight / 3 / 2)
-                            rec.Height = cvsHeight / 3 / 2;
-                        rec.Fill = Brushes.Gold;
-                        rec.Effect = dse;
-                        Canvas.SetLeft(rec, cvsWidth / 5 + cvsWidth * 4 / 5 / Criterias.listCr.Count * i + (cvsWidth * 4 / 5 / Criterias.listCr.Count - crWidth) / 2);
-                        Canvas.SetTop(rec, (cvsHeight / 3 - rec.Height) / 2 + cvsHeight / 3);
-                        this.CvsRstGraph.Children.Add(rec);
+                        bdr = new Border();
+                        bdr.Width = cellWidth;
+                        bdr.Height = cellHeight;
+                        bdr.CornerRadius = new CornerRadius(2);
+                        bdr.BorderThickness = new Thickness(1);
+                        bdr.BorderBrush = new SolidColorBrush(Color.FromArgb(0xFF, 0x8C, 0xA6, 0xC9));
 
                         txt = new TextBlock();
-                        txt.Text = Criterias.listCr[i].name + "\n" + Criterias.listCr[i].weight.ToString();
+                        txt.Text = Criterias.listCr[i].name + "\n" + String.Format("{0:#.00}", Criterias.listCr[i].weight);
                         txt.VerticalAlignment = VerticalAlignment.Center;
                         txt.HorizontalAlignment = HorizontalAlignment.Center;
                         txt.TextWrapping = TextWrapping.Wrap;
 
-                        grd = new Grid();
-                        grd.Width = rec.Width - 2;
-                        grd.Height = rec.Height - 2;
-                        grd.Children.Add(txt);
+                        bdr.Child = txt;
+                        Canvas.SetTop(bdr, cvsHeight / 3 + (cvsHeight/3 - cellHeight)/2);
+                        Canvas.SetLeft(bdr, i * cellWidth + (i + 1) * space1 + leftHederWidth);
+                        this.CvsRstGraph.Children.Add(bdr);
 
-                        Canvas.SetTop(grd, Canvas.GetTop(rec) + 1);
-                        Canvas.SetLeft(grd, Canvas.GetLeft(rec) + 1);
-                        this.CvsRstGraph.Children.Add(grd);
+                        myLine = new Line();
+                        myLine.Stroke = System.Windows.Media.Brushes.Black;
+                        myLine.X1 = cellWidth / 2 + Canvas.GetLeft(bdr);
+                        myLine.Y1 = cvsHeight / 3;
+                        myLine.X2 = cellWidth / 2 + Canvas.GetLeft(bdr);
+                        myLine.Y2 = Canvas.GetTop(bdr);
+                        myLine.StrokeThickness = 1;
+                        this.CvsRstGraph.Children.Add(myLine);
+
+                        myLine = new Line();
+                        myLine.Stroke = System.Windows.Media.Brushes.Black;
+                        myLine.X1 = cellWidth / 2 + Canvas.GetLeft(bdr);
+                        myLine.Y1 = cvsHeight * 2 / 3;
+                        myLine.X2 = cellWidth / 2 + Canvas.GetLeft(bdr);
+                        myLine.Y2 = Canvas.GetTop(bdr) + cellHeight;
+                        myLine.StrokeThickness = 1;
+                        this.CvsRstGraph.Children.Add(myLine);
                     }
                 }
+
+                Line myLine1 = new Line();
+                myLine1.Stroke = System.Windows.Media.Brushes.Black;
+                myLine1.X1 = leftHederWidth + length - space1 - cellWidth / 2;
+                myLine1.Y1 = cvsHeight / 3;
+                myLine1.X2 = leftHederWidth + space1 + cellWidth / 2;
+                myLine1.Y2 = cvsHeight / 3;
+                myLine1.StrokeThickness = 1;
+                this.CvsRstGraph.Children.Add(myLine1);
 
                 if (Alternatives.listAl.Count != 0)
                 {
-                    double alWidth = cvsWidth * 4 / 5 / Alternatives.listAl.Count * 4 / 5;
-                    double alHeight = recHeight;
                     for (int i = 0; i < Alternatives.listAl.Count; i++)
                     {
-                        rec = new Rectangle();
-                        rec.HorizontalAlignment = HorizontalAlignment.Center;
-                        rec.VerticalAlignment = VerticalAlignment.Center;
-                        rec.Width = alWidth;
-                        rec.Height = alHeight;
-                        rec.Fill = Brushes.Pink;
-                        rec.Effect = dse;
-                        Canvas.SetLeft(rec, cvsWidth / 5 + cvsWidth * 4 / 5 / Alternatives.listAl.Count * i + (cvsWidth * 4 / 5 / Alternatives.listAl.Count - alWidth) / 2);
-                        Canvas.SetTop(rec, (cvsHeight / 3 - rec.Height) / 2 + cvsHeight * 2 / 3);
-                        this.CvsRstGraph.Children.Add(rec);
+                        bdr = new Border();
+                        bdr.Width = cellWidth;
+                        bdr.Height = cellHeight;
+                        bdr.CornerRadius = new CornerRadius(2);
+                        bdr.BorderThickness = new Thickness(1);
+                        bdr.BorderBrush = new SolidColorBrush(Color.FromArgb(0xFF, 0x8C, 0xA6, 0xC9));
 
                         txt = new TextBlock();
-                        txt.Text = Alternatives.listAl[i].name + "\n" + Alternatives.listAl[i].finalScore;
+                        txt.Text = Alternatives.listAl[i].name + "\n" + String.Format("{0:#.00}", Alternatives.listAl[i].finalScore);
                         txt.VerticalAlignment = VerticalAlignment.Center;
                         txt.HorizontalAlignment = HorizontalAlignment.Center;
                         txt.TextWrapping = TextWrapping.Wrap;
 
-                        grd = new Grid();
-                        grd.Width = rec.Width - 2;
-                        grd.Height = rec.Height - 2;
-                        grd.Children.Add(txt);
+                        bdr.Child = txt;
+                        Canvas.SetTop(bdr, cvsHeight * 2 / 3 + (cvsHeight/3 - cellHeight)/2);
+                        Canvas.SetLeft(bdr, i * cellWidth + (i + 1) * space2 + leftHederWidth);
+                        this.CvsRstGraph.Children.Add(bdr);
 
-                        Canvas.SetTop(grd, Canvas.GetTop(rec) + 1);
-                        Canvas.SetLeft(grd, Canvas.GetLeft(rec) + 1);
-                        this.CvsRstGraph.Children.Add(grd);
+                        myLine = new Line();
+                        myLine.Stroke = System.Windows.Media.Brushes.Black;
+                        myLine.X1 = cellWidth / 2 + Canvas.GetLeft(bdr);
+                        myLine.Y1 = cvsHeight * 2 / 3;
+                        myLine.X2 = cellWidth / 2 + Canvas.GetLeft(bdr);
+                        myLine.Y2 = Canvas.GetTop(bdr);
+                        myLine.StrokeThickness = 1;
+                        this.CvsRstGraph.Children.Add(myLine);
                     }
                 }
+
+                myLine1 = new Line();
+                myLine1.Stroke = System.Windows.Media.Brushes.Black;
+                myLine1.X1 = leftHederWidth + length - cellWidth / 4 - cellWidth / 2;
+                myLine1.Y1 = cvsHeight * 2 / 3;
+                myLine1.X2 = leftHederWidth + cellWidth / 4 + cellWidth/2;
+                myLine1.Y2 = cvsHeight * 2 / 3;
+                myLine1.StrokeThickness = 1;
+                this.CvsRstGraph.Children.Add(myLine1);
             }
         }
 
