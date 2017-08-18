@@ -42,7 +42,7 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-ahp/bin/*
-ahp/obj/*
-bin/*
-Reference Docs and Software/*
+ahp/bin/
+ahp/obj/
+bin/
+Reference\ Docs\ and\ Software/
