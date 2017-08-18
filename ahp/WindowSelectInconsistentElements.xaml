@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ahp"
         mc:Ignorable="d"
-        Title="Identify Potential Inconsistent Elements by the Bias Identifying Vector" Height="300" Width="300" WindowStartupLocation="CenterScreen" >
+        Title="Identify Potential Inconsistent Elements by the Bias Identifying Vector" Height="360" Width="300" WindowStartupLocation="CenterScreen" Icon="small logo.ico" >
         <Grid Margin="20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>

@@ -47,11 +47,6 @@ namespace ahp
         {
             InitializeComponent();
             isOpeningPrj = false;
-
-#if DEBUG
-            Console.WriteLine("debug mode");
-#endif
-
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)

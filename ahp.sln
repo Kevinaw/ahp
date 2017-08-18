@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.22823.1
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ahp", "ahp\ahp.csproj", "{2E633F13-81C3-4182-9F8B-43362602FCB0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8848FDCB-C6E3-4DA6-B23B-4FBC543892AF} = {8848FDCB-C6E3-4DA6-B23B-4FBC543892AF}
+		{D8D46DF6-D478-41F6-8C67-FD1ED26D193D} = {D8D46DF6-D478-41F6-8C67-FD1ED26D193D}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyListControl", "MyListControl\MyListControl.csproj", "{8848FDCB-C6E3-4DA6-B23B-4FBC543892AF}"
 EndProject

@@ -27,7 +27,7 @@ namespace ahp
             InitializeComponent();
         }
 
-        public WindowCombinations(List<Criterias> options, int inconsistencyRow, int inconsistencyCol, List<int> inconsistecyIndexes)
+        public WindowCombinations(List<Criterias> options, List<StrctCell> inconsistentCells)
         {
             InitializeComponent();
             var clist = new List<Criterias>();
@@ -129,13 +129,12 @@ namespace ahp
                             txt.HorizontalAlignment = HorizontalAlignment.Center;
                             txt.VerticalAlignment = VerticalAlignment.Center;
 
-                            if (inconsistecyIndexes.Count > 0)
+                            if (inconsistentCells.Count > 0)
                             {
-                                for (int l = 0; l < inconsistecyIndexes.Count; l++)
+                                for (int l = 0; l < inconsistentCells.Count; l++)
                                 {
-                                    if ((i - 1 == inconsistencyRow && j - 1 == inconsistecyIndexes[l]) ||
-                                        (i - 1 == inconsistecyIndexes[l] && j - 1 == inconsistencyCol))
-                                        txt.Background = Brushes.Pink;
+                                    if (i - 1 == inconsistentCells[l].row && j - 1 == inconsistentCells[l].col)
+                                            txt.Background = Brushes.Pink;
                                 }
                             }
 

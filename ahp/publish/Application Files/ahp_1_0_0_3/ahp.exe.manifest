@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
+  <asmv1:assemblyIdentity name="ahp.exe" version="1.0.0.3" publicKeyToken="d4e9350f341f28e5" language="en-CA" processorArchitecture="msil" type="win32" />
+  <description asmv2:iconFile="EHan Engineering Logo.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
+  <application />
+  <entryPoint>
+    <assemblyIdentity name="ahp" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+    <commandLine file="ahp.exe" parameters="" />
+  </entryPoint>
+  <trustInfo>
+    <security>
+      <applicationRequestMinimum>
+        <PermissionSet Unrestricted="true" ID="Custom" SameSite="site" />
+        <defaultAssemblyRequest permissionSetReference="Custom" />
+      </applicationRequestMinimum>
+      <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
+        <!--
+          UAC Manifest Options
+          If you want to change the Windows User Account Control level replace the 
+          requestedExecutionLevel node with one of the following.
+
+        <requestedExecutionLevel  level="asInvoker" uiAccess="false" />
+        <requestedExecutionLevel  level="requireAdministrator" uiAccess="false" />
+        <requestedExecutionLevel  level="highestAvailable" uiAccess="false" />
+
+         If you want to utilize File and Registry Virtualization for backward 
+         compatibility then delete the requestedExecutionLevel node.
+    -->
+        <requestedExecutionLevel level="asInvoker" uiAccess="false" />
+      </requestedPrivileges>
+    </security>
+  </trustInfo>
+  <dependency>
+    <dependentOS>
+      <osVersionInfo>
+        <os majorVersion="5" minorVersion="1" buildNumber="2600" servicePackMajor="0" />
+      </osVersionInfo>
+    </dependentOS>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="Microsoft.Windows.CommonLanguageRuntime" version="4.0.30319.0" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="System.Windows.Controls.Ribbon" version="4.0.0.0" publicKeyToken="B77A5C561934E089" language="neutral" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ahp.exe" size="1292728">
+      <assemblyIdentity name="ahp" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>OCaEE4zL4BfPGwZh1f7IQZ3M/lM3+yhpajj7203Tswk=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="MyListControl.dll" size="38912">
+      <assemblyIdentity name="MyListControl" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>prsjX63W2rQVengVoqyWkrWR2orBDDOkhwrMundLtNE=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="MyNumericUpDownControll.dll" size="11264">
+      <assemblyIdentity name="MyNumericUpDownControll" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>on82LcO0w+H0fDt+906+1a493fllq4ZJUCm4pww/DW0=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <file name="ahp.exe.config" size="184">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>jWVCngsqgsEdPtxOoE7SAK7f6h1++LmE6IqOl8/1R3A=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="EHan Engineering Logo.ico" size="370070">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>vLp4Eb63y2EsV80zcZCzPf5HCQh/xjAA0OAF/E3cv6k=</dsig:DigestValue>
+    </hash>
+  </file>
+  <fileAssociation extension=".ahp" description="ehan ahp project file" progid="ehanahp" defaultIcon="EHan Engineering Logo.ico" xmlns="urn:schemas-microsoft-com:clickonce.v1" />
+<publisherIdentity name="CN=yan-pc\Sabrina" issuerKeyHash="dc8636b55400d07460f4b662e9bb582d12c0a58c" /><Signature Id="StrongNameSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>u/epdGdDbrw35WeGrrXUx9P/RKeB2T56MaQ9bfWCZy4=</DigestValue></Reference></SignedInfo><SignatureValue>xj0qDvlsvrZAGNicKeyN52qWXtbWTSP+USp6L6HfR7SRys3AUxick+XToWuN7Lb7tsREOevGtqfHHW3bKkJSWPOvRgj6u2tEnl71hu8R/6o+UdU6DG0CcUhw5sfiQzUrbY9cfylL0jDBm5SxzWKyJKVBxCn2Bciet12jHhbNsWE=</SignatureValue><KeyInfo Id="StrongNameKeyInfo"><KeyValue><RSAKeyValue><Modulus>2Fwuz16tLrAo4bHrpRhQqxn6MF+J4braGbdN5UVuBMrECFld21rodRsU0AWSlIHGFAPNeVjQphXbNLhQTXr44TKOr7dOrMvB0xPBgNJkXDvY1XIjzK63Ni1pZM9YKjDh1TUuReGOUiJklPDs1weVNRLjfBtW4YwGzl8T3nm91FM=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><msrel:RelData xmlns:msrel="http://schemas.microsoft.com/windows/rel/2005/reldata"><r:license xmlns:r="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:as="http://schemas.microsoft.com/windows/pki/2005/Authenticode"><r:grant><as:ManifestInformation Hash="2e6782f56d3da4317a3ed981a744ffd3c7d4b5ae8667e537bc6e436774a9f7bb" Description="" Url=""><as:assemblyIdentity name="ahp.exe" version="1.0.0.3" publicKeyToken="d4e9350f341f28e5" language="en-CA" processorArchitecture="msil" type="win32" /></as:ManifestInformation><as:SignedBy /><as:AuthenticodePublisher><as:X509SubjectName>CN=yan-pc\Sabrina</as:X509SubjectName></as:AuthenticodePublisher></r:grant><r:issuer><Signature Id="AuthenticodeSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>zap5OQDWso2PTrefZQgDl1rpKzO1l7fk0ZidcB2oLxE=</DigestValue></Reference></SignedInfo><SignatureValue>CVAyPA4qMj7F6AP6G/hQMFbWo2tH2+5NHkRDLshdVqIpBxXckdxedFpEeU0ZCjUzY9JgQxyH9jFn27caQT6Q1sGJlsrSY7gWteJnBZhKXuJhee/J1z7P59mB85Vl86XpFS0VgzkQqSN9gNfGFoPd/lY63XUk9SHBmFR8iWNNkJc=</SignatureValue><KeyInfo><KeyValue><RSAKeyValue><Modulus>2Fwuz16tLrAo4bHrpRhQqxn6MF+J4braGbdN5UVuBMrECFld21rodRsU0AWSlIHGFAPNeVjQphXbNLhQTXr44TKOr7dOrMvB0xPBgNJkXDvY1XIjzK63Ni1pZM9YKjDh1TUuReGOUiJklPDs1weVNRLjfBtW4YwGzl8T3nm91FM=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><X509Data><X509Certificate>MIIB0TCCATqgAwIBAgIQajMDwPECIIFEk5O1oYu3WjANBgkqhkiG9w0BAQsFADAnMSUwIwYDVQQDHhwAeQBhAG4ALQBwAGMAXABTAGEAYgByAGkAbgBhMB4XDTE1MDcyODA3MDk0MFoXDTE2MDcyNzEzMDk0MFowJzElMCMGA1UEAx4cAHkAYQBuAC0AcABjAFwAUwBhAGIAcgBpAG4AYTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA2Fwuz16tLrAo4bHrpRhQqxn6MF+J4braGbdN5UVuBMrECFld21rodRsU0AWSlIHGFAPNeVjQphXbNLhQTXr44TKOr7dOrMvB0xPBgNJkXDvY1XIjzK63Ni1pZM9YKjDh1TUuReGOUiJklPDs1weVNRLjfBtW4YwGzl8T3nm91FMCAwEAATANBgkqhkiG9w0BAQsFAAOBgQBoXLq+qHemHAygpgdqNp/jrJZfiEbQSQzf/xuX9096Ri9hIMbZ3R/n+jxglBxv/qDPAaAoU7xRYIMlJHsu3+uIXSyk13dTIG7a5g9JVZhLWQ3LAedMv1I9hsKyO6CTWh2P2E2McDCiIzEzjklYSpSmR5cAtJ2j6ST2vkD3mQtqjg==</X509Certificate></X509Data></KeyInfo></Signature></r:issuer></r:license></msrel:RelData></KeyInfo></Signature></asmv1:assembly>

@@ -22,9 +22,6 @@ namespace ahp
     public partial class WindowPropose : Window
     {
         Criterias c;
-        int row;
-        int col;
-        List<int> indexes;
 
         object[,] ctrlArry;
         public int[,] freedomArry;
@@ -34,21 +31,10 @@ namespace ahp
             InitializeComponent();
         }
 
-        public WindowPropose(Criterias c, int row, int col, List<int> indexes)
+        public WindowPropose(Criterias c)
         {
             InitializeComponent();
             this.c = c;
-            this.row = row;
-            this.col = col;
-            this.indexes = new List<int>();
-            if(indexes.Count != 0)
-            {
-                this.indexes = new List<int>();
-                for(int i = 0; i < indexes.Count; i++)
-                {
-                    this.indexes.Add(indexes[i]);
-                }
-            }
             ctrlArry = new object[c.listCr.Count, c.listCr.Count];
             freedomArry = new int[c.listCr.Count, c.listCr.Count];
 
@@ -69,32 +55,27 @@ namespace ahp
         {
             int i, j;
 
-            int comN = 1;
-
-            for(i = 0; i < c.listCr.Count; i++)
-                for(j = 0; j < c.listCr.Count; j++)
+            for (i = 0; i < c.listCr.Count; i++)
+                for (j = 0; j < c.listCr.Count; j++)
                 {
-                    if(null != ctrlArry[i, j] && null == ctrlArry[i, j] as TextBlock)
+                    if (null != ctrlArry[i, j] && null == ctrlArry[i, j] as TextBlock)
                     {
-                        switch((ctrlArry[i, j] as ComboBox).SelectedIndex)
+                        switch ((ctrlArry[i, j] as ComboBox).SelectedIndex)
                         {
                             case 0:
                                 break;
                             case 1:
-                                comN *= 8;
                                 freedomArry[i, j] = 1;
                                 break;
                             case 2:
-                                comN *= 17;
                                 freedomArry[i, j] = 2;
                                 break;
                             default:
                                 break;
                         }
-                    }               
+                    }
                 }
 
-            MessageBox.Show(comN.ToString() + " combinations will be evaluated!");
             this.DialogResult = true;
         }
 
@@ -176,19 +157,18 @@ namespace ahp
 
 
                         txt = new TextBlock();
-                        txt.Text = c.mtx[i - 1, j - 1].ToString();
+                        txt.Text = nupCtrl.strValue;
                         mtxGrid.Children.Add(txt);
                         Grid.SetRow(txt, i);
                         Grid.SetColumn(txt, j);
                         txt.HorizontalAlignment = HorizontalAlignment.Center;
                         txt.VerticalAlignment = VerticalAlignment.Center;
 
-                        if(this.indexes.Count > 0)
+                        if(this.c.inconsistentCells.Count > 0)
                         {
-                            for(int k = 0; k < this.indexes.Count; k++)
+                            for(int k = 0; k < this.c.inconsistentCells.Count; k++)
                             {
-                                if ((i - 1 == row && j - 1 == this.indexes[k]) ||
-                                    (i - 1 == this.indexes[k] && j - 1 == col))
+                                if (i - 1 == this.c.inconsistentCells[k].row && j - 1 == this.c.inconsistentCells[k].col)
                                     txt.Background = Brushes.Pink;
                             }
                         }
@@ -278,12 +258,11 @@ namespace ahp
                         mtxGrid.Children.Add(ckb);
                         Grid.SetRow(ckb, i);
                         Grid.SetColumn(ckb, j);
-                        if (this.indexes.Count > 0)
+                        if(this.c.inconsistentCells.Count > 0)
                         {
-                            for (int k = 0; k < this.indexes.Count; k++)
+                            for(int k = 0; k < this.c.inconsistentCells.Count; k++)
                             {
-                                if ((i - 1 == row && j - 1 == this.indexes[k]) ||
-                                    (i - 1 == this.indexes[k] && j - 1 == col))
+                                if (i - 1 == this.c.inconsistentCells[k].row && j - 1 == this.c.inconsistentCells[k].col)
                                     ckb.Background = Brushes.Pink;
                             }
                         }

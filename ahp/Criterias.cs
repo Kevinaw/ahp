@@ -21,6 +21,7 @@ namespace ahp
         public double[,] mtx;
         // controls in matrix views
         public Object[,] mtxCtrls;
+        public object[] headerCtrls;
 
         private static string[] strValues = { "1/9", "1/8", "1/7", "1/6", "1/5", "1/4", "1/3", "1/2", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
         private static double[] dblValues = { 1 / 9, 1 / 8, 1 / 7, 1 / 6, 1 / 5, 1 / 4, 1 / 3, 1 / 2, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
@@ -28,23 +29,21 @@ namespace ahp
         // consistency ratio
         public double CR;
 
-        // identify inconsistent row and column
-        public int inconsistentRow;
-        public int inconsistentCol;
+        // intermediate results for identification
+        public List<StrctCalUnitInIdentify> listIdentifyData = new List<StrctCalUnitInIdentify>();
+        public List<StrctCell> inconsistentCells = new List<StrctCell>();
 
         // constructor
         public Criterias()
         {
-            inconsistentRow = -1;
-            inconsistentCol = -1;
+            inconsistentCells.Clear();
 
         }
 
         // constructor
         public Criterias(Criterias c)
         {
-            inconsistentRow = -1;
-            inconsistentCol = -1;
+            inconsistentCells.Clear();
 
             this.listCr = c.listCr.ToList();
             this.mtx = new double[this.listCr.Count, this.listCr.Count];
@@ -75,14 +74,25 @@ namespace ahp
         }
 
         // add item
-        public bool Add(StrctCriteria c)
+        public bool Add(StrctCriteria c, bool openingProject = false)
         {
             if (IsDuplicated(c))
                 return false;
             else
             {
                 listCr.Add(c);
-                NewMtx();
+                if(openingProject == false)
+                {
+                    // add new cells in matrix
+                    var mtxTemp = new double[listCr.Count, listCr.Count];
+                    for (int i = 0; i < listCr.Count; i++)
+                        for (int j = 0; j < listCr.Count; j++)
+                            if (i == listCr.Count - 1 || j == listCr.Count - 1)
+                                mtxTemp[i, j] = 1;
+                            else
+                                mtxTemp[i, j] = mtx[i, j];
+                    mtx = mtxTemp;
+                }
                 return true;
             } 
         }
@@ -91,7 +101,22 @@ namespace ahp
         public void Delete(int index)
         {
             listCr.RemoveAt(index);
-            NewMtx();
+
+            if (listCr.Count() == 0)
+                return;
+
+            var mtxTemp = new double[listCr.Count, listCr.Count];
+            for (int i = 0; i < listCr.Count; i++)
+                for (int j = 0; j < listCr.Count; j++)
+                    if (i >= index && j < index)
+                        mtxTemp[i, j] = mtx[i + 1, j];
+                    else if (i < index && j >= index)
+                        mtxTemp[i, j] = mtx[i, j + 1];
+                    else if (i > index && j > index)
+                        mtxTemp[i, j] = mtx[i + 1, j + 1];
+                    else
+                        mtxTemp[i, j] = mtx[i, j];
+            mtx = mtxTemp;
         }
 
         // update an item
@@ -102,33 +127,19 @@ namespace ahp
         }
 
         // generate pairwise comparison matrix view
-        public void GenerateMtxView(Grid mtxGrid, double totalWidth, double totalHeight)
+        public void GenerateMtxView(Grid mtxGrid)
         {
             int i, j;
             // initial cell width and height
-            double cellWidth = 120;
+            double cellWidth = 80;
             double cellHeight = 60;
             // total width and height
-            //double totalWidth = tabMain.ActualWidth - 200;
-            //double totalHeight = tabMain.ActualHeight - 120;
 
             // clear grid and redraw on it.
             mtxGrid.Children.Clear();
             mtxGrid.RowDefinitions.Clear();
             mtxGrid.ColumnDefinitions.Clear();
             
-            if (totalWidth < (listCr.Count + 1) * cellWidth)
-            {
-                cellWidth = totalWidth / (listCr.Count + 1);
-                cellHeight = cellWidth/2;
-            }
-
-            if (totalHeight < (listCr.Count + 1) * cellHeight)
-            {
-                cellHeight = totalHeight/(listCr.Count + 1);
-                cellWidth = cellHeight*2;
-            }
-
             for (i = 0; i < listCr.Count + 1; i++)
             {
                 RowDefinition row = new RowDefinition();
@@ -149,6 +160,7 @@ namespace ahp
 
             // create new matrix  of controls
             mtxCtrls = new Object[listCr.Count, listCr.Count];
+            headerCtrls = new object[listCr.Count];
 
             // redraw matrix
             for (i = 1; i < listCr.Count + 1; i++)
@@ -173,6 +185,7 @@ namespace ahp
                     Grid.SetColumn(txt, i);
                     txt.HorizontalAlignment = HorizontalAlignment.Center;
                     txt.VerticalAlignment = VerticalAlignment.Center;
+                headerCtrls[i - 1] = (Object)txt;
 
                     txt = new TextBlock();
                     txt.Text = listCr.ElementAt(i - 1).name;
@@ -215,6 +228,16 @@ namespace ahp
 
         }
 
+        public void updateHeaderTxtwithWeight()
+        {
+            if((headerCtrls.Count() != 0))
+            {
+                for(int i = 0; i < headerCtrls.Count();i++)
+                {
+                    (headerCtrls[i] as TextBlock).Text = listCr[i].name + "\r\n" + String.Format("{0:P1}", listCr.ElementAt(i).weight);
+                }
+            }
+        }
         // calculate weights and CR
         public void AhpEval()
         {
@@ -230,7 +253,9 @@ namespace ahp
             //double CR;
             double sum = 0;
             double average;
-            double[] RI = { 0.0, 0.0, 0.0, 0.58, 0.9, 1.12, 1.24, 1.32, 1.41, 1.45, 1.49 };
+            double[] RI = { 0.0, 0.0, 0.0, 0.58, 0.9, 1.12, 1.24, 1.32, 1.41, 1.45, 1.51 };
+
+            inconsistentCells.Clear();
 
             for (int i = 0; i < row; i++)
             {
@@ -410,15 +435,18 @@ namespace ahp
         }
 
         // identify the inconsistency cells
-        public double[] Identify()
+        public void Identify()
         {
             double[] result = new double[listCr.Count];
             double[,] C = new double[listCr.Count, listCr.Count];
             double[,] sqrA = new double[listCr.Count, listCr.Count];
             int i, j, k;
             double max = 0;
-            int row = 0, col = 0;
             double[] b = new double[listCr.Count];
+
+            listIdentifyData.Clear();
+
+            //List<StrctCalUnitInIdentify> listIdentify = new List<StrctCalUnitInIdentify>();
 
             for (i = 0; i < listCr.Count; i++)
                 for(j = 0; j < listCr.Count; j++)
@@ -427,7 +455,6 @@ namespace ahp
                     for (k = 0; k < listCr.Count; k++)
                         sqrA[i, j] += mtx[i, k] * mtx[k, j];
                     C[i, j] = sqrA[i, j] - 4 * mtx[i, j];
-
                 }
 
             for (i = 0; i < listCr.Count; i++)
@@ -436,35 +463,121 @@ namespace ahp
                     if(max < Math.Abs(C[i, j]))
                     {
                         max = Math.Abs(C[i, j]);
-                        row = i;
-                        col = j;
                     }
                 }
 
-            for(i = 0; i < listCr.Count; i++)
-            {
-                b[i] = mtx[row, i] * mtx[i, col];
+            // There may be more than one value equal to maximum
+            for (i = 0; i < listCr.Count; i++)
+                for (j = 0; j < listCr.Count; j++)
+                {
+                    if (max == Math.Abs(C[i, j]))
+                    {
+                        listIdentifyData.Add(new StrctCalUnitInIdentify() { row = i, col = j});
+                    }
+                }
 
-                result[i] = b[i] - mtx[row, col];
+            // Every max value should do the following calculation
+            for(k = 0; k < listIdentifyData.Count; k++)
+            {
+                for (i = 0; i < listCr.Count; i++)
+                {
+                    b[i] = mtx[listIdentifyData[k].row, i] * mtx[i, listIdentifyData[k].col];
+                    result[i] = b[i] - mtx[listIdentifyData[k].row, listIdentifyData[k].col];
+                }
+
+
+                StrctCalUnitInIdentify tmp = listIdentifyData[k];
+                tmp.idxF = new List<int>();
+                WindowIdentify idW = new WindowIdentify(result);
+                if (idW.ShowDialog() == true)
+                {
+                    tmp.idxF = idW.listSelectedIdxs;
+                }
+                listIdentifyData[k] = tmp;
+                /*
+                StrctCalUnitInIdentify tmp = listIdentify[k];
+                tmp.idxF = new List<int>();
+                for (j = 0; j < result.Count(); j++)
+                {
+                    if (result[j] != 0)
+                        tmp.idxF.Add(j);
+                }
+                listIdentify[k] = tmp;
+                */
             }
 
-            inconsistentRow = row;
-            inconsistentCol = col;
-            return result;
+
+            PopulateIncosistentCells(listIdentifyData);
+            //return result;
         }
 
-        public void Highlight(int idx)
+        private void PopulateIncosistentCells(List<StrctCalUnitInIdentify> listIdentify)
         {
-            if ((mtxCtrls[inconsistentRow, idx] as TextBlock) == null)
-                (mtxCtrls[inconsistentRow, idx] as NumericUpDown).Background = Brushes.Pink;
-            else
-                (mtxCtrls[inconsistentRow, idx] as TextBlock).Background = Brushes.Pink;
+            inconsistentCells.Clear();
+            for (int i = 0; i < listIdentify.Count(); i++)
+            {
+                for(int j = 0; j < listIdentify[i].idxF.Count(); j++)
+                {
+                    if(listIdentify[i].row != listIdentify[i].idxF[j])
+                    {
+                        // row number should be smaller
+                        int rowNumber = listIdentify[i].row < listIdentify[i].idxF[j] ? listIdentify[i].row : listIdentify[i].idxF[j];
+                        int colNumber = listIdentify[i].row > listIdentify[i].idxF[j] ? listIdentify[i].row : listIdentify[i].idxF[j];
+                        inconsistentCells.Add(new StrctCell() { row = rowNumber, col = colNumber });
+                    }
 
-            if ((mtxCtrls[idx, inconsistentCol] as TextBlock) == null)
-                (mtxCtrls[idx, inconsistentCol] as NumericUpDown).Background = Brushes.Pink;
-            else
-                (mtxCtrls[idx, inconsistentCol] as TextBlock).Background = Brushes.Pink;
+                    if(listIdentify[i].col != listIdentify[i].idxF[j])
+                    {
+                        int rowNumber = listIdentify[i].col < listIdentify[i].idxF[j] ? listIdentify[i].col : listIdentify[i].idxF[j];
+                        int colNumber = listIdentify[i].col > listIdentify[i].idxF[j] ? listIdentify[i].col : listIdentify[i].idxF[j];
+                        inconsistentCells.Add(new StrctCell() { row = rowNumber, col = colNumber });
+                    }
+                }
+            }
 
+            // Remove duplicate
+            List<StrctCell> tmpCells = new List<StrctCell>();
+            for(int i = 0; i < inconsistentCells.Count(); i++)
+            {
+                if (tmpCells.Count() == 0)
+                    tmpCells.Add(inconsistentCells.ElementAt(i));
+                else
+                {
+                    bool hasDuplicate = false;
+                    for(int j = 0; j < tmpCells.Count(); j++)
+                    {
+                        if(inconsistentCells[i].row == tmpCells[j].row && inconsistentCells[i].col == tmpCells[j].col)
+                        {
+                            hasDuplicate = true;
+                            break;
+                        }
+                    }
+                    if(hasDuplicate == false)
+                        tmpCells.Add(inconsistentCells.ElementAt(i));
+                }
+            }
+
+            inconsistentCells.Clear();
+            inconsistentCells = tmpCells;
+        }
+
+        public void Highlight()
+        {
+            ClearHighlight();
+
+            for(int i = 0; i < inconsistentCells.Count(); i++)
+            {
+                (mtxCtrls[inconsistentCells[i].row, inconsistentCells[i].col] as NumericUpDown).Background = Brushes.Pink;
+            }
+        }
+
+        public void ClearHighlight()
+        {
+            for (int i = 0; i < listCr.Count(); i++)
+            {
+                for (int j = i + 1; j < listCr.Count(); j++)
+                    (mtxCtrls[i, j] as NumericUpDown).Background = (Brush)(new BrushConverter()).ConvertFromString("#FFE9F0F7");
+            }
         }
 
     }
@@ -480,4 +593,21 @@ namespace ahp
             weight = d;
         }
     }
+
+    public struct StrctCalUnitInIdentify // During identify inconsistency cells, one max value in C is related to one row number and one column number, then two identified cells
+    {
+        //public double max;
+        public double[] f;
+        public int row;
+        public int col;
+        public List<int> idxF;
+        // the inconsistency cells should be [row, idxF] and [idxF, col];
+    }
+
+    public struct StrctCell
+    {
+        public int row;
+        public int col;
+    }
+
 }

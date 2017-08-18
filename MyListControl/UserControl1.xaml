@@ -11,7 +11,7 @@
             <RowDefinition Height="28"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Button Name="addBtnCr" Grid.Row="0" Content="" Margin="3" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="22" Cursor="Hand" Height="22" ToolTip="add new alternative" Click="addBtn_Click">
+        <Button Name="addBtnCr" Grid.Row="0" Content="" Margin="3" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="22" Cursor="Hand" Height="22" ToolTip="Add New Item" Click="addBtn_Click">
             <Button.Background>
                 <ImageBrush ImageSource="./Resources/add.png"/>
             </Button.Background>

@@ -28,6 +28,7 @@ namespace MyListControl
         bool isEditing;
         int edtIdx;
         public int selectedIdx;
+        public int itemsCountLimit = Int32.MaxValue;
 
         public UserControl1()
         {
@@ -43,6 +44,12 @@ namespace MyListControl
         {
             if (isEditing == true)
                 return;
+
+            if(contentLbx.Items.Count >= itemsCountLimit)
+            {
+                MessageBox.Show("You can not add more items as limit is reached!", "Upper limit reached");
+                return;
+            }
 
             TextBox newTxtBx = new TextBox();
             newTxtBx.Width = contentLbx.ActualWidth - 10;
@@ -60,6 +67,8 @@ namespace MyListControl
         // add new item lost focus
         private void addItemBox_LostFocus(object sender, RoutedEventArgs e)
         {
+            bool fireAddedEvent = false;
+            bool fireUpdatedEvent = false;
             if (isEditing == true)
             {
                 TextBox txb = sender as TextBox;
@@ -67,7 +76,16 @@ namespace MyListControl
                     return;
 
                 if (txb.Text.Trim() == string.Empty)
+                {
+                    // delete when adding
+                    if(listContent.Count == edtIdx)
+                    {
+                        // if the textbox is empty, remove it
+                        contentLbx.Items.RemoveAt(edtIdx);
+                        isEditing = false;
+                    }
                     return;
+                }                    
 
                 //listAlt.Remove(txt.Text);
                 if (listContent.Count > edtIdx) // edit
@@ -79,10 +97,9 @@ namespace MyListControl
                     }
 
                     listContent[edtIdx] = txb.Text;
-                    ListItemChangedEventArgs e1 = new ListItemChangedEventArgs();
-                    e1.Idx = edtIdx;
-                    e1.NewName = txb.Text;
-                    onListItemUpdatedEvent(e1);
+
+
+                    fireUpdatedEvent = true;
                 }                    
                 else // new
                 {
@@ -94,10 +111,7 @@ namespace MyListControl
 
                     listContent.Add(txb.Text);
 
-                    ListItemChangedEventArgs e1 = new ListItemChangedEventArgs();
-                    e1.Idx = edtIdx;
-                    e1.NewName = txb.Text;
-                    onListItemAddedEvent(e1);
+                    fireAddedEvent = true;
                 }                    
 
                 TextBlock txblk = new TextBlock();
@@ -122,7 +136,7 @@ namespace MyListControl
                 newBtn.Width = 22;
                 newBtn.Height = 22;
                 newBtn.Cursor = Cursors.Hand;
-                newBtn.ToolTip = "delete alternative";
+                newBtn.ToolTip = "Delete";
                 newBtn.Click += new RoutedEventHandler(deleteBtn_OnClick);
 
                 ImageBrush newB = new ImageBrush();
@@ -137,22 +151,22 @@ namespace MyListControl
                 contentLbx.Items.Insert(edtIdx, newGrid);
 
                 isEditing = false;
+
+                if (fireUpdatedEvent) // edit
+                {
+                    ListItemChangedEventArgs e1 = new ListItemChangedEventArgs();
+                    e1.Idx = edtIdx;
+                    e1.NewName = txb.Text;
+                    onListItemUpdatedEvent(e1);
+                }
+                else if(fireAddedEvent == true) // new
+                {
+                    ListItemChangedEventArgs e1 = new ListItemChangedEventArgs();
+                    e1.Idx = edtIdx;
+                    e1.NewName = txb.Text;
+                    onListItemAddedEvent(e1);
+                }
             }
-
-
-#if DEBUG
-            Console.WriteLine("list content:");
-            foreach (string s in listContent)
-                Console.WriteLine(s);
-
-            Console.WriteLine("delete btn names:");
-            for (int i = 0; i < contentLbx.Items.Count; i++)
-            {
-                Console.WriteLine(((contentLbx.Items[i] as Grid).Children[0] as TextBlock).Name);
-                Console.WriteLine(((contentLbx.Items[i] as Grid).Children[1] as Button).Name);
-            }
-
-#endif
         }
 
         public void Update(int idx, string name)
@@ -216,7 +230,7 @@ namespace MyListControl
                         newBtn.Width = 22;
                         newBtn.Height = 22;
                         newBtn.Cursor = Cursors.Hand;
-                        newBtn.ToolTip = "delete alternative";
+                        newBtn.ToolTip = "Delete";
                         newBtn.Click += new RoutedEventHandler(deleteBtn_OnClick);
 
                         ImageBrush newB = new ImageBrush();
@@ -232,19 +246,6 @@ namespace MyListControl
                     }
                 }
             }
-#if DEBUG
-            Console.WriteLine("list content:");
-            foreach (string s in listContent)
-                Console.WriteLine(s);
-
-            Console.WriteLine("delete btn names:");
-            for (int i = 0; i < contentLbx.Items.Count; i++)
-            {
-                Console.WriteLine(((contentLbx.Items[i] as Grid).Children[0] as TextBlock).Name);
-                Console.WriteLine(((contentLbx.Items[i] as Grid).Children[1] as Button).Name);
-            }
-
-#endif
         }
 
         private void ListItem_DoubleClick(object sender, MouseButtonEventArgs e)
@@ -276,28 +277,6 @@ namespace MyListControl
 
             this.Dispatcher.BeginInvoke(DispatcherPriority.Background,
                                 (Action)(() => { Keyboard.Focus(txb1); }));
-
-#if DEBUG
-            Console.WriteLine("list content:");
-            foreach (string s in listContent)
-                Console.WriteLine(s);
-
-            Console.WriteLine("delete btn names:");
-            for (int i = 0; i < contentLbx.Items.Count; i++)
-            {
-                try
-                {
-                    Console.WriteLine(((contentLbx.Items[i] as Grid).Children[0] as TextBlock).Name);
-                    Console.WriteLine(((contentLbx.Items[i] as Grid).Children[1] as Button).Name);
-                }
-                catch
-                {
-
-                }
-            }
-
-#endif
-
         }
 
         public event EventHandler<ListItemChangedEventArgs> ListItemAddedEvent;

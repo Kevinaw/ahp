@@ -39,16 +39,22 @@ namespace ahp
             for(i = 0; i < options.Length; i++)
             {
                 RowDefinition rd = new RowDefinition();
+                rd.Height = new GridLength(0, GridUnitType.Auto);
                 GrdOptions.RowDefinitions.Add(rd);
             }
 
-            for(i = 0; i < options.Length; i++)
+            RowDefinition rd0 = new RowDefinition();
+            rd0.Height = new GridLength(0, GridUnitType.Star);
+            GrdOptions.RowDefinitions.Add(rd0);
+
+
+            for (i = 0; i < options.Length; i++)
             {
                 CheckBox cb = new CheckBox();
                 if(i == 0)
-                    cb.Margin = new Thickness(10, 10, 10, 10);
+                    cb.Margin = new Thickness(20, 20, 20, 20);
                 else
-                    cb.Margin = new Thickness(10, 0, 10, 10);
+                    cb.Margin = new Thickness(20, 0, 20, 20);
                 cb.Content = options[i].ToString();
 
                 GrdOptions.Children.Add(cb);

@@ -1,6 +1,3 @@
-C:\Users\Kevin\Desktop\output\ahp.exe.config
-C:\Users\Kevin\Desktop\output\ahp.exe
-C:\Users\Kevin\Desktop\output\ahp.pdb
 C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\MainWindow_2.g.cs
 C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\Page1.g.cs
 C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\App.g.cs
@@ -74,3 +71,91 @@ C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\WindowPropose.baml
 C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\WindowSelectInconsistentElements.baml
 C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\ahp.csprojResolveAssemblyReference.cache
 C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\ahp.csprojResolveAssemblyReference.cache
+C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\ahp.exe.manifest
+C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\ahp.application
+C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\WindowProgressBar.g.cs
+C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\ahp\obj\Debug\WindowProgressBar.baml
+C:\Users\Kevin\Dropbox\AHP\ahp\obj\Debug\ahp.csprojResolveAssemblyReference.cache
+C:\Users\Kevin\Dropbox\AHP\ahp\obj\Debug\Themes\Office2010BlueTheme\Office2010Blue.MSControls.Core.Implicit.baml
+C:\Users\Kevin\Dropbox\AHP\ahp\obj\Debug\Themes\Office2010BlueTheme\Office2010Blue.MSControls.Toolkit.Implicit.baml
+C:\Users\Kevin\Dropbox\AHP\ahp\obj\Debug\Themes\Office2010BlueTheme\Styles.Shared.baml
+C:\Users\Kevin\Dropbox\AHP\ahp\obj\Debug\Themes\Office2010BlueTheme\Styles.WPF.baml
+C:\Users\Kevin\Dropbox\AHP\ahp\obj\Debug\Themes\Office2010BlueTheme\Theme.Colors.baml
+C:\Users\Kevin\Dropbox\AHP\ahp\obj\Debug\Page1.g.cs
+C:\Users\Kevin\Dropbox\AHP\ahp\obj\Debug\WindowCombinations.g.cs
+C:\Users\Kevin\Dropbox\AHP\ahp\obj\Debug\WindowProgressBar.g.cs
+C:\Users\Kevin\Dropbox\AHP\ahp\obj\Debug\WindowPropose.g.cs
+C:\Users\Kevin\Dropbox\AHP\ahp\obj\Debug\WindowSelectInconsistentElements.g.cs
+C:\Users\Kevin\Dropbox\AHP\ahp\obj\Debug\App.g.cs
+C:\Users\Kevin\Dropbox\AHP\ahp\obj\Debug\ahp_MarkupCompile.cache
+C:\Users\Kevin\Dropbox\AHP\ahp\obj\Debug\ahp_MarkupCompile.lref
+C:\Users\Kevin\Dropbox\AHP\ahp\obj\Debug\ahp.exe
+C:\Users\Kevin\Dropbox\AHP\ahp\obj\Debug\ahp.pdb
+C:\Users\Kevin\Dropbox\AHP\ahp\obj\Debug\MainWindow.g.cs
+C:\Users\Kevin\Dropbox\AHP\ahp\obj\Debug\MainWindow_2.g.cs
+C:\Users\Kevin\Dropbox\AHP\ahp\obj\Debug\App.baml
+C:\Users\Kevin\Dropbox\AHP\ahp\obj\Debug\MainWindow.baml
+C:\Users\Kevin\Dropbox\AHP\ahp\obj\Debug\MainWindow_2.baml
+C:\Users\Kevin\Dropbox\AHP\ahp\obj\Debug\Page1.baml
+C:\Users\Kevin\Dropbox\AHP\ahp\obj\Debug\WindowCombinations.baml
+C:\Users\Kevin\Dropbox\AHP\ahp\obj\Debug\WindowProgressBar.baml
+C:\Users\Kevin\Dropbox\AHP\ahp\obj\Debug\WindowPropose.baml
+C:\Users\Kevin\Dropbox\AHP\ahp\obj\Debug\WindowSelectInconsistentElements.baml
+C:\Users\Kevin\Dropbox\AHP\ahp\obj\Debug\ahp.g.resources
+C:\Users\Kevin\Dropbox\AHP\ahp\obj\Debug\ahp.Properties.Resources.resources
+C:\Users\Kevin\Dropbox\AHP\ahp\obj\Debug\ahp.csproj.GenerateResource.Cache
+C:\Users\Kevin\Desktop\ahp.exe.config
+C:\Users\Kevin\Desktop\ahp.exe.manifest
+C:\Users\Kevin\Desktop\ahp.application
+C:\Users\Kevin\Desktop\ahp.exe
+C:\Users\Kevin\Desktop\ahp.pdb
+C:\Users\Kevin\Dropbox\AHP\ahp\obj\Debug\ahp.exe.manifest
+C:\Users\Kevin\Dropbox\AHP\ahp\obj\Debug\ahp.application
+C:\Users\Kevin\Dropbox\AHP\bin\Debug\ahp.exe.config
+C:\Users\Kevin\Dropbox\AHP\bin\Debug\ahp.exe.manifest
+C:\Users\Kevin\Dropbox\AHP\bin\Debug\ahp.application
+C:\Users\Kevin\Dropbox\AHP\bin\Debug\ahp.exe
+C:\Users\Kevin\Dropbox\AHP\bin\Debug\ahp.pdb
+C:\Users\Kevin\Dropbox\AHP\ahp\obj\Debug\WindowIdentify.g.cs
+C:\Users\Kevin\Dropbox\AHP\ahp\obj\Debug\WindowIdentify.baml
+C:\Users\huiquan\Dropbox\AHP\bin\Debug\ahp.exe.config
+C:\Users\huiquan\Dropbox\AHP\ahp\obj\Debug\ahp.exe
+C:\Users\huiquan\Dropbox\AHP\ahp\obj\Debug\ahp.pdb
+C:\Users\huiquan\Dropbox\AHP\bin\Debug\ahp.exe.manifest
+C:\Users\huiquan\Dropbox\AHP\bin\Debug\ahp.application
+C:\Users\huiquan\Dropbox\AHP\bin\Debug\ahp.exe
+C:\Users\huiquan\Dropbox\AHP\bin\Debug\ahp.pdb
+C:\Users\huiquan\Dropbox\AHP\ahp\obj\Debug\ahp.csprojResolveAssemblyReference.cache
+C:\Users\huiquan\Dropbox\AHP\ahp\obj\Debug\Themes\Office2010BlueTheme\Office2010Blue.MSControls.Core.Implicit.baml
+C:\Users\huiquan\Dropbox\AHP\ahp\obj\Debug\Themes\Office2010BlueTheme\Office2010Blue.MSControls.Toolkit.Implicit.baml
+C:\Users\huiquan\Dropbox\AHP\ahp\obj\Debug\Themes\Office2010BlueTheme\Styles.Shared.baml
+C:\Users\huiquan\Dropbox\AHP\ahp\obj\Debug\Themes\Office2010BlueTheme\Styles.WPF.baml
+C:\Users\huiquan\Dropbox\AHP\ahp\obj\Debug\Themes\Office2010BlueTheme\Theme.Colors.baml
+C:\Users\huiquan\Dropbox\AHP\ahp\obj\Debug\MainWindow.g.cs
+C:\Users\huiquan\Dropbox\AHP\ahp\obj\Debug\MainWindow_2.g.cs
+C:\Users\huiquan\Dropbox\AHP\ahp\obj\Debug\Page1.g.cs
+C:\Users\huiquan\Dropbox\AHP\ahp\obj\Debug\WindowCombinations.g.cs
+C:\Users\huiquan\Dropbox\AHP\ahp\obj\Debug\WindowIdentify.g.cs
+C:\Users\huiquan\Dropbox\AHP\ahp\obj\Debug\WindowProgressBar.g.cs
+C:\Users\huiquan\Dropbox\AHP\ahp\obj\Debug\WindowPropose.g.cs
+C:\Users\huiquan\Dropbox\AHP\ahp\obj\Debug\WindowSelectInconsistentElements.g.cs
+C:\Users\huiquan\Dropbox\AHP\ahp\obj\Debug\App.g.cs
+C:\Users\huiquan\Dropbox\AHP\ahp\obj\Debug\ahp_MarkupCompile.cache
+C:\Users\huiquan\Dropbox\AHP\ahp\obj\Debug\ahp_MarkupCompile.lref
+C:\Users\huiquan\Dropbox\AHP\ahp\obj\Debug\App.baml
+C:\Users\huiquan\Dropbox\AHP\ahp\obj\Debug\MainWindow.baml
+C:\Users\huiquan\Dropbox\AHP\ahp\obj\Debug\MainWindow_2.baml
+C:\Users\huiquan\Dropbox\AHP\ahp\obj\Debug\Page1.baml
+C:\Users\huiquan\Dropbox\AHP\ahp\obj\Debug\WindowCombinations.baml
+C:\Users\huiquan\Dropbox\AHP\ahp\obj\Debug\WindowIdentify.baml
+C:\Users\huiquan\Dropbox\AHP\ahp\obj\Debug\WindowProgressBar.baml
+C:\Users\huiquan\Dropbox\AHP\ahp\obj\Debug\WindowPropose.baml
+C:\Users\huiquan\Dropbox\AHP\ahp\obj\Debug\WindowSelectInconsistentElements.baml
+C:\Users\huiquan\Dropbox\AHP\ahp\obj\Debug\ahp.g.resources
+C:\Users\huiquan\Dropbox\AHP\ahp\obj\Debug\ahp.Properties.Resources.resources
+C:\Users\huiquan\Dropbox\AHP\ahp\obj\Debug\ahp.csproj.GenerateResource.Cache
+C:\Users\huiquan\Dropbox\AHP\ahp\obj\Debug\ahp.exe.manifest
+C:\Users\huiquan\Dropbox\AHP\ahp\obj\Debug\ahp.application
+C:\Users\Kevin\Dropbox\AHP\ahp\obj\Debug\WindowAlternativesScores.g.cs
+C:\Users\Kevin\Dropbox\AHP\ahp\obj\Debug\WindowAlternativesScores.baml
+C:\Users\Kevin\Dropbox\AHP\ahp\obj\Debug\GeneratedInternalTypeHelper.g.cs
