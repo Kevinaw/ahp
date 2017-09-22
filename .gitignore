@@ -48,3 +48,7 @@ bin/
 Reference\ Docs\ and\ Software/
 /development\ log.txt
 logo/
+/MyListControl/obj/Debug
+/.vs/ahp/v14
+/MyNumericUpDownControll/zslfaca5.tmp_proj
+*.dropbox
