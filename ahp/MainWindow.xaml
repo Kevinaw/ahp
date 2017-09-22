@@ -7,18 +7,18 @@
       xmlns:MyListControl="clr-namespace:MyListControl;assembly=MyListControl" xmlns:MyNumericUpDownControll="clr-namespace:MyNumericUpDownControll;assembly=MyNumericUpDownControll" x:Class="ahp.MainWindow"
       mc:Ignorable="d"
       Title="AHP EHan Engineering" MouseDown="Window_MouseDown" Loaded="Window_Loaded" Width="1024" Height="768
-    " Icon="small logo.ico" WindowStartupLocation="CenterScreen">
+    " Icon="small logo.ico" WindowStartupLocation="CenterScreen" WindowState="Maximized" FontSize="18.667" BorderThickness="0" Foreground="#FFA26868" Background="#FFECF0F1" FontFamily="Segoe UI Semibold">
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="0"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="0"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Menu>
-            <MenuItem Header="_Project">
+        <Menu FontSize="18.667" Background="{x:Null}">
+            <MenuItem Header="_Project" Background="{x:Null}" BorderThickness="0">
                 <MenuItem Header="_New..." Click="newbtn_Click"/>
                 <Separator />
                 <MenuItem Header="_Open..." Click="openBtn_Click"/>
@@ -29,67 +29,95 @@
                 <MenuItem Header="_Exit" Click="Exit_Click" />
             </MenuItem>
         </Menu>
-        <ToolBar Grid.Row="1" Band="1" BandIndex="1">
+        <ToolBar Grid.Row="1" Band="1" BandIndex="1" Background="{x:Null}" IsHitTestVisible="True" ScrollViewer.VerticalScrollBarVisibility="Auto" Name="toolbar">
             <Button x:Name="newbtn" Click="newbtn_Click" ToolTip="New">
-                <Image Width="32" Height="32" Source="Resources\new.png"  />
+                <DockPanel>
+                    <Image DockPanel.Dock="Top" Width="36" Height="36" Source="Resources\new.png"  />
+                    <!--TextBlock HorizontalAlignment="Center">New</-->
+                </DockPanel>                
             </Button>
             <Separator/>
             <Button x:Name="openBtn" Click="openBtn_Click" ToolTip="Open" >
-                <Image Width="32" Height="32" Source="Resources\open.png" />
+                <DockPanel>
+                    <Image DockPanel.Dock="Top" Width="36" Height="36" Source="Resources\open.png" />
+                    <!--TextBlock HorizontalAlignment="Center">Open</TextBlock-->
+                </DockPanel>
+                
             </Button>
             <Separator/>
             <Button x:Name="saveBtn" Click="saveBtn_Click" ToolTip="Save">
-                <Image Width="32" Height="32" Source="Resources\save1.png"/>
+                <DockPanel>
+                    <Image DockPanel.Dock="Top" Width="36" Height="36" Source="Resources\save1.png"/>
+                    <!--TextBlock HorizontalAlignment="Center">Save</TextBlock-->
+                </DockPanel>
+                
             </Button>
             <Button x:Name="saveasBtn" Click="Saveas_Click" ToolTip="Save as">
-                <Image Width="32" Height="32" Source="Resources\saveas1.png" />
+                <DockPanel>
+                    <Image DockPanel.Dock="Top" Width="36" Height="36" Source="Resources\saveas1.png" />
+                    <!--TextBlock HorizontalAlignment="Center">Save As</TextBlock-->
+                </DockPanel>
+                
+            </Button>
+            <Separator/>
+            <Button x:Name="zoominBtn" Click="zoominBtn_Click" ToolTip="Save">
+                <DockPanel>
+                    <Image DockPanel.Dock="Top" Width="36" Height="36" Source="Resources/ZoomIn.png"/>
+                    <!--TextBlock HorizontalAlignment="Center">Zoom In</TextBlock-->
+                </DockPanel>                
+            </Button>
+            <Button x:Name="zoomoutBtn" Click="zoomoutBtn_Click" ToolTip="Zoom Out">
+                <DockPanel>
+                    <Image DockPanel.Dock="Top" Width="36" Height="36" Source="Resources/ZoomOut.png" />
+                    <!--TextBlock HorizontalAlignment="Center">Zoom Out</TextBlock-->
+                </DockPanel>                
             </Button>
             <Separator/>
             <Button x:Name="exitBtn" Click="Exit_Click" ToolTip="Exit">
-                <Image Width="32" Height="32" Source="Resources\exit.png" />
+                <DockPanel>
+                    <Image DockPanel.Dock="Top" Width="36" Height="36" Source="Resources\exit.png" />
+                    <!--TextBlock HorizontalAlignment="Center">Exit</TextBlock-->
+                </DockPanel>                
             </Button>
             <Separator/>
         </ToolBar>
 
         <!-- Decision Hierarchy Graphic View -->
-        <GroupBox Grid.Row="2" Header="Graphic View" Grid.Column="1" x:Name="grpGraph">
+        <GroupBox Grid.Row="2" Header="Graphic View" Grid.Column="1" x:Name="grpGraph" BorderBrush="{x:Null}">
             <Canvas x:Name="cvsHrcGraph" SizeChanged="cvsHrcGraph_SizeChanged"/>
         </GroupBox>
 
-        <TabControl x:Name="tabMain" Grid.Row="3" TabStripPlacement="Top" SelectionChanged="tabMain_SelectionChanged" Margin="0" Background="#FFE9F0F7">
+        <TabControl x:Name="tabMain" Grid.Row="3" TabStripPlacement="Top" SelectionChanged="tabMain_SelectionChanged" Margin="0" Background="{x:Null}" Foreground="#FF2C3E50">
 
             <!-- Goal and Criterias-->
-            <TabItem x:Name="tabCriterias" Header="Goal &amp; Criterias">
-                <Grid Margin="20">
+            <TabItem x:Name="tabCriterias" Header="Goal &amp; Criteria" Foreground="#FF2C3E50" MinWidth="200" MinHeight="48">
+                <Grid Margin="20" Name="grdMain">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="4*"></ColumnDefinition>
+                        <ColumnDefinition Width="6*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Border BorderBrush="#FF8CA6C9" BorderThickness="1" Margin="0,0,20,0" CornerRadius="10">
+                    <Border BorderBrush="#FF8CA6C9" BorderThickness="1" Margin="0,0,20,0" Padding="20" CornerRadius="10">
                         <Grid Name="grdCr" Focusable="True"  >
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
-                                <RowDefinition/>
+                                <RowDefinition Height="*" MinHeight="10"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <Grid Grid.Row="0" Margin="20,20,20,10">
-                                <Label Content="Goal:" />
-                                <TextBox x:Name="txbGoal" TextChanged="txbGoal_TextChanged" Margin="80,0,0,0" Width="220" HorizontalAlignment="Left"/>
-                            </Grid>
-                            <Grid Grid.Row="1" Margin="20,0,20,20">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <Label Content="Criterias:"/>
-                                <UserControl x:Name="userControlCr" Margin="80,0,0,0" Width="220" >
-                                    <MyListControl:UserControl1  x:Name="usrCtrlCr" Width="auto" Height="Auto" Loaded="usrCtrlCr_Loaded"/>
-                                </UserControl>
-                            </Grid>
-                            <Grid Grid.Row="2" Margin="20,20,20,10">
-                                <Label Content="Number of Participants:" />
-                                <TextBox x:Name="txbNumberofParticipants" TextChanged="txbNumberofParticipants_TextChanged" Margin="150,0,0,0" Width="100" HorizontalAlignment="Left" Text="10"/>
-                            </Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*" MinWidth="10"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Content="Goal:" />
+                            <TextBox Grid.Column="1" x:Name="txbGoal" TextChanged="txbGoal_TextChanged" HorizontalAlignment="Stretch" Height="100" TextWrapping="Wrap"/>
+
+                            <Label Grid.Row="1" Content="Criteria:"/>
+                            <UserControl Grid.Row="1" Grid.Column="1" x:Name="userControlCr" HorizontalAlignment="Stretch" >
+                                <MyListControl:UserControl1  x:Name="usrCtrlCr" Width="auto" Height="Auto" Loaded="usrCtrlCr_Loaded" HorizontalAlignment="Stretch"/>
+                            </UserControl>
+
+                            <Label Grid.Row="2" Content="#Participants:" />
+                            <TextBox Grid.Row="2" Grid.Column="1" x:Name="txbNumberofParticipants" TextChanged="txbNumberofParticipants_TextChanged"  HorizontalAlignment="Stretch" Text="10"/>
+
                         </Grid>
                     </Border>
                     <Border BorderBrush="#FF8CA6C9" BorderThickness="1" Margin="0" CornerRadius="10" Grid.Column="1" Background="White">
@@ -102,27 +130,27 @@
             </TabItem>
 
             <!-- Alternatives -->
-            <TabItem x:Name="tabAlternatives" Header="Alternatives">
+            <TabItem x:Name="tabAlternatives" Header="Alternatives" MinWidth="200" MinHeight="48">
                 <Grid Margin="20">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="4*"></ColumnDefinition>
+                        <ColumnDefinition Width="6*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Border BorderBrush="#FF8CA6C9" BorderThickness="1" CornerRadius="10">
-                        <Grid Margin="20">
+                    <Border BorderBrush="#FF8CA6C9" BorderThickness="1" CornerRadius="10" Margin="0, 0, 20, 0" Padding="20">
+                        <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition/>
+                                <ColumnDefinition Width="*" MinWidth="10"/>
                             </Grid.ColumnDefinitions>
-                            <Label Content="Alternatives:" Width="80"/>
-                            <Grid Grid.Column="1" x:Name="grdAl" Focusable="True" Width="220">
+                            <Label Content="Alternatives:"/>
+                            <Grid Grid.Column="1" x:Name="grdAl" Focusable="True">
                                 <UserControl x:Name="userControlAlternatives">
                                     <MyListControl:UserControl1  x:Name="usrCtrlAlt"/>
                                 </UserControl>
                             </Grid>
                         </Grid>
                     </Border>
-                    <GroupBox Grid.Column="1"  Margin="20,-8,0,0" Padding="20,40,20,20" Background="#FFE9F0F7" Header="Properties">
+                    <GroupBox Grid.Column="1"  Margin="0,-14,0,0" Padding="20,20,20,20" Header="Properties">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -132,13 +160,16 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <Label Content="Name:"/>
-                            <TextBox Name="txbNameAl" Grid.Column="1" TextChanged="txbNameAl_TextChanged" Margin="0,0,0,10" Width="200" HorizontalAlignment="Left"/>
-                            <Label Grid.Row="1" Content="Cost:"/>
-                            <TextBox Name="txbCostAl" Grid.Row="1" Grid.Column="1" Margin="0,0,0,10" TextChanged="txbCostAl_TextChanged" Width="200" HorizontalAlignment="Left"/>
-                            <Label Grid.Row="2" Content="Cost(Risk):"/>
-                            <TextBox Name="txbCostRAl" Grid.Row="2" Grid.Column="1" AcceptsReturn="True" TextChanged="txbCostRAl_TextChanged" Width="200" HorizontalAlignment="Left"/>
+                            <TextBox Name="txbNameAl" Grid.Column="1" TextChanged="txbNameAl_TextChanged" Margin="0,0,0,10" HorizontalAlignment="Stretch"/>
+                            <Label Grid.Row="1" Content="Description:"/>
+                            <TextBox Grid.Row="1" Name="txbDescAl" Grid.Column="1" TextChanged="txbDescAl_TextChanged" Margin="0,0,0,10" SpellCheck.IsEnabled="True" Height="200" VerticalAlignment="Top" UseLayoutRounding="True" TextWrapping="Wrap"/>
+                            <Label Grid.Row="2" Content="Cost($M):"/>
+                            <TextBox Name="txbCostAl" Grid.Row="2" Grid.Column="1" Margin="0,0,0,10" TextChanged="txbCostAl_TextChanged" HorizontalAlignment="Stretch"/>
+                            <TextBlock Grid.Row="3" Text="Expected cost of risk($M):" TextWrapping="Wrap" MaxWidth="100"/>
+                            <TextBox Name="txbCostRAl" Grid.Row="3" Grid.Column="1" AcceptsReturn="True" TextChanged="txbCostRAl_TextChanged" VerticalAlignment="Top"/>
                         </Grid>
                     </GroupBox>
                 </Grid>
@@ -146,73 +177,107 @@
             </TabItem>
 
             <!-- Criterias Pairwise Comparison -->
-            <TabItem Header="Criterias Pairwise Comparison">
-                <Border BorderBrush="#FF8CA6C9" BorderThickness="1" Margin="20" CornerRadius="10">
-                    <ScrollViewer Margin="20" HorizontalScrollBarVisibility="Auto">
-                       <Grid>
+            <TabItem Name="tabCrParCom" Header="Criteria Comparison" MinWidth="200" MinHeight="48">
+                <Grid Margin="20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="7*"></ColumnDefinition>
+                        <ColumnDefinition Width="3*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Border BorderBrush="#FF8CA6C9" BorderThickness="1" CornerRadius="10">
+                        <ScrollViewer Name="mtxScrollViewer" HorizontalScrollBarVisibility="Auto" Margin="10">
+                            <Border x:Name="mtxBdr" BorderThickness ="1" CornerRadius="5" BorderBrush="#FF8CA6C9" HorizontalAlignment="Left" VerticalAlignment="Top">
+                                <Grid x:Name="mtxGrid" ShowGridLines="True"/>
+                            </Border>
+                        </ScrollViewer>
+                    </Border>
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition MinWidth="200" Width="Auto"/>
-                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Border x:Name="mtxBdr" BorderThickness ="1" CornerRadius="5" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="#FF8CA6C9">
-                            <Grid x:Name="mtxGrid" ShowGridLines="True"/>
-                        </Border>
-                        <Grid Grid.Column="1" Margin="20,0,0,0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" Name="txbDescription" TextWrapping="Wrap">
-                                Intensity of Importance Scale: <LineBreak/>
-                                1 - Equal Importance<LineBreak/>
-                                3 - Weak Importance<LineBreak/>
-                                5- Strong Importance<LineBreak/>
-                                7 - Demonstrated Importance<LineBreak/>
-                                9 - Absolute Importance<LineBreak/>                              
-                                2, 4 - Intermediate Values<LineBreak/>
-                                6, 8 - Between Adjacent Judgements<LineBreak/>
-                            </TextBlock>
-
-                            <Button Grid.Row="1" x:Name="evalButton" Padding="5" Click="evalButton_Click" Content="Check Consistency" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <TextBlock Grid.Row="2" x:Name="txtEvalRslt"/>
-                            <StackPanel Grid.Row="3" Orientation="Horizontal">
-                                <Button x:Name="BtnIdentify" Padding="5" Click="BtnIdentify_Click" Content="Identify" IsEnabled="False"/>
-                                <Button x:Name="BtnPropose" Padding="5" Margin="5, 0, 0, 0" Click="BtnPropose_Click" Content="Propose" IsEnabled="False"/>
-                            </StackPanel>
-                        </Grid>
-                    </Grid> 
-                    </ScrollViewer>                    
-                </Border>
+                        <Button Grid.Row="0" Grid.Column="1" x:Name="evalButton" Padding="5" Click="evalButton_Click" Content="Check Consistency" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" x:Name="txtEvalRslt"/>
+                        <DockPanel Grid.Row="2"  Grid.Column="1" LastChildFill="False">
+                            <Button x:Name="BtnIdentify" Padding="5" Margin="10, 0,0,0" Click="BtnIdentify_Click" Content="Identify" IsEnabled="False" DockPanel.Dock="Left" />
+                            <Button x:Name="BtnPropose" Padding="5" Margin="0, 0, 10, 0" Click="BtnPropose_Click" Content="Propose" IsEnabled="False"  DockPanel.Dock="Right"/>
+                        </DockPanel>
+                        <TextBlock Grid.Row="3" Grid.Column="1" Name="txbDescription" TextWrapping="Wrap" Margin="0, 20, 0, 0">
+                                    Intensity of Importance Scale: <LineBreak/>
+                                    1 - Equal Importance<LineBreak/>
+                                    3 - Weak Importance<LineBreak/>
+                                    5- Strong Importance<LineBreak/>
+                                    7 - Demonstrated Importance<LineBreak/>
+                                    9 - Absolute Importance<LineBreak/>                              
+                                    2, 4 - Intermediate Values<LineBreak/>
+                                    6, 8 - Between Adjacent Judgements<LineBreak/>
+                        </TextBlock>
+                        <Slider  Grid.RowSpan="5" Name="sldGrdSz" BorderThickness="10" TickPlacement="Both" Value="5" Cursor="Hand" UseLayoutRounding="False" Foreground="#FFF33561" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
+                    </Grid>
+                </Grid>
             </TabItem>
 
             <!-- Alternatives Scores-->
-            <TabItem Header="Alternative Scores">
-                <Border BorderBrush="#FF8CA6C9" BorderThickness="1" Margin="20" CornerRadius="10" Background="#FFE9F0F7">
-                    <Grid Margin="20">
-                        <Border x:Name="bdrAC" BorderThickness ="1" BorderBrush="#FF8CA6C9" CornerRadius="5" HorizontalAlignment="Left" VerticalAlignment="Top" >
-                            <Grid x:Name="grdAC" ShowGridLines="True" Focusable="True"/>
-                        </Border>
-                    </Grid>
-                </Border>
+            <TabItem Header="Alternative Scores" MinWidth="200" MinHeight="48">
+                <Grid Margin="20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <Border BorderBrush="#FF8CA6C9" BorderThickness="1" CornerRadius="10">
+                        <ScrollViewer Name="mtxScrollVieweratl" HorizontalScrollBarVisibility="Auto" Margin="10">
+                            <Border x:Name="bdrAC" BorderThickness ="1" BorderBrush="#FF8CA6C9" CornerRadius="5" HorizontalAlignment="Left" VerticalAlignment="Top" >
+                                <Grid x:Name="grdAC" ShowGridLines="True" Focusable="True"/>
+                            </Border>
+                        </ScrollViewer>
+                    </Border>
+                    <Slider Grid.Column="1" Name="sldGrdSzAlt" Grid.Row="4" BorderThickness="10" TickPlacement="Both" Value="5" Cursor="Hand" UseLayoutRounding="False" Foreground="#FFF33561" Orientation="Vertical" MinHeight="300" Width="80" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Padding="0"/>
+
+                </Grid>
+
             </TabItem>
 
             <!-- Results -->
-            <TabItem x:Name="tabRst" Header="Result">
+            <TabItem x:Name="tabRst" Header="Result" MinWidth="200" MinHeight="48">
                 <Grid Margin="20" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="2*"/>
-                        <RowDefinition Height="*"/>
+                        <!--Hide the graphical results.-->
+                        <RowDefinition Height="0"/>
                     </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <!--Hide the graphical results.-->
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
                     <Border Grid.Row="0" BorderBrush="#FF8CA6C9" BorderThickness="1"  CornerRadius="10" >
                         <ScrollViewer Name="SrvRstMtx" HorizontalScrollBarVisibility="Auto" Margin="10">
-                            <Border x:Name="bdrRst" BorderThickness ="1" BorderBrush="#FF8CA6C9" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" CornerRadius="5">
+                            <Border x:Name="bdrRst" BorderThickness ="1" BorderBrush="#FF8CA6C9" HorizontalAlignment="Left" VerticalAlignment="Top" CornerRadius="5">
                                 <Grid x:Name="grdRst" ShowGridLines="True"/>
                             </Border>
                         </ScrollViewer>
                     </Border>
+                    <Grid Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Slider  Name="sldGrdSzRst" BorderThickness="10" TickPlacement="Both" Value="5" Cursor="Hand" UseLayoutRounding="False" Foreground="#FFF33561" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="80"/>
+                        <Button Grid.Column="1" Margin="10"  Name="rptBtn" Click="rptBtn_Click" VerticalAlignment="Top" MinHeight="128" MinWidth="128" Width="128">
+                            <DockPanel LastChildFill="True">
+                                <Image DockPanel.Dock="Top" Source="Resources/report.png" Width="64" Height="64"></Image>
+                                <TextBlock HorizontalAlignment="Center">Report</TextBlock>
+                            </DockPanel>
+                        </Button>
+                    </Grid>
+
                     <Border Grid.Row = "1" BorderBrush="#FF8CA6C9" BorderThickness="1" CornerRadius="10" Background="White" Margin="0,20,0,0">
                         <ScrollViewer Name="SrvRstGraph" HorizontalScrollBarVisibility="Auto">
                             <Canvas x:Name="CvsRstGraph"/>

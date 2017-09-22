@@ -29,8 +29,8 @@ namespace ahp
     /// 
     public partial class MainWindow : Window
     {
-        Criterias Criterias = new Criterias();
-        Alternatives Alternatives = new Alternatives();
+        public Criterias Criterias = new Criterias();
+        public Alternatives Alternatives = new Alternatives();
         private bool isOpeningPrj; //opening old project
         private string filePath;
 
@@ -69,25 +69,27 @@ namespace ahp
                 case 1:
                     break;
                 case 2:
-
-                    // update the matrix when criteria updated.
-
-                    
-                    // do nothing if no change
-                    // Criteria added
-                    // Criteria deleted
-                    // Criteria updated
-                    /*
-                    BtnIdentify.IsEnabled = false;
-                    BtnPropose.IsEnabled = false;
-                    txtEvalRslt.Text = "";
-                    Criterias.GenerateMtxView(mtxGrid);
-                    */
+                    if (Criterias.listCr.Count == 0)
+                        sldGrdSz.IsEnabled = false;
+                    else
+                        sldGrdSz.IsEnabled = true;
                     break;
                 case 3:
                     //Alternatives.GenerateMtxView(grdAC, tabMain, Criterias);
+                    if (Alternatives.listAl.Count == 0)
+                        sldGrdSzAlt.IsEnabled = false;
+                    else
+                    {
+                        sldGrdSzAlt.IsEnabled = true;
+                    }
                     break;
                 case 4:
+                    if (Alternatives.listAl.Count == 0 && Criterias.listCr.Count == 0)
+                        sldGrdSzRst.IsEnabled = false;
+                    else
+                    {
+                        sldGrdSzRst.IsEnabled = true;
+                    }
                     DrawResultMtx();
                     drawAhpRst();
                     break;
@@ -128,25 +130,42 @@ namespace ahp
             // caculate criteria weight
             Criterias.AhpEval();
 
-            double gridWidth = 100;
-            double gridHeight = 50;
+            // golden ratio. 8 is full screen.
+            grdRst.Width = grdMain.ActualWidth - sldGrdSzRst.Width - rptBtn.Width - 50;
+            grdRst.Height = grdMain.ActualHeight - 30;
+
+            if (grdRst.Width > 1.618 * grdRst.Height)
+                grdRst.Width = grdRst.Height * 1.618;
+            else
+                grdRst.Height = grdRst.Width / 1.618;
+
+            double r = sldGrdSzRst.Value;
+            grdRst.Width = grdRst.Width * r / 8;
+            grdRst.Height = grdRst.Height * r / 8;
+
+
+            double gridWidth = grdRst.Width / (2 * Alternatives.listAl.Count + 2);
+            double gridHeight = grdRst.Height / (Criterias.listCr.Count + 5);
+
+            //double gridWidth = 80;
+           // double gridHeight = 60;
+            double gridMaxWidth = 200;
+            double paddingValue = 5;
 
             for (i = 0; i < Criterias.listCr.Count + 5; i++)
             {
                 RowDefinition row = new RowDefinition();
                 row.Height = new GridLength(gridHeight);
-
                 grdRst.RowDefinitions.Add(row);
             }
             for (i = 0; i < 2 * Alternatives.listAl.Count + 2; i++)
             {
                 ColumnDefinition col = new ColumnDefinition();
                 col.Width = new GridLength(gridWidth);
-
                 grdRst.ColumnDefinitions.Add(col);
             }
-            bdrRst.Height = (Criterias.listCr.Count + 5) * gridHeight;
-            bdrRst.Width = (2 * Alternatives.listAl.Count + 2) * gridWidth;
+            //bdrRst.Height = (Criterias.listCr.Count + 5) * gridHeight;
+            //bdrRst.Width = (2 * Alternatives.listAl.Count + 2) * gridWidth;
 
             // redraw matrix
             // fill criteria headers & related weights
@@ -161,6 +180,9 @@ namespace ahp
                 Grid.SetColumn(txt, 0);
                 txt.HorizontalAlignment = HorizontalAlignment.Center;
                 txt.VerticalAlignment = VerticalAlignment.Center;
+                txt.Padding = new Thickness(paddingValue);
+                txt.TextWrapping = TextWrapping.Wrap;
+                txt.MaxWidth = gridMaxWidth;
 
                 // weight
                 txt = new TextBlock();
@@ -170,6 +192,7 @@ namespace ahp
                 Grid.SetColumn(txt, 1);
                 txt.HorizontalAlignment = HorizontalAlignment.Center;
                 txt.VerticalAlignment = VerticalAlignment.Center;
+                txt.Padding = new Thickness(paddingValue);
             }
 
             TextBlock txtW = new TextBlock();
@@ -179,6 +202,7 @@ namespace ahp
             Grid.SetColumn(txtW, 1);
             txtW.HorizontalAlignment = HorizontalAlignment.Center;
             txtW.VerticalAlignment = VerticalAlignment.Center;
+            txtW.Padding = new Thickness(paddingValue);
 
 
             // fill all the alternative names
@@ -191,6 +215,9 @@ namespace ahp
                 Grid.SetColumn(txt, 2 * (i + 1));
                 txt.HorizontalAlignment = HorizontalAlignment.Center;
                 txt.VerticalAlignment = VerticalAlignment.Center;
+                txt.Padding = new Thickness(paddingValue);
+                txt.TextWrapping = TextWrapping.Wrap;
+                txt.MaxWidth = gridMaxWidth;
 
                 txt = new TextBlock();
                 txt.Text = Alternatives.listAl.ElementAt(i).name + " " + "Function";
@@ -199,6 +226,9 @@ namespace ahp
                 Grid.SetColumn(txt, 2 * (i + 1) + 1);
                 txt.HorizontalAlignment = HorizontalAlignment.Center;
                 txt.VerticalAlignment = VerticalAlignment.Center;
+                txt.Padding = new Thickness(paddingValue);
+                txt.TextWrapping = TextWrapping.Wrap;
+                txt.MaxWidth = gridMaxWidth;
 
                 double sumFunc = 0;
 
@@ -236,7 +266,9 @@ namespace ahp
                 Grid.SetColumn(tblk1, 2 * i + 2);
                 tblk1.HorizontalAlignment = HorizontalAlignment.Right;
                 tblk1.VerticalAlignment = VerticalAlignment.Center;
-                tblk1.Margin = new Thickness(5);
+                tblk1.Padding = new Thickness(paddingValue);
+                tblk1.TextWrapping = TextWrapping.Wrap;
+                tblk1.MaxWidth = gridMaxWidth;
 
                 tblk1 = new TextBlock();
                 tblk1.Text = String.Format("{0:0.00}", sumFunc);
@@ -249,13 +281,15 @@ namespace ahp
 
                 // Cost.
                 tblk1 = new TextBlock();
-                tblk1.Text = "Cost:";
+                tblk1.Text = "Cost($M):";
                 grdRst.Children.Add(tblk1);
                 Grid.SetRow(tblk1, Criterias.listCr.Count + 2);
                 Grid.SetColumn(tblk1, 2 * i + 2);
                 tblk1.HorizontalAlignment = HorizontalAlignment.Right;
                 tblk1.VerticalAlignment = VerticalAlignment.Center;
-                tblk1.Margin = new Thickness(5);
+                tblk1.Padding = new Thickness(paddingValue);
+                tblk1.TextWrapping = TextWrapping.Wrap;
+                tblk1.MaxWidth = gridMaxWidth;
 
                 tblk1 = new TextBlock();
                 tblk1.Text = String.Format("{0:0.00}", Alternatives.listAl[i].cost1);
@@ -267,15 +301,17 @@ namespace ahp
 
                 // Cost of Risk.
                 tblk1 = new TextBlock();
-                tblk1.Text = "Cost(Risk):";
+                tblk1.Text = "Expected cost of risk($M):";
                 grdRst.Children.Add(tblk1);
                 Grid.SetRow(tblk1, Criterias.listCr.Count + 3);
                 Grid.SetColumn(tblk1, 2 * i + 2);
                 tblk1.HorizontalAlignment = HorizontalAlignment.Right;
                 tblk1.VerticalAlignment = VerticalAlignment.Center;
-                tblk1.Margin = new Thickness(5);
+                tblk1.Padding = new Thickness(paddingValue);
+                tblk1.TextWrapping = TextWrapping.Wrap;
+                tblk1.MaxWidth = gridMaxWidth;
 
-                tblk1 = new TextBlock();
+                 tblk1 = new TextBlock();
                 tblk1.Text = String.Format("{0:0.00}", Alternatives.listAl[i].cost2);
                 tblk1.VerticalAlignment = VerticalAlignment.Center;
                 tblk1.HorizontalAlignment = HorizontalAlignment.Center;
@@ -291,10 +327,13 @@ namespace ahp
                 Grid.SetColumn(tblk1, 2 * i + 2);
                 tblk1.HorizontalAlignment = HorizontalAlignment.Right;
                 tblk1.VerticalAlignment = VerticalAlignment.Center;
-                tblk1.Margin = new Thickness(5);
+                tblk1.Padding = new Thickness(paddingValue);
+                tblk1.TextWrapping = TextWrapping.Wrap;
+                tblk1.MaxWidth = gridMaxWidth;
 
                 tblk1 = new TextBlock();
                 StrctAlternative a = new StrctAlternative { name = Alternatives.listAl[i].name,
+                                                            description = Alternatives.listAl[i].description,
                                                             cost1 = Alternatives.listAl[i].cost1,
                                                             cost2 = Alternatives.listAl[i].cost2,
                                                             finalScore = sumFunc / (Alternatives.listAl[i].cost1 + Alternatives.listAl[i].cost2)
@@ -306,6 +345,9 @@ namespace ahp
                 grdRst.Children.Add(tblk1);
                 Grid.SetRow(tblk1, Criterias.listCr.Count + 4);
                 Grid.SetColumn(tblk1, 2 * i + 3);
+                tblk1.Padding = new Thickness(paddingValue);
+                tblk1.Foreground = Brushes.Red;
+                tblk1.FontWeight = FontWeights.Bold;
             }
         }
 
@@ -382,6 +424,8 @@ namespace ahp
         private void BtnPropose_Click(object sender, RoutedEventArgs e)
         {
             WindowPropose wndP = new WindowPropose(Criterias);
+            wndP.FontFamily = this.FontFamily;
+            wndP.FontSize = this.FontSize;
             if (true == wndP.ShowDialog())
             {
                 int[,] freedomArry = wndP.freedomArry;
@@ -408,7 +452,8 @@ namespace ahp
                         }
                     }
                 if (comN == 1) comN = 0;
-                MessageBox.Show(comN.ToString() + " combinations will be evaluated!");
+                //MessageBox.Show(comN.ToString() + " combinations will be evaluated!");
+                MyMessageBox.Show(comN.ToString() + " combinations will be evaluated!");
 
                 WindowProgressBar wndPb = new WindowProgressBar(locationList, Criterias, ref resultList, comN);
                 wndPb.ShowDialog();
@@ -419,7 +464,7 @@ namespace ahp
                 if (resultList.Count == 0)
                 {
                     if (comN == 0) comN = 1;
-                    MessageBox.Show("0 combination found! Do first level repropose - add one more field in the searching domain!");
+                    MyMessageBox.Show("0 combination found! Do first level repropose - add one more field in the searching domain!");
 
                     int iTemp = 0, jTemp = 0;
 
@@ -449,7 +494,7 @@ namespace ahp
                         }
                     if(iTemp == Criterias.listCr.Count && jTemp == Criterias.listCr.Count)
                     {
-                        if(MessageBox.Show("First level repropose failed! Do you want to do second level repropose?", "Failed", MessageBoxButton.YesNoCancel) == MessageBoxResult.Yes)
+                        if(MyMessageBox.Show("First level repropose failed! Do you want to do second level repropose?") == MessageBoxResult.OK)
                         {
                             // do second level repropose!
                             for(iTemp = 0; iTemp < Criterias.listCr.Count; iTemp ++)
@@ -489,7 +534,7 @@ namespace ahp
                                             }
                                     }
                                 }
-                            MessageBox.Show("Second level repropose failed again! Please combine more cells to search consistency combinations!");
+                            MyMessageBox.Show("Second level repropose failed again! Please combine more cells to search consistency combinations!");
                             return;
                         }
                         else
@@ -498,9 +543,11 @@ namespace ahp
                         }
                     }
                 }
-Foo:
+                Foo:
                 // Show window of CR results
                 WindowCombinations wndC = new WindowCombinations(resultList, Criterias.inconsistentCells);
+                wndC.FontFamily = this.FontFamily;
+                wndC.FontSize = this.FontSize;
 
                 if (true == wndC.ShowDialog())
                 {
@@ -542,8 +589,8 @@ Foo:
             {
                 double cvsWidth = this.SrvHierary.ActualWidth;
                 double cvsHeight = this.SrvHierary.ActualHeight;
-                double cellWidth = 100;
-                double cellHeight = 40;
+                double cellWidth = 200;
+                double cellHeight = 80;
 
                 // Left side width.
                 double leftHederWidth = 60;
@@ -617,10 +664,10 @@ Foo:
                         bdr.BorderBrush = new SolidColorBrush(Color.FromArgb(0xFF, 0x8C, 0xA6, 0xC9));
 
                         string strName;
-                        if (Criterias.listCr[i].name.Length < 17)
+                        if (Criterias.listCr[i].name.Length < 27)
                             strName = Criterias.listCr[i].name;
                         else
-                            strName = Criterias.listCr[i].name.Substring(0, 13) + "...";
+                            strName = Criterias.listCr[i].name.Substring(0, 23) + "...";
 
                         txt = new TextBlock();
                         txt.Text = strName + "\n";// + String.Format("{0:P2}", Criterias.listCr[i].weight);// Criterias.listCr[i].weight.ToString();
@@ -943,6 +990,7 @@ Foo:
             drawAhpHierarchy();
 
             this.txbNameAl.Text = string.Empty;
+            this.txbDescAl.Text = string.Empty;
             this.txbCostAl.Text = string.Empty;
             this.txbCostRAl.Text = string.Empty;
 
@@ -1029,7 +1077,11 @@ Foo:
                 element = doc.CreateElement("Alternative");
                 element.InnerText = Alternatives.listAl.ElementAt(i).name;
 
-                XmlAttribute attr = doc.CreateAttribute("cost1");
+                XmlAttribute attr = doc.CreateAttribute("description");
+                attr.Value = Alternatives.listAl.ElementAt(i).description;
+                element.Attributes.Append(attr);
+
+                attr = doc.CreateAttribute("cost1");
                 attr.Value = Alternatives.listAl.ElementAt(i).cost1.ToString();
                 element.Attributes.Append(attr);
 
@@ -1147,6 +1199,7 @@ Foo:
                 {
                     StrctAlternative a = new StrctAlternative();
                     a.name = alternatives.ChildNodes[i].InnerText;
+                    a.description = alternatives.ChildNodes[i].InnerText;
                     a.cost1 = Convert.ToDouble(alternatives.ChildNodes[i].Attributes["cost1"].Value);
                     a.cost2 = Convert.ToDouble(alternatives.ChildNodes[i].Attributes["cost2"].Value); ;
                     a.finalScore = Convert.ToDouble(alternatives.ChildNodes[i].Attributes["finalscore"].Value); ;
@@ -1247,6 +1300,8 @@ Foo:
                     StrctAlternative a = Alternatives.listAl.ElementAt(i);
                     if (a.name != alternatives.ChildNodes[i].InnerText)
                         return true;
+                    if (a.description != alternatives.ChildNodes[i].Attributes["description"].InnerText)
+                        return true;
                     if (a.cost1 != Convert.ToDouble(alternatives.ChildNodes[i].Attributes["cost1"].Value))
                         return true;
                     if (a.cost2 != Convert.ToDouble(alternatives.ChildNodes[i].Attributes["cost2"].Value))
@@ -1304,9 +1359,22 @@ Foo:
             usrCtrlAlt.ListItemAddedEvent += onListItemAddedEventAl;
             usrCtrlAlt.ListItemDeletedEvent += onListItemDeletedEventAl;
             usrCtrlAlt.ListItemUpdatedEvent += onListItemUpdatedEventAl;
-
             usrCtrlAlt.SelectionChangedEvent += onSelectionChangedEvent;
+            //ToolBar.SetOverflowMode(toolbar, OverflowMode.Never);
 
+            sldGrdSz.ValueChanged += sldGrdSz_ValueChanged;
+            sldGrdSzAlt.ValueChanged += SldGrdSzAlt_ValueChanged;
+            sldGrdSzRst.ValueChanged += SldGrdSzRst_ValueChanged;
+        }
+
+        private void SldGrdSzRst_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            DrawResultMtx();
+        }
+
+        private void SldGrdSzAlt_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            Alternatives.GenerateMtxView(grdAC, tabMain, Criterias);
         }
 
         private void onListItemAddedEventCr(object sender, ListItemChangedEventArgs e)
@@ -1375,6 +1443,7 @@ Foo:
 
             StrctAlternative a = new StrctAlternative();
             a.name = e.NewName;
+            a.description = "";
             a.cost1 = 1;
             a.cost2 = 1;
             Alternatives.Add(a);
@@ -1395,6 +1464,7 @@ Foo:
             {
                 StrctAlternative a = new StrctAlternative();
                 a.name = e.NewName;
+                a.description = Alternatives.listAl[e.Idx].description;
                 a.cost1 = Alternatives.listAl[e.Idx].cost1;
                 a.cost2 = Alternatives.listAl[e.Idx].cost2;
 
@@ -1414,6 +1484,7 @@ Foo:
                 {
 
                     txbNameAl.Text = Alternatives.listAl[idx].name;
+                    txbDescAl.Text = Alternatives.listAl[idx].description;
                     txbCostAl.Text = Alternatives.listAl[idx].cost1.ToString();
                     txbCostRAl.Text = Alternatives.listAl[idx].cost2.ToString();
                 }
@@ -1429,6 +1500,22 @@ Foo:
                 StrctAlternative a = new StrctAlternative();
                 a = Alternatives.listAl[idx];
                 a.name = txbNameAl.Text;
+                Alternatives.update(idx, a);
+
+                usrCtrlAlt.Update(idx, a.name);
+                //drawAhpHierarchy();
+            }
+
+
+        }
+        private void txbDescAl_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            int idx = usrCtrlAlt.selectedIdx;
+            if (-1 != idx)
+            {
+                StrctAlternative a = new StrctAlternative();
+                a = Alternatives.listAl[idx];
+                a.description = txbDescAl.Text;
                 Alternatives.update(idx, a);
 
                 usrCtrlAlt.Update(idx, a.name);
@@ -1526,6 +1613,28 @@ Foo:
                 this.txbNumberofParticipants.Text = Alternatives.numofParticipants.ToString();
             }
 
+        }
+
+        private void rptBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ahp.Report.Report rpt = new ahp.Report.Report();
+            rpt.ShowDialog();
+
+        }
+
+        private void zoominBtn_Click(object sender, RoutedEventArgs e)
+        {
+            this.FontSize = this.FontSize + 2;
+        }
+
+        private void zoomoutBtn_Click(object sender, RoutedEventArgs e)
+        {
+            this.FontSize = this.FontSize - 2;
+        }
+
+        private void sldGrdSz_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            Criterias.GenerateMtxView(mtxGrid);
         }
     }
 

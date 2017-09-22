@@ -17,7 +17,7 @@
             </Grid>
         </ScrollViewer>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,20,0,0">
-            <Button Name="BtnApply" Click="BtnApply_Click" Content="Apply" Padding="5" Margin="0" IsDefault="True" Width="45"></Button>
+            <Button Name="BtnApply" Click="BtnApply_Click" Content="Apply" Padding="5" Margin="0" IsDefault="True" Width="auto"></Button>
             <Button Name="BtnCancel" Click="BtnCancel_Click" Content="Cancel" Padding="5" Margin="20,0,0,0" IsCancel="True"></Button>
         </StackPanel>
     </Grid>

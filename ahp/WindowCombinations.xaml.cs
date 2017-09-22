@@ -42,8 +42,9 @@ namespace ahp
 
             int i, j, k;
             // initial cell width and height
-            double cellWidth = 60;
-            double cellHeight = 30;
+            double cellWidth = 80;
+            double cellHeight = 60;
+            double cellMaxWidth = 200;
 
             // clear grid and redraw on it.
 
@@ -72,9 +73,11 @@ namespace ahp
                 for (i = 0; i < c.listCr.Count + 1; i++)
                 {
                     RowDefinition row = new RowDefinition();
-                    row.Height = new GridLength(cellHeight);
+                    row.Height = GridLength.Auto;
+                    row.MinHeight = cellHeight;
                     ColumnDefinition col = new ColumnDefinition();
-                    col.Width = new GridLength(cellWidth);
+                    col.Width = GridLength.Auto;
+                    col.MinWidth = cellWidth;
 
                     grd.RowDefinitions.Add(row);
                     grd.ColumnDefinitions.Add(col);
@@ -101,6 +104,8 @@ namespace ahp
                     Grid.SetColumn(txt, i);
                     txt.HorizontalAlignment = HorizontalAlignment.Center;
                     txt.VerticalAlignment = VerticalAlignment.Center;
+                    txt.MaxWidth = cellMaxWidth;
+                    txt.TextWrapping = TextWrapping.Wrap;
 
                     txt = new TextBlock();
                     txt.Text = c.listCr.ElementAt(i - 1).name;
@@ -109,6 +114,8 @@ namespace ahp
                     Grid.SetColumn(txt, 0);
                     txt.HorizontalAlignment = HorizontalAlignment.Center;
                     txt.VerticalAlignment = VerticalAlignment.Center;
+                    txt.MaxWidth = cellMaxWidth;
+                    txt.TextWrapping = TextWrapping.Wrap;
 
 
                     // starting from first line;
@@ -155,8 +162,8 @@ namespace ahp
                 bdr.BorderBrush = new SolidColorBrush(Color.FromArgb(0xFF, 0x8C, 0xA6, 0xC9));
                 bdr.CornerRadius = new CornerRadius(5);
                 bdr.Child = grd;
-                bdr.Width = (c.listCr.Count + 1) * cellWidth;
-                this.Width = bdr.Width + 100;
+                //bdr.Width = (c.listCr.Count + 1) * cellWidth;
+                this.Width = ((MainWindow)(Application.Current.MainWindow)).mtxBdr.ActualWidth + 100;
 
                 GrdContent.Children.Add(bdr);
                 Grid.SetRow(bdr, 2 * k + 1);

@@ -138,10 +138,24 @@ namespace ahp
         public void GenerateMtxView(Grid grdAC, TabControl tabMain, Criterias c)
         {
             int i, j;
-            double cellWidth = 100;
-            double cellHeight = 50;
+            //double cellMaxWidth = 200;
+            double paddingValue = 5;
             double totalWidth = tabMain.ActualWidth - 80;
             double totalHeight = tabMain.ActualHeight - 100;
+
+            // golden ratio. 8 is full screen.
+            grdAC.Width = ((MainWindow)Application.Current.MainWindow).grdMain.ActualWidth - ((MainWindow)Application.Current.MainWindow).sldGrdSzAlt.Width - 30;
+            grdAC.Height = ((MainWindow)Application.Current.MainWindow).grdMain.ActualHeight - 30;
+            if (grdAC.Width > 1.618 * grdAC.Height)
+                grdAC.Width = grdAC.Height * 1.618;
+            else
+                grdAC.Height = grdAC.Width / 1.618;
+            double r = ((MainWindow)Application.Current.MainWindow).sldGrdSzAlt.Value;
+            grdAC.Width = grdAC.Width * r / 8;
+            grdAC.Height = grdAC.Height * r / 8;
+            double cellWidth = grdAC.Width / (this.listAl.Count + 1);
+            double cellHeight = grdAC.Height / (c.listCr.Count + 1);
+
 
             grdAC.Children.Clear();
             grdAC.RowDefinitions.Clear();
@@ -163,6 +177,7 @@ namespace ahp
 
             if (c.listCr.Count != 0 && listAl.Count != 0)
             {
+                /*
                 if (totalWidth < (listAl.Count + 1) * cellWidth)
                 {
                     cellWidth = (totalWidth - 10) / (listAl.Count + 1);
@@ -174,24 +189,22 @@ namespace ahp
                     cellHeight = (totalHeight - 10) / (listAl.Count + 1);
                     cellWidth = cellHeight * 2;
                 }
-
+                */
                 for (i = 0; i < this.listAl.Count + 1; i++)
                 {
                     ColumnDefinition col = new ColumnDefinition();
                     col.Width = new GridLength(cellWidth);
-
                     grdAC.ColumnDefinitions.Add(col);
                 }
-            (grdAC.Parent as Border).Width = (this.listAl.Count + 1) * cellWidth;
+            //(grdAC.Parent as Border).Width = (this.listAl.Count + 1) * cellWidth;
 
                 for (i = 0; i < c.listCr.Count + 1; i++)
                 {
                     RowDefinition row = new RowDefinition();
                     row.Height = new GridLength(cellHeight);
-
                     grdAC.RowDefinitions.Add(row);
                 }
-            (grdAC.Parent as Border).Height = (c.listCr.Count + 1) * cellHeight;
+            //(grdAC.Parent as Border).Height = (c.listCr.Count + 1) * cellHeight;
 
                 // redraw matrix
                 // fill criteria headers & related weights
@@ -206,6 +219,8 @@ namespace ahp
                     Grid.SetColumn(txt, 0);
                     txt.HorizontalAlignment = HorizontalAlignment.Center;
                     txt.VerticalAlignment = VerticalAlignment.Center;
+                    txt.Padding = new Thickness(paddingValue);
+                    txt.TextWrapping = TextWrapping.Wrap;
                 }
 
                 // fill all the alternative names
@@ -218,6 +233,8 @@ namespace ahp
                     Grid.SetColumn(txt, i + 1);
                     txt.HorizontalAlignment = HorizontalAlignment.Center;
                     txt.VerticalAlignment = VerticalAlignment.Center;
+                    txt.Padding = new Thickness(paddingValue);
+                    txt.TextWrapping = TextWrapping.Wrap;
 
                     // fill scores
                     for (j = 0; j < c.listCr.Count; j++)
@@ -227,17 +244,20 @@ namespace ahp
                         tb.Text = mtxAC[j, i].ToString();
                         tb.Name = "txtScore_" + j.ToString() + "_" + i.ToString();
                         tb.VerticalContentAlignment = VerticalAlignment.Center;
-                        tb.VerticalAlignment = VerticalAlignment.Center;
-                        tb.HorizontalAlignment = HorizontalAlignment.Center;
-                        tb.Width = 4 * cellWidth / 5;
-                        tb.Height = tb.Width / 2;
+                        tb.VerticalAlignment = VerticalAlignment.Stretch;
+                        tb.HorizontalAlignment = HorizontalAlignment.Stretch;
+                        //tb.Width = 4 * cellWidth / 5;
+                        //tb.Height = tb.Width / 2;
                         tb.TextChanged += new TextChangedEventHandler(txtScore_TextChanged);
                         //tb.GotFocus += new RoutedEventHandler(txtScore_GotFocus);
                         tb.PreviewMouseDown += new System.Windows.Input.MouseButtonEventHandler(txtScore_GotFocus);
-                        tb.MaxLength = 3;
+                        //tb.MaxLength = 3;
                         grdAC.Children.Add(tb);
                         Grid.SetRow(tb, j + 1);
                         Grid.SetColumn(tb, i + 1);
+                        tb.Padding = new Thickness(10);
+                        tb.Margin = new Thickness(5);
+                        tb.HorizontalContentAlignment = HorizontalAlignment.Center;
                     }
                 }
             }
@@ -425,14 +445,16 @@ namespace ahp
     public struct StrctAlternative
     {
         public string name;
+        public string description;
         public double cost1;
         public double cost2;
         //public List<Int32> scores;
         public double finalScore;
 
-        public StrctAlternative(string s, double c1, double c2, double f)
+        public StrctAlternative(string s, string d, double c1, double c2, double f)
         {
             name = s;
+            description = d;
             cost1 = c1;
             cost2 = c2;
             finalScore = f;

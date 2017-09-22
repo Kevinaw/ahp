@@ -5,21 +5,25 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MyNumericUpDownControll"
              mc:Ignorable="d">
-    <Grid Margin="5">
+    <Grid Margin="10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
 
-            <Border Grid.Column="0" BorderThickness="1" BorderBrush="Gray" VerticalAlignment="Center" HorizontalAlignment="Stretch">
+        <Border Grid.Column="0" BorderThickness="1" BorderBrush="Gray" Background="#FFFFFCE0">
                 <!--Bind the TextBlock to the Value property-->
-                <TextBlock Name="TxbValue"  TextAlignment="Right" Padding="8" Background="White"/>
-
+            <TextBlock Name="TxbValue"  TextAlignment="Right" VerticalAlignment="Center" Padding="10" />
             </Border>
-            <StackPanel Grid.Column="1" Orientation="Vertical">
-                <Button Name="BtnUp" Content="+" Width="20" Click="BtnUp_Click"></Button>
-                <Button Name="BtnDown" Content="-" Width="20" Click="BtnDown_Click"></Button>
-            </StackPanel>
+
+            <DockPanel Grid.Column="1" LastChildFill="False" HorizontalAlignment="Left">
+            <Button Name="BtnUp" MinWidth="20" MinHeight="20" MaxWidth="30" MaxHeight="30" Click="BtnUp_Click" DockPanel.Dock="Top">
+                <Image Source="Resources/DoubleUp.png" />
+            </Button>
+            <Button Name="BtnDown" MinWidth="20" MinHeight="20" MaxWidth="30" MaxHeight="30" Click="BtnDown_Click" DockPanel.Dock="Bottom">
+                <Image Source="Resources/DoubleDown.png" />
+            </Button>
+            </DockPanel>
 
     </Grid>
 </UserControl>

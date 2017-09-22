@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MyListControl"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" Focusable="True">
+             d:DesignHeight="300" Focusable="True">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="28"/>
@@ -16,7 +16,7 @@
                 <ImageBrush ImageSource="./Resources/add.png"/>
             </Button.Background>
         </Button>
-        <ListBox Name="contentLbx" Grid.Row="1" Margin="3" SelectionChanged="contentLbx_SelectionChanged" Padding="10" Background="White">
+        <ListBox Name="contentLbx" Grid.Row="1" Margin="3" SelectionChanged="contentLbx_SelectionChanged" Padding="10" Background="#FFFFFCE0">
         </ListBox>
     </Grid>
 </UserControl>

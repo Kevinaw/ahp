@@ -367,7 +367,7 @@
     <SolidColorBrush x:Key="ListBoxItemFocusedBorderBrush" Color="{StaticResource Color_013}"/>
 
     <!--  TextBox / Editors Brushes -->
-    <SolidColorBrush x:Key="TextBoxBackgroundBrush" Color="{StaticResource Color_005}"/>
+    <SolidColorBrush x:Key="TextBoxBackgroundBrush" Color="{StaticResource Color_019}"/>
     <SolidColorBrush x:Key="TextBoxBorderBrush" Color="{StaticResource Color_027}"/>
     <SolidColorBrush x:Key="TextBoxHoverBorderBrush" Color="{StaticResource Color_014}"/>
     <SolidColorBrush x:Key="TextBoxFocusedBrush" Color="{StaticResource Color_013}"/>

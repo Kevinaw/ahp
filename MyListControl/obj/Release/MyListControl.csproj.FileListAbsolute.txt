@@ -36,3 +36,15 @@ C:\Users\Kevin\Desktop\MyListControl.dll
 C:\Users\Kevin\Desktop\MyListControl.pdb
 C:\Users\Kevin\Dropbox\AHP\bin\Release\MyListControl.dll
 C:\Users\Kevin\Dropbox\AHP\bin\Release\MyListControl.pdb
+C:\Users\huiquan\Dropbox\AHP\bin\Release\MyListControl.dll
+C:\Users\huiquan\Dropbox\AHP\bin\Release\MyListControl.pdb
+C:\Users\huiquan\Dropbox\AHP\MyListControl\obj\Release\MyListControl.csprojResolveAssemblyReference.cache
+C:\Users\huiquan\Dropbox\AHP\MyListControl\obj\Release\UserControl1.g.cs
+C:\Users\huiquan\Dropbox\AHP\MyListControl\obj\Release\MyListControl_MarkupCompile.cache
+C:\Users\huiquan\Dropbox\AHP\MyListControl\obj\Release\MyListControl_MarkupCompile.lref
+C:\Users\huiquan\Dropbox\AHP\MyListControl\obj\Release\UserControl1.baml
+C:\Users\huiquan\Dropbox\AHP\MyListControl\obj\Release\MyListControl.g.resources
+C:\Users\huiquan\Dropbox\AHP\MyListControl\obj\Release\MyListControl.Properties.Resources.resources
+C:\Users\huiquan\Dropbox\AHP\MyListControl\obj\Release\MyListControl.csproj.GenerateResource.Cache
+C:\Users\huiquan\Dropbox\AHP\MyListControl\obj\Release\MyListControl.dll
+C:\Users\huiquan\Dropbox\AHP\MyListControl\obj\Release\MyListControl.pdb

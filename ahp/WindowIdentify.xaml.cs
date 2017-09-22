@@ -49,8 +49,10 @@ namespace ahp
                 ckb.Margin = new Thickness(5, 10, 0, 0);
                 grd.Children.Add(ckb);
                 Grid.SetRow(ckb, i);
+                ckb.HorizontalAlignment = HorizontalAlignment.Center;
+                ckb.VerticalAlignment = VerticalAlignment.Center;
 
-                if(listSelectedIdxs.FindIndex(x => x == i) != -1)
+                if (listSelectedIdxs.FindIndex(x => x == i) != -1)
                 {
                     ckb.IsChecked = true;
                 }

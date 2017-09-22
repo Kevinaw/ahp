@@ -81,7 +81,7 @@ namespace ahp
             else
             {
                 listCr.Add(c);
-                if(openingProject == false)
+                if (openingProject == false)
                 {
                     // add new cells in matrix
                     var mtxTemp = new double[listCr.Count, listCr.Count];
@@ -94,7 +94,7 @@ namespace ahp
                     mtx = mtxTemp;
                 }
                 return true;
-            } 
+            }
         }
 
         // delete item by index
@@ -131,27 +131,48 @@ namespace ahp
         {
             int i, j;
             // initial cell width and height
-            double cellWidth = 80;
-            double cellHeight = 60;
+            //double cellMaxLength = 200;
+            double paddingValue = 5;
             // total width and height
+
+            // golden ratio. 8 is full screen.
+            mtxGrid.Width = ((MainWindow)Application.Current.MainWindow).grdMain.ActualWidth * 0.7 - 30;
+            mtxGrid.Height = ((MainWindow)Application.Current.MainWindow).grdMain.ActualHeight - 30;
+
+            if (mtxGrid.Width > 1.618 * mtxGrid.Height)
+                mtxGrid.Width = mtxGrid.Height * 1.618;
+            else
+                mtxGrid.Height = mtxGrid.Width / 1.618;
+
+            double r = ((MainWindow)Application.Current.MainWindow).sldGrdSz.Value;
+            mtxGrid.Width = mtxGrid.Width * r / 8;
+            mtxGrid.Height = mtxGrid.Height * r / 8;
+
+
+            double cellWidth = mtxGrid.Width / (listCr.Count + 1);
+            double cellHeight = mtxGrid.Height/(listCr.Count + 1);
 
             // clear grid and redraw on it.
             mtxGrid.Children.Clear();
             mtxGrid.RowDefinitions.Clear();
             mtxGrid.ColumnDefinitions.Clear();
-            
+
             for (i = 0; i < listCr.Count + 1; i++)
             {
                 RowDefinition row = new RowDefinition();
+                //row.Height = new GridLength(cellHeight);
                 row.Height = new GridLength(cellHeight);
+                //row.MinHeight = cellHeight;
                 ColumnDefinition col = new ColumnDefinition();
+                //col.Width = new GridLength(cellWidth);
                 col.Width = new GridLength(cellWidth);
+                //col.MinWidth = cellWidth;
 
                 mtxGrid.RowDefinitions.Add(row);
                 mtxGrid.ColumnDefinitions.Add(col);
             }
-            (mtxGrid.Parent as Border).Width = (listCr.Count + 1) * cellWidth;
-            (mtxGrid.Parent as Border).Height = (listCr.Count + 1) * cellHeight;
+            //(mtxGrid.Parent as Border).Width = (listCr.Count + 1) * cellWidth;
+            //(mtxGrid.Parent as Border).Height = (listCr.Count + 1) * cellHeight;
 
             if (listCr.Count == 0)
                 (mtxGrid.Parent as Border).Visibility = Visibility.Hidden;
@@ -167,33 +188,41 @@ namespace ahp
             {
                 TextBlock txt;
 
-                    // value 1 on diagonal 
-                    txt = new TextBlock();
-                    txt.Text = "1";
-                    mtxGrid.Children.Add(txt);
-                    Grid.SetRow(txt, i);
-                    Grid.SetColumn(txt, i);
-                    txt.HorizontalAlignment = HorizontalAlignment.Center;
-                    txt.VerticalAlignment = VerticalAlignment.Center;
+                // value 1 on diagonal 
+                txt = new TextBlock();
+                txt.Text = "1";
+                mtxGrid.Children.Add(txt);
+                Grid.SetRow(txt, i);
+                Grid.SetColumn(txt, i);
+                txt.HorizontalAlignment = HorizontalAlignment.Center;
+                txt.VerticalAlignment = VerticalAlignment.Center;
+                txt.Padding = new Thickness(paddingValue);
+
 
                 mtxCtrls[i - 1, i - 1] = (Object)txt;
 
-                    txt = new TextBlock();
-                    txt.Text = listCr.ElementAt(i - 1).name;
-                    mtxGrid.Children.Add(txt);
-                    Grid.SetRow(txt, 0);
-                    Grid.SetColumn(txt, i);
-                    txt.HorizontalAlignment = HorizontalAlignment.Center;
-                    txt.VerticalAlignment = VerticalAlignment.Center;
+                txt = new TextBlock();
+                txt.Text = listCr.ElementAt(i - 1).name;
+                txt.Padding = new Thickness(paddingValue);
+                //txt.MaxWidth = cellMaxLength;
+                txt.TextWrapping = TextWrapping.Wrap;
+                mtxGrid.Children.Add(txt);
+                Grid.SetRow(txt, 0);
+                Grid.SetColumn(txt, i);
+                txt.HorizontalAlignment = HorizontalAlignment.Center;
+                txt.VerticalAlignment = VerticalAlignment.Center;
                 headerCtrls[i - 1] = (Object)txt;
 
-                    txt = new TextBlock();
-                    txt.Text = listCr.ElementAt(i - 1).name;
-                    mtxGrid.Children.Add(txt);
-                    Grid.SetRow(txt, i);
-                    Grid.SetColumn(txt, 0);
-                    txt.HorizontalAlignment = HorizontalAlignment.Center;
-                    txt.VerticalAlignment = VerticalAlignment.Center;
+                txt = new TextBlock();
+                txt.Text = listCr.ElementAt(i - 1).name;
+                txt.Padding = new Thickness(paddingValue);
+                //txt.MaxWidth = cellMaxLength;
+                txt.TextWrapping = TextWrapping.Wrap;
+                mtxGrid.Children.Add(txt);
+                Grid.SetRow(txt, i);
+                Grid.SetColumn(txt, 0);
+                txt.HorizontalAlignment = HorizontalAlignment.Center;
+                txt.VerticalAlignment = VerticalAlignment.Center;
 
 
                 // starting from first line;
@@ -202,7 +231,6 @@ namespace ahp
                     for (j = i + 1; j < listCr.Count + 1; j++)
                     {
                         NumericUpDown nupCtrl = new NumericUpDown();
-                        nupCtrl.Width = cellWidth;
                         nupCtrl.RowID = i - 1;
                         nupCtrl.ColId = j - 1;
                         nupCtrl.dblValue = mtx[i - 1, j - 1];
@@ -210,7 +238,7 @@ namespace ahp
                         mtxGrid.Children.Add(nupCtrl);
                         Grid.SetRow(nupCtrl, i);
                         Grid.SetColumn(nupCtrl, j);
-                        nupCtrl.HorizontalAlignment = HorizontalAlignment.Center;
+                        nupCtrl.HorizontalAlignment = HorizontalAlignment.Stretch;
                         nupCtrl.VerticalAlignment = VerticalAlignment.Center;
                         mtxCtrls[i - 1, j - 1] = (Object)nupCtrl;
 
@@ -222,6 +250,7 @@ namespace ahp
                         txt.HorizontalAlignment = HorizontalAlignment.Center;
                         txt.VerticalAlignment = VerticalAlignment.Center;
                         mtxCtrls[j - 1, i - 1] = (Object)txt;
+                        txt.Padding = new Thickness(paddingValue);
                     }
                 }
             }
@@ -230,9 +259,9 @@ namespace ahp
 
         public void updateHeaderTxtwithWeight()
         {
-            if((headerCtrls.Count() != 0))
+            if ((headerCtrls.Count() != 0))
             {
-                for(int i = 0; i < headerCtrls.Count();i++)
+                for (int i = 0; i < headerCtrls.Count(); i++)
                 {
                     (headerCtrls[i] as TextBlock).Text = listCr[i].name + "\r\n" + String.Format("{0:P1}", listCr.ElementAt(i).weight);
                 }
@@ -289,7 +318,7 @@ namespace ahp
             CR = CI / RI[n];
 
             CR = Math.Round(CR, 3);
-            for(int i = 0; i < listCr.Count; i++)
+            for (int i = 0; i < listCr.Count; i++)
             {
                 listCr[i] = new StrctCriteria(listCr[i].name, w[i]);
             }
@@ -300,8 +329,8 @@ namespace ahp
             if (other == null)
                 return false;
 
-            for(int i = 0; i < other.mtx.GetLength(0); i++)
-                for(int j = 0; j < other.mtx.GetLength(1); j++)
+            for (int i = 0; i < other.mtx.GetLength(0); i++)
+                for (int j = 0; j < other.mtx.GetLength(1); j++)
                 {
                     if (String.Format("{0:#.00}", mtx[i, j]) == String.Format("{0:#.00}", other.mtx[i, j]))
                         return false;
@@ -449,7 +478,7 @@ namespace ahp
             //List<StrctCalUnitInIdentify> listIdentify = new List<StrctCalUnitInIdentify>();
 
             for (i = 0; i < listCr.Count; i++)
-                for(j = 0; j < listCr.Count; j++)
+                for (j = 0; j < listCr.Count; j++)
                 {
                     sqrA[i, j] = 0;
                     for (k = 0; k < listCr.Count; k++)
@@ -460,7 +489,7 @@ namespace ahp
             for (i = 0; i < listCr.Count; i++)
                 for (j = 0; j < listCr.Count; j++)
                 {
-                    if(max < Math.Abs(C[i, j]))
+                    if (max < Math.Abs(C[i, j]))
                     {
                         max = Math.Abs(C[i, j]);
                     }
@@ -472,12 +501,12 @@ namespace ahp
                 {
                     if (max == Math.Abs(C[i, j]))
                     {
-                        listIdentifyData.Add(new StrctCalUnitInIdentify() { row = i, col = j});
+                        listIdentifyData.Add(new StrctCalUnitInIdentify() { row = i, col = j });
                     }
                 }
 
             // Every max value should do the following calculation
-            for(k = 0; k < listIdentifyData.Count; k++)
+            for (k = 0; k < listIdentifyData.Count; k++)
             {
                 for (i = 0; i < listCr.Count; i++)
                 {
@@ -489,6 +518,8 @@ namespace ahp
                 StrctCalUnitInIdentify tmp = listIdentifyData[k];
                 tmp.idxF = new List<int>();
                 WindowIdentify idW = new WindowIdentify(result);
+                idW.FontSize = Application.Current.MainWindow.FontSize;
+                idW.FontFamily = Application.Current.MainWindow.FontFamily;
                 if (idW.ShowDialog() == true)
                 {
                     tmp.idxF = idW.listSelectedIdxs;
@@ -516,9 +547,9 @@ namespace ahp
             inconsistentCells.Clear();
             for (int i = 0; i < listIdentify.Count(); i++)
             {
-                for(int j = 0; j < listIdentify[i].idxF.Count(); j++)
+                for (int j = 0; j < listIdentify[i].idxF.Count(); j++)
                 {
-                    if(listIdentify[i].row != listIdentify[i].idxF[j])
+                    if (listIdentify[i].row != listIdentify[i].idxF[j])
                     {
                         // row number should be smaller
                         int rowNumber = listIdentify[i].row < listIdentify[i].idxF[j] ? listIdentify[i].row : listIdentify[i].idxF[j];
@@ -526,7 +557,7 @@ namespace ahp
                         inconsistentCells.Add(new StrctCell() { row = rowNumber, col = colNumber });
                     }
 
-                    if(listIdentify[i].col != listIdentify[i].idxF[j])
+                    if (listIdentify[i].col != listIdentify[i].idxF[j])
                     {
                         int rowNumber = listIdentify[i].col < listIdentify[i].idxF[j] ? listIdentify[i].col : listIdentify[i].idxF[j];
                         int colNumber = listIdentify[i].col > listIdentify[i].idxF[j] ? listIdentify[i].col : listIdentify[i].idxF[j];
@@ -537,22 +568,22 @@ namespace ahp
 
             // Remove duplicate
             List<StrctCell> tmpCells = new List<StrctCell>();
-            for(int i = 0; i < inconsistentCells.Count(); i++)
+            for (int i = 0; i < inconsistentCells.Count(); i++)
             {
                 if (tmpCells.Count() == 0)
                     tmpCells.Add(inconsistentCells.ElementAt(i));
                 else
                 {
                     bool hasDuplicate = false;
-                    for(int j = 0; j < tmpCells.Count(); j++)
+                    for (int j = 0; j < tmpCells.Count(); j++)
                     {
-                        if(inconsistentCells[i].row == tmpCells[j].row && inconsistentCells[i].col == tmpCells[j].col)
+                        if (inconsistentCells[i].row == tmpCells[j].row && inconsistentCells[i].col == tmpCells[j].col)
                         {
                             hasDuplicate = true;
                             break;
                         }
                     }
-                    if(hasDuplicate == false)
+                    if (hasDuplicate == false)
                         tmpCells.Add(inconsistentCells.ElementAt(i));
                 }
             }
@@ -565,7 +596,7 @@ namespace ahp
         {
             ClearHighlight();
 
-            for(int i = 0; i < inconsistentCells.Count(); i++)
+            for (int i = 0; i < inconsistentCells.Count(); i++)
             {
                 (mtxCtrls[inconsistentCells[i].row, inconsistentCells[i].col] as NumericUpDown).Background = Brushes.Pink;
             }

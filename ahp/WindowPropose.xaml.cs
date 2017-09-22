@@ -44,8 +44,11 @@ namespace ahp
                     freedomArry[i, j] = 0;
                 }
 
-            this.Width = (c.listCr.Count + 1) *100 + 60;
-            this.Height = (c.listCr.Count + 1) * 30 * 2 + 200;
+            //this.Width = (c.listCr.Count + 1) *100 + 60;
+            //this.Height = (c.listCr.Count + 1) * 30 * 2 + 200;
+
+            this.Width = ((MainWindow) (Application.Current.MainWindow)).mtxBdr.ActualWidth  + 120;
+            this.Height = ((MainWindow)(Application.Current.MainWindow)).mtxBdr.ActualHeight * 2 + 200;
 
             FillOriginal(grdOriginal);
             FillFreedom(grdFreedom);
@@ -89,7 +92,8 @@ namespace ahp
             int i, j;
             // initial cell width and height
             double cellWidth = 100;
-            double cellHeight = 30;
+            double cellHeight = 60;
+            double cellMaxWidth = 200;
 
             // clear grid and redraw on it.
             mtxGrid.Children.Clear();
@@ -100,16 +104,18 @@ namespace ahp
             for (i = 0; i < c.listCr.Count + 1; i++)
             {
                 RowDefinition row = new RowDefinition();
-                row.Height = new GridLength(cellHeight);
+                row.Height = GridLength.Auto;
+                row.MinHeight = cellHeight;
                 ColumnDefinition col = new ColumnDefinition();
-                col.Width = new GridLength(cellWidth);
+                col.Width = GridLength.Auto;
+                col.MinWidth = cellWidth;
 
                 mtxGrid.RowDefinitions.Add(row);
                 mtxGrid.ColumnDefinitions.Add(col);
             }
             
-            (mtxGrid.Parent as Border).Width = (c.listCr.Count + 1) * cellWidth;
-            (mtxGrid.Parent as Border).Height = (c.listCr.Count + 1) * cellHeight;
+            //(mtxGrid.Parent as Border).Width = (c.listCr.Count + 1) * cellWidth;
+            //(mtxGrid.Parent as Border).Height = (c.listCr.Count + 1) * cellHeight;
 
             if (c.listCr.Count == 0)
                 (mtxGrid.Parent as Border).Visibility = Visibility.Hidden;
@@ -137,6 +143,8 @@ namespace ahp
                 Grid.SetColumn(txt, i);
                 txt.HorizontalAlignment = HorizontalAlignment.Center;
                 txt.VerticalAlignment = VerticalAlignment.Center;
+                txt.MaxWidth = cellMaxWidth;
+                txt.TextWrapping = TextWrapping.Wrap;
 
                 txt = new TextBlock();
                 txt.Text = c.listCr.ElementAt(i - 1).name;
@@ -145,6 +153,8 @@ namespace ahp
                 Grid.SetColumn(txt, 0);
                 txt.HorizontalAlignment = HorizontalAlignment.Center;
                 txt.VerticalAlignment = VerticalAlignment.Center;
+                txt.MaxWidth = cellMaxWidth;
+                txt.TextWrapping = TextWrapping.Wrap;
 
 
                 // starting from first line;
@@ -191,7 +201,9 @@ namespace ahp
             int i, j;
             // initial cell width and height
             double cellWidth = 100;
-            double cellHeight = 30;
+            double cellHeight = 60;
+            double cellMaxWidth = 200;
+
 
             // clear grid and redraw on it.
             mtxGrid.Children.Clear();
@@ -202,16 +214,15 @@ namespace ahp
             for (i = 0; i < c.listCr.Count + 1; i++)
             {
                 RowDefinition row = new RowDefinition();
-                row.Height = new GridLength(cellHeight);
+                row.Height = GridLength.Auto;
+                row.MinHeight = cellHeight;
                 ColumnDefinition col = new ColumnDefinition();
-                col.Width = new GridLength(cellWidth);
+                col.Width = GridLength.Auto;
+                col.MinWidth = cellWidth;
 
                 mtxGrid.RowDefinitions.Add(row);
                 mtxGrid.ColumnDefinitions.Add(col);
             }
-
-            (mtxGrid.Parent as Border).Width = (c.listCr.Count + 1) * cellWidth;
-            (mtxGrid.Parent as Border).Height = (c.listCr.Count + 1) * cellHeight;
 
             if (c.listCr.Count == 0)
                 (mtxGrid.Parent as Border).Visibility = Visibility.Hidden;
@@ -239,6 +250,8 @@ namespace ahp
                 Grid.SetColumn(txt, i);
                 txt.HorizontalAlignment = HorizontalAlignment.Center;
                 txt.VerticalAlignment = VerticalAlignment.Center;
+                txt.MaxWidth = cellMaxWidth;
+                txt.TextWrapping = TextWrapping.Wrap;
 
                 txt = new TextBlock();
                 txt.Text = c.listCr.ElementAt(i - 1).name;
@@ -247,6 +260,8 @@ namespace ahp
                 Grid.SetColumn(txt, 0);
                 txt.HorizontalAlignment = HorizontalAlignment.Center;
                 txt.VerticalAlignment = VerticalAlignment.Center;
+                txt.MaxWidth = cellMaxWidth;
+                txt.TextWrapping = TextWrapping.Wrap;
 
 
                 // starting from first line;
@@ -271,10 +286,9 @@ namespace ahp
                         ckb.Items.Add("Direction & Magnitude");
                         ckb.SelectedIndex = 0;
                         ckb.Margin = new Thickness(3, 3, 3, 3);
-
                         ctrlArry[i-1, j-1] = (object) ckb;
-
-
+                        ckb.MaxWidth = cellMaxWidth;
+                        
                         txt = new TextBlock();
                         txt.Text = "None";
                         mtxGrid.Children.Add(txt);
@@ -290,5 +304,13 @@ namespace ahp
 
         }
 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            foreach(var col in grdFreedom.ColumnDefinitions)
+            {
+                col.Width = new GridLength(col.ActualWidth);
+            }
+
+        }
     }
 }

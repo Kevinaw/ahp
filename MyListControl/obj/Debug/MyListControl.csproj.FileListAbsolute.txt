@@ -34,8 +34,6 @@ C:\Users\Kevin\Dropbox\Kevin Work Folder\AHP\MyListControl\obj\Debug\MyListContr
 C:\Users\Desktop\output\MyListControl.dll
 C:\Users\Kevin\Desktop\MyListControl.dll
 C:\Users\Kevin\Desktop\MyListControl.pdb
-C:\Users\Kevin\Dropbox\AHP\bin\Debug\MyListControl.dll
-C:\Users\Kevin\Dropbox\AHP\bin\Debug\MyListControl.pdb
 C:\Users\Kevin\Dropbox\AHP\MyListControl\obj\Debug\UserControl1.g.cs
 C:\Users\Kevin\Dropbox\AHP\MyListControl\obj\Debug\MyListControl_MarkupCompile.cache
 C:\Users\Kevin\Dropbox\AHP\MyListControl\obj\Debug\MyListControl_MarkupCompile.lref
@@ -45,9 +43,10 @@ C:\Users\Kevin\Dropbox\AHP\MyListControl\obj\Debug\MyListControl.Properties.Reso
 C:\Users\Kevin\Dropbox\AHP\MyListControl\obj\Debug\MyListControl.csproj.GenerateResource.Cache
 C:\Users\Kevin\Dropbox\AHP\MyListControl\obj\Debug\MyListControl.dll
 C:\Users\Kevin\Dropbox\AHP\MyListControl\obj\Debug\MyListControl.pdb
+C:\Users\Kevin\Dropbox\AHP\bin\Debug\MyListControl.dll
+C:\Users\Kevin\Dropbox\AHP\bin\Debug\MyListControl.pdb
 C:\Users\huiquan\Dropbox\AHP\bin\Debug\MyListControl.dll
 C:\Users\huiquan\Dropbox\AHP\bin\Debug\MyListControl.pdb
-C:\Users\huiquan\Dropbox\AHP\MyListControl\obj\Debug\MyListControl.csprojResolveAssemblyReference.cache
 C:\Users\huiquan\Dropbox\AHP\MyListControl\obj\Debug\UserControl1.g.cs
 C:\Users\huiquan\Dropbox\AHP\MyListControl\obj\Debug\MyListControl_MarkupCompile.cache
 C:\Users\huiquan\Dropbox\AHP\MyListControl\obj\Debug\MyListControl_MarkupCompile.lref
@@ -57,4 +56,3 @@ C:\Users\huiquan\Dropbox\AHP\MyListControl\obj\Debug\MyListControl.Properties.Re
 C:\Users\huiquan\Dropbox\AHP\MyListControl\obj\Debug\MyListControl.csproj.GenerateResource.Cache
 C:\Users\huiquan\Dropbox\AHP\MyListControl\obj\Debug\MyListControl.dll
 C:\Users\huiquan\Dropbox\AHP\MyListControl\obj\Debug\MyListControl.pdb
-C:\Users\Kevin\Dropbox\AHP\MyListControl\obj\Debug\MyListControl.csprojResolveAssemblyReference.cache

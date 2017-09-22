@@ -31,6 +31,10 @@ C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\MyNumericUpDownControll\obj\Debug
 C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\MyNumericUpDownControll\obj\Debug\MyNumericUpDownControll.dll
 C:\Users\Sabrina\Dropbox\Kevin Work Folder\AHP\MyNumericUpDownControll\obj\Debug\MyNumericUpDownControll.pdb
 C:\Users\Desktop\output\MyNumericUpDownControll.dll
+C:\Users\Kevin\Desktop\MyNumericUpDownControll.dll
+C:\Users\Kevin\Desktop\MyNumericUpDownControll.pdb
+C:\Users\Kevin\Dropbox\AHP\bin\Debug\MyNumericUpDownControll.dll
+C:\Users\Kevin\Dropbox\AHP\bin\Debug\MyNumericUpDownControll.pdb
 C:\Users\Kevin\Dropbox\AHP\MyNumericUpDownControll\obj\Debug\UserControl1.g.cs
 C:\Users\Kevin\Dropbox\AHP\MyNumericUpDownControll\obj\Debug\MyNumericUpDownControll_MarkupCompile.cache
 C:\Users\Kevin\Dropbox\AHP\MyNumericUpDownControll\obj\Debug\MyNumericUpDownControll_MarkupCompile.lref
@@ -40,13 +44,8 @@ C:\Users\Kevin\Dropbox\AHP\MyNumericUpDownControll\obj\Debug\MyNumericUpDownCont
 C:\Users\Kevin\Dropbox\AHP\MyNumericUpDownControll\obj\Debug\MyNumericUpDownControll.csproj.GenerateResource.Cache
 C:\Users\Kevin\Dropbox\AHP\MyNumericUpDownControll\obj\Debug\MyNumericUpDownControll.dll
 C:\Users\Kevin\Dropbox\AHP\MyNumericUpDownControll\obj\Debug\MyNumericUpDownControll.pdb
-C:\Users\Kevin\Desktop\MyNumericUpDownControll.dll
-C:\Users\Kevin\Desktop\MyNumericUpDownControll.pdb
-C:\Users\Kevin\Dropbox\AHP\bin\Debug\MyNumericUpDownControll.dll
-C:\Users\Kevin\Dropbox\AHP\bin\Debug\MyNumericUpDownControll.pdb
 C:\Users\huiquan\Dropbox\AHP\bin\Debug\MyNumericUpDownControll.dll
 C:\Users\huiquan\Dropbox\AHP\bin\Debug\MyNumericUpDownControll.pdb
-C:\Users\huiquan\Dropbox\AHP\MyNumericUpDownControll\obj\Debug\MyNumericUpDownControll.csprojResolveAssemblyReference.cache
 C:\Users\huiquan\Dropbox\AHP\MyNumericUpDownControll\obj\Debug\UserControl1.g.cs
 C:\Users\huiquan\Dropbox\AHP\MyNumericUpDownControll\obj\Debug\MyNumericUpDownControll_MarkupCompile.cache
 C:\Users\huiquan\Dropbox\AHP\MyNumericUpDownControll\obj\Debug\MyNumericUpDownControll_MarkupCompile.lref
@@ -56,4 +55,3 @@ C:\Users\huiquan\Dropbox\AHP\MyNumericUpDownControll\obj\Debug\MyNumericUpDownCo
 C:\Users\huiquan\Dropbox\AHP\MyNumericUpDownControll\obj\Debug\MyNumericUpDownControll.csproj.GenerateResource.Cache
 C:\Users\huiquan\Dropbox\AHP\MyNumericUpDownControll\obj\Debug\MyNumericUpDownControll.dll
 C:\Users\huiquan\Dropbox\AHP\MyNumericUpDownControll\obj\Debug\MyNumericUpDownControll.pdb
-C:\Users\Kevin\Dropbox\AHP\MyNumericUpDownControll\obj\Debug\MyNumericUpDownControll.csprojResolveAssemblyReference.cache
