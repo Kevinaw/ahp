@@ -54,3 +54,4 @@ logo/
 *.dropbox
 MyNumericUpDownControll/obj/
 MyListControl/obj/
+.vs/
