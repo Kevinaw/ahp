@@ -46,9 +46,12 @@ namespace ahp
             double cellHeight = 60;
             double cellMaxWidth = 200;
 
-            // clear grid and redraw on it.
+            //this.Width = ((MainWindow)(Application.Current.MainWindow)).mtxBdr.ActualWidth + 100;
+            if (clist.Count == 0) return;
+            this.Width = (clist.ElementAt(0).listCr.Count + 1) * cellWidth + 100; 
 
-            for(i = 0; i < clist.Count*2; i++)
+            // clear grid and redraw on it.
+            for (i = 0; i < clist.Count*2; i++)
             {
                 RowDefinition row = new RowDefinition();
                 GrdContent.RowDefinitions.Add(row);
@@ -156,14 +159,14 @@ namespace ahp
                     }
                 }
 
+                //grd.ShowGridLines = true;
                 Border bdr = new Border();
                 bdr.BorderThickness = new Thickness(1);
                 bdr.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xE9, 0xF0, 0xF7));
                 bdr.BorderBrush = new SolidColorBrush(Color.FromArgb(0xFF, 0x8C, 0xA6, 0xC9));
                 bdr.CornerRadius = new CornerRadius(5);
                 bdr.Child = grd;
-                //bdr.Width = (c.listCr.Count + 1) * cellWidth;
-                this.Width = ((MainWindow)(Application.Current.MainWindow)).mtxBdr.ActualWidth + 100;
+                bdr.Width = (c.listCr.Count+1) * cellWidth;
 
                 GrdContent.Children.Add(bdr);
                 Grid.SetRow(bdr, 2 * k + 1);

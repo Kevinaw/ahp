@@ -44,11 +44,11 @@ namespace ahp
                     freedomArry[i, j] = 0;
                 }
 
-            //this.Width = (c.listCr.Count + 1) *100 + 60;
-            //this.Height = (c.listCr.Count + 1) * 30 * 2 + 200;
+            this.Width = (c.listCr.Count + 1) * 100 + 120;
+            this.Height = (c.listCr.Count + 1) * 60 * 2 + 300;
 
-            this.Width = ((MainWindow) (Application.Current.MainWindow)).mtxBdr.ActualWidth  + 120;
-            this.Height = ((MainWindow)(Application.Current.MainWindow)).mtxBdr.ActualHeight * 2 + 200;
+            //this.Width = ((MainWindow) (Application.Current.MainWindow)).mtxBdr.ActualWidth  + 120;
+            //this.Height = ((MainWindow)(Application.Current.MainWindow)).mtxBdr.ActualHeight * 2 + 200;
 
             FillOriginal(grdOriginal);
             FillFreedom(grdFreedom);

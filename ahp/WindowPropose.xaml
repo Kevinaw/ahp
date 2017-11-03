@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ahp"
         mc:Ignorable="d"
-        Title="Propose Combinations" WindowStartupLocation="CenterScreen" Icon="small logo.ico" d:DesignWidth="174" d:DesignHeight="292" Loaded="Window_Loaded">
+        Title="Propose Combinations" WindowStartupLocation="CenterScreen" Icon="small logo.ico" d:DesignWidth="174" d:DesignHeight="197" Loaded="Window_Loaded">
     <ScrollViewer Margin="20" HorizontalScrollBarVisibility="Auto">
         <Grid >
             <Grid.RowDefinitions>
@@ -28,7 +28,7 @@
             </Border>
 
             <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,20,0,0">
-                <Button Name="BtnOK" Click="BtnOK_Click" Content="OK" Padding="5" Margin="0" IsDefault="True" Width="auto"></Button>
+                <Button Name="BtnOK" Click="BtnOK_Click" Content="OK" Padding="5" Margin="0" IsDefault="True"></Button>
                 <Button Name="BtnCancel" Click="BtnCancel_Click" Content="Cancel" Padding="5" Margin="20,0,0,0" IsCancel="True"></Button>
             </StackPanel>
 

@@ -19,7 +19,7 @@ namespace ahp
 
             wnd = new Window();
             wnd.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            wnd.Width = 300;
+            wnd.Width = 600;
             wnd.Height = 300;
             wnd.FontFamily = ((MainWindow)Application.Current.MainWindow).FontFamily;
             wnd.FontSize = ((MainWindow)Application.Current.MainWindow).FontSize;

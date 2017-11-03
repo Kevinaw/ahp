@@ -5,23 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ahp"
         mc:Ignorable="d"
-        Title="WindowIdentify" Height="422" Width="300" WindowStartupLocation="CenterScreen">
-    <Grid Margin="20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+        Title="WindowIdentify" Height="400" Width="600" WindowStartupLocation="CenterScreen">
+    <ScrollViewer VerticalScrollBarVisibility="Visible" Padding="0,0,20,0" BorderBrush="#FF8CA6C9" BorderThickness="1">
+        <Grid Margin="20,20,0,20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-        <Label Content="Select Items that Stand out" Margin="0" />
-        <Border Grid.Row="1" BorderThickness="1" CornerRadius="5" BorderBrush="#FF8CA6C9" Background="#FFE9F0F7" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-            <Grid  Name="grdItems" ShowGridLines="True" HorizontalAlignment="Left">
-            </Grid>
-        </Border>
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,20,0,0">
-            <Button Name="BtnOK" Click="BtnOK_Click" Content="OK" Padding="5" Margin="0" IsDefault="True" Width="45"></Button>
-            <Button Name="BtnCancel" Click="BtnCancel_Click" Content="Cancel" Padding="5" Margin="20,0,0,0" IsCancel="True"></Button>
-        </StackPanel>
+            <Label Content="Select Items that Stand out" Margin="0" />
+            <Border Grid.Row="1" BorderThickness="1" CornerRadius="5" BorderBrush="#FF8CA6C9" Background="#FFE9F0F7" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                <Grid  Name="grdItems" ShowGridLines="True" HorizontalAlignment="Left">
+                </Grid>
+            </Border>
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,20,0,0">
+                <Button Name="BtnOK" Click="BtnOK_Click" Content="OK" Padding="5" Margin="0" IsDefault="True" Width="45"></Button>
+                <Button Name="BtnCancel" Click="BtnCancel_Click" Content="Cancel" Padding="5" Margin="20,0,0,0" IsCancel="True"></Button>
+            </StackPanel>
 
-    </Grid>
+        </Grid>
+    </ScrollViewer>
 </Window>
