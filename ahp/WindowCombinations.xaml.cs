@@ -165,13 +165,14 @@ namespace ahp
                 bdr.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xE9, 0xF0, 0xF7));
                 bdr.BorderBrush = new SolidColorBrush(Color.FromArgb(0xFF, 0x8C, 0xA6, 0xC9));
                 bdr.CornerRadius = new CornerRadius(5);
+                bdr.HorizontalAlignment = HorizontalAlignment.Left;
+                bdr.VerticalAlignment = VerticalAlignment.Top;
                 bdr.Child = grd;
-                bdr.Width = (c.listCr.Count+1) * cellWidth;
+                //bdr.Width = (c.listCr.Count+1) * cellWidth;
 
                 GrdContent.Children.Add(bdr);
                 Grid.SetRow(bdr, 2 * k + 1);
             }
-
         }
 
         private void Rb_Click(object sender, RoutedEventArgs e)
@@ -212,8 +213,25 @@ namespace ahp
             return strValues[i];
         }
 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.Width = GrdContent.ActualWidth + 80;
+            this.Height = this.GrdContent.RowDefinitions.ElementAt(1).ActualHeight * 2.5;
+
+            this.MaxHeight = Application.Current.MainWindow.ActualHeight;
+            this.MaxWidth = Application.Current.MainWindow.ActualWidth;
+
+            CenterWindowOnScreen();
+        }
+
+        private void CenterWindowOnScreen()
+        {
+            double screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
+            double screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
+            double windowWidth = this.Width;
+            double windowHeight = this.Height;
+            this.Left = (screenWidth / 2) - (windowWidth / 2);
+            this.Top = (screenHeight / 2) - (windowHeight / 2);
+        }
     }
-
-
-
 }

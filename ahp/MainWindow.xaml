@@ -6,9 +6,16 @@
       xmlns:local="clr-namespace:ahp"
       xmlns:MyListControl="clr-namespace:MyListControl;assembly=MyListControl" xmlns:MyNumericUpDownControll="clr-namespace:MyNumericUpDownControll;assembly=MyNumericUpDownControll" x:Class="ahp.MainWindow"
       mc:Ignorable="d"
-      Title="AHP EHan Engineering" MouseDown="Window_MouseDown" Loaded="Window_Loaded" Width="1024" Height="768
-    " Icon="small logo.ico" WindowStartupLocation="CenterScreen" WindowState="Maximized" FontSize="18.667" BorderThickness="0" Foreground="#FFA26868" Background="#FFECF0F1" FontFamily="Segoe UI Semibold">
-
+      Title="AHP EHan Engineering" MouseDown="Window_MouseDown" Loaded="Window_Loaded" Width="1109" Height="802" Icon="small logo.ico" WindowStartupLocation="CenterScreen" WindowState="Maximized" FontSize="18.667" BorderThickness="0" Foreground="#FFA26868" Background="#FFECF0F1" FontFamily="Segoe UI Semibold">
+    <Window.Resources>
+        <DataTemplate x:Key="titleText">
+            <TextBlock Text="{Binding}" 
+             Foreground="Green"
+             FontSize="18" 
+             FontWeight="Normal"
+             TextWrapping="Wrap"/>
+        </DataTemplate>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0"/>
@@ -34,7 +41,7 @@
                 <DockPanel>
                     <Image DockPanel.Dock="Top" Width="36" Height="36" Source="Resources\new.png"  />
                     <!--TextBlock HorizontalAlignment="Center">New</-->
-                </DockPanel>                
+                </DockPanel>
             </Button>
             <Separator/>
             <Button x:Name="openBtn" Click="openBtn_Click" ToolTip="Open" >
@@ -42,7 +49,7 @@
                     <Image DockPanel.Dock="Top" Width="36" Height="36" Source="Resources\open.png" />
                     <!--TextBlock HorizontalAlignment="Center">Open</TextBlock-->
                 </DockPanel>
-                
+
             </Button>
             <Separator/>
             <Button x:Name="saveBtn" Click="saveBtn_Click" ToolTip="Save">
@@ -50,34 +57,34 @@
                     <Image DockPanel.Dock="Top" Width="36" Height="36" Source="Resources\save1.png"/>
                     <!--TextBlock HorizontalAlignment="Center">Save</TextBlock-->
                 </DockPanel>
-                
+
             </Button>
             <Button x:Name="saveasBtn" Click="Saveas_Click" ToolTip="Save as">
                 <DockPanel>
                     <Image DockPanel.Dock="Top" Width="36" Height="36" Source="Resources\saveas1.png" />
                     <!--TextBlock HorizontalAlignment="Center">Save As</TextBlock-->
                 </DockPanel>
-                
+
             </Button>
             <Separator/>
             <Button x:Name="zoominBtn" Click="zoominBtn_Click" ToolTip="Save">
                 <DockPanel>
                     <Image DockPanel.Dock="Top" Width="36" Height="36" Source="Resources/ZoomIn.png"/>
                     <!--TextBlock HorizontalAlignment="Center">Zoom In</TextBlock-->
-                </DockPanel>                
+                </DockPanel>
             </Button>
             <Button x:Name="zoomoutBtn" Click="zoomoutBtn_Click" ToolTip="Zoom Out">
                 <DockPanel>
                     <Image DockPanel.Dock="Top" Width="36" Height="36" Source="Resources/ZoomOut.png" />
                     <!--TextBlock HorizontalAlignment="Center">Zoom Out</TextBlock-->
-                </DockPanel>                
+                </DockPanel>
             </Button>
             <Separator/>
             <Button x:Name="exitBtn" Click="Exit_Click" ToolTip="Exit">
                 <DockPanel>
                     <Image DockPanel.Dock="Top" Width="36" Height="36" Source="Resources\exit.png" />
                     <!--TextBlock HorizontalAlignment="Center">Exit</TextBlock-->
-                </DockPanel>                
+                </DockPanel>
             </Button>
             <Separator/>
         </ToolBar>
@@ -88,9 +95,8 @@
         </GroupBox>
 
         <TabControl x:Name="tabMain" Grid.Row="3" TabStripPlacement="Top" SelectionChanged="tabMain_SelectionChanged" Margin="0" Background="{x:Null}" Foreground="#FF2C3E50">
-
             <!-- Goal and Criterias-->
-            <TabItem x:Name="tabCriterias" Header="Goal &amp; Criteria" Foreground="#FF2C3E50" MinWidth="200" MinHeight="48">
+            <TabItem x:Name="tabCriterias" Header="Goal &amp; Criteria" Foreground="#FF2C3E50" MinWidth="200" MinHeight="48" HeaderTemplate="{StaticResource titleText}">
                 <Grid Margin="20" Name="grdMain">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="4*"></ColumnDefinition>
@@ -130,7 +136,7 @@
             </TabItem>
 
             <!-- Alternatives -->
-            <TabItem x:Name="tabAlternatives" Header="Alternatives" MinWidth="200" MinHeight="48">
+            <TabItem x:Name="tabAlternatives" Header="Alternatives" MinWidth="200" MinHeight="48" HeaderTemplate="{StaticResource titleText}">
                 <Grid Margin="20">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="4*"></ColumnDefinition>
@@ -162,13 +168,13 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <Label Content="Name:"/>
+                            <Label Content="Name:" HorizontalAlignment="Right"/>
                             <TextBox Name="txbNameAl" Grid.Column="1" TextChanged="txbNameAl_TextChanged" Margin="0,0,0,10" HorizontalAlignment="Stretch"/>
-                            <Label Grid.Row="1" Content="Description:"/>
+                            <Label Grid.Row="1" Content="Description:" HorizontalAlignment="Right"/>
                             <TextBox Grid.Row="1" Name="txbDescAl" Grid.Column="1" TextChanged="txbDescAl_TextChanged" Margin="0,0,0,10" SpellCheck.IsEnabled="True" Height="200" VerticalAlignment="Top" UseLayoutRounding="True" TextWrapping="Wrap"/>
-                            <Label Grid.Row="2" Content="Cost($M):"/>
+                            <Label Grid.Row="2" Content="Cost($M):" HorizontalAlignment="Right"/>
                             <TextBox Name="txbCostAl" Grid.Row="2" Grid.Column="1" Margin="0,0,0,10" TextChanged="txbCostAl_TextChanged" HorizontalAlignment="Stretch"/>
-                            <TextBlock Grid.Row="3" Text="Expected cost of risk($M):" TextWrapping="Wrap" MaxWidth="100"/>
+                            <TextBlock Grid.Row="3" Text="Expected cost of risk($M):" TextWrapping="Wrap" MaxWidth="200" HorizontalAlignment="Right"/>
                             <TextBox Name="txbCostRAl" Grid.Row="3" Grid.Column="1" AcceptsReturn="True" TextChanged="txbCostRAl_TextChanged" VerticalAlignment="Top"/>
                         </Grid>
                     </GroupBox>
@@ -177,11 +183,11 @@
             </TabItem>
 
             <!-- Criterias Pairwise Comparison -->
-            <TabItem Name="tabCrParCom" Header="Criteria Comparison" MinWidth="200" MinHeight="48">
+            <TabItem Name="tabCrParCom" Header="Criteria Comparison" MinWidth="200" MinHeight="48" HeaderTemplate="{StaticResource titleText}">
                 <Grid Margin="20">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="7*"></ColumnDefinition>
-                        <ColumnDefinition Width="3*"></ColumnDefinition>
+                        <ColumnDefinition Width="8*"></ColumnDefinition>
+                        <ColumnDefinition Width="2*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Border BorderBrush="#FF8CA6C9" BorderThickness="1" CornerRadius="10">
                         <ScrollViewer Name="mtxScrollViewer" HorizontalScrollBarVisibility="Auto" Margin="10">
@@ -202,13 +208,13 @@
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Row="0" Grid.Column="1" x:Name="evalButton" Padding="5" Click="evalButton_Click" Content="Check Consistency" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                        <TextBlock Grid.Row="1" Grid.Column="1" x:Name="txtEvalRslt"/>
+                        <Button Grid.Row="0" Grid.Column="1" x:Name="evalButton" Padding="10" Click="evalButton_Click" Content="Check Consistency" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontSize="18"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" x:Name="txtEvalRslt" FontSize="18"/>
                         <DockPanel Grid.Row="2"  Grid.Column="1" LastChildFill="False">
-                            <Button x:Name="BtnIdentify" Padding="5" Margin="10, 0,0,0" Click="BtnIdentify_Click" Content="Identify" IsEnabled="False" DockPanel.Dock="Left" />
-                            <Button x:Name="BtnPropose" Padding="5" Margin="0, 0, 10, 0" Click="BtnPropose_Click" Content="Propose" IsEnabled="False"  DockPanel.Dock="Right"/>
+                            <Button x:Name="BtnIdentify" Padding="10" Click="BtnIdentify_Click" Content="Identify" IsEnabled="False" DockPanel.Dock="Left" FontSize="18" />
+                            <Button x:Name="BtnPropose" Padding="10" Click="BtnPropose_Click" Content="Propose" IsEnabled="False"  DockPanel.Dock="Right" FontSize="18"/>
                         </DockPanel>
-                        <TextBlock Grid.Row="3" Grid.Column="1" Name="txbDescription" TextWrapping="Wrap" Margin="0, 20, 0, 0">
+                        <TextBlock Grid.Row="3" Grid.Column="1" Name="txbDescription" TextWrapping="Wrap" Margin="0, 20, 0, 0" FontSize="18">
                                     Intensity of Importance Scale: <LineBreak/>
                                     1 - Equal Importance<LineBreak/>
                                     3 - Weak Importance<LineBreak/>
@@ -224,7 +230,7 @@
             </TabItem>
 
             <!-- Alternatives Scores-->
-            <TabItem Header="Alternative Scores" MinWidth="200" MinHeight="48">
+            <TabItem Header="Alternative Scores" MinWidth="200" MinHeight="48" HeaderTemplate="{StaticResource titleText}">
                 <Grid Margin="20">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
@@ -245,7 +251,7 @@
             </TabItem>
 
             <!-- Results -->
-            <TabItem x:Name="tabRst" Header="Result" MinWidth="200" MinHeight="48">
+            <TabItem x:Name="tabRst" Header="Result" MinWidth="200" MinHeight="48" HeaderTemplate="{StaticResource titleText}">
                 <Grid Margin="20" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="2*"/>

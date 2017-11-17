@@ -45,7 +45,7 @@ namespace ahp
                 }
 
             this.Width = (c.listCr.Count + 1) * 100 + 120;
-            this.Height = (c.listCr.Count + 1) * 60 * 2 + 300;
+            //this.Height = (c.listCr.Count + 1) * 60 * 2 + 300;
 
             //this.Width = ((MainWindow) (Application.Current.MainWindow)).mtxBdr.ActualWidth  + 120;
             //this.Height = ((MainWindow)(Application.Current.MainWindow)).mtxBdr.ActualHeight * 2 + 200;
@@ -311,6 +311,23 @@ namespace ahp
                 col.Width = new GridLength(col.ActualWidth);
             }
 
+            this.Width = this.grdOriginal.ActualWidth + 80;
+            this.Height = this.grdMMM.ActualHeight + 150;
+            this.MaxHeight = Application.Current.MainWindow.ActualHeight;
+            this.MaxWidth = Application.Current.MainWindow.ActualWidth;
+
+            CenterWindowOnScreen();
+
+        }
+
+        private void CenterWindowOnScreen()
+        {
+            double screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
+            double screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
+            double windowWidth = this.Width;
+            double windowHeight = this.Height;
+            this.Left = (screenWidth / 2) - (windowWidth / 2);
+            this.Top = (screenHeight / 2) - (windowHeight / 2);
         }
     }
 }
